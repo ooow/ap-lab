@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="product-search.label" datatype="html">
+        <source>Products</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search/search.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Product search label</note>
+      </trans-unit>
+      <trans-unit id="product-search.input.aria-label" datatype="html">
+        <source>Products</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search/search.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <note priority="1" from="description">Product search input aria-label</note>
+      </trans-unit>
+      <trans-unit id="product-search.clear-button.text" datatype="html">
+        <source> Clear </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search/search.component.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+        <note priority="1" from="description">Clear button text</note>
+      </trans-unit>
+      <trans-unit id="product-search.clear-button.icon" datatype="html">
+        <source>Refresh icon</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/search/search.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <note priority="1" from="description">Clear button icon aria-label</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

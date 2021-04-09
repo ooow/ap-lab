@@ -1,0 +1,15 @@
+<mat-form-field appearance="fill">
+  <mat-label i18n="Language selector@@lang-selector.label">Language</mat-label>
+  <mat-select [value]="lang" (valueChange)="langChanged.emit($event)">
+    <mat-option
+      value="en"
+      i18n="Language selector english option@@lang-selector.option.en"
+      >English</mat-option
+    >
+    <mat-option
+      value="ru"
+      i18n="Language selector russian option@@lang-selector.option.ru"
+      >Russian</mat-option
+    >
+  </mat-select>
+</mat-form-field>

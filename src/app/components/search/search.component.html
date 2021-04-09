@@ -1,0 +1,41 @@
+<div class="search">
+  <mat-form-field class="search__input" appearance="fill">
+    <mat-label i18n="Product search label@@product-search.label"
+      >Products</mat-label
+    >
+    <input
+      type="text"
+      i18n-aria-label="
+        Product search input aria-label@@product-search.input.aria-label"
+      aria-label="Products"
+      matInput
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let option of options | searchOptions: searchControl.value"
+        [value]="option"
+      >
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button
+    class="search__clear"
+    mat-raised-button
+    (click)="searchControl.setValue('')"
+  >
+    <span i18n="Clear button text@@product-search.clear-button.text">
+      Clear
+    </span>
+
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Refresh icon"
+      i18n-aria-label="
+        Clear button icon aria-label@@product-search.clear-button.icon"
+      >refresh</mat-icon
+    >
+  </button>
+</div>
