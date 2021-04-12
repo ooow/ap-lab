@@ -10,6 +10,9 @@ export class ProductSearchPipe implements PipeTransform {
       return products;
     }
 
-    return products.filter((product: Product) => product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return products.filter(
+      (product: Product) =>
+        product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
 }

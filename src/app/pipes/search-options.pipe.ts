@@ -9,6 +9,8 @@ export class SearchOptionsPipe implements PipeTransform {
       return options;
     }
 
-    return options.filter((cv: string) => cv.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1);
+    return options.filter(
+      (cv: string) => cv.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
+    );
   }
 }
