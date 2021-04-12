@@ -1,9 +1,9 @@
 <mat-card class="card">
   <mat-card-header>
-    <mat-card-title>{{ product.name }}</mat-card-title>
+    <mat-card-title data-role="tk-product-card-title">{{ product.name }}</mat-card-title>
   </mat-card-header>
-  <img mat-card-image [src]="product.picture" [alt]="product.name" />
+  <img data-role="tk-product-card-image" mat-card-image [src]="product.picture" [alt]="product.name" />
   <mat-card-content>
-    <p>{{ product.description }}</p>
+    <p data-role="tk-product-card-desc">{{ product.description }}</p>
   </mat-card-content>
 </mat-card>
