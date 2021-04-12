@@ -9,8 +9,8 @@
 }
 
 .main {
-  max-width: 1420px;
   margin: 0 auto;
+  max-width: 1420px;
   padding: 50px 0;
 
   &__header {
@@ -24,8 +24,8 @@
 }
 
 .loader {
-  display: flex;
   align-items: center;
-  justify-content: center;
+  display: flex;
   height: 100vh;
+  justify-content: center;
 }

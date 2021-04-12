@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Product } from '../models/product';
 
 @Pipe({
-  name: 'productSearch',
+  name: 'productSearch'
 })
 export class ProductSearchPipe implements PipeTransform {
   transform(products: Product[], query: string): Product[] {
@@ -10,9 +10,6 @@ export class ProductSearchPipe implements PipeTransform {
       return products;
     }
 
-    return products.filter(
-      (product) =>
-        product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
+    return products.filter((product: Product) => product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 }

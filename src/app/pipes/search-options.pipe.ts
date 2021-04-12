@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'searchOptions',
+  name: 'searchOptions'
 })
 export class SearchOptionsPipe implements PipeTransform {
   transform(options: string[], searchValue: string): string[] {
@@ -9,8 +9,6 @@ export class SearchOptionsPipe implements PipeTransform {
       return options;
     }
 
-    return options.filter(
-      (cv) => cv.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
-    );
+    return options.filter((cv: string) => cv.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1);
   }
 }
