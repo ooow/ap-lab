@@ -79,9 +79,9 @@ const PRODUCTS_MOCK_EN: ReadonlyArray<Product> = [
 
 export function getProducts(lang: Lang): ReadonlyArray<Product> {
   switch (lang) {
-    case 'en':
+    case Lang.en:
       return PRODUCTS_MOCK_EN;
-    case 'ru':
+    case Lang.ru:
       return PRODUCTS_MOCK_RU;
   }
 
