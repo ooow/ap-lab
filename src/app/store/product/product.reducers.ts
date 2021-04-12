@@ -10,14 +10,21 @@ export const initialState: ProductState = {
 
 const productReducer = createReducer(
   initialState,
-  on(ProductActions.search, (state: ProductState, { search }: { search: string }) =>
-    Object.assign({}, state, { search })
+  on(
+    ProductActions.search,
+    (state: ProductState, { search }: { search: string }) =>
+      Object.assign({}, state, { search })
   ),
-  on(ProductActions.retrieveProducts, (state: ProductState, { products }: { products: ReadonlyArray<Product> }) =>
-    Object.assign({}, state, { products })
+  on(
+    ProductActions.retrieveProducts,
+    (state: ProductState, { products }: { products: ReadonlyArray<Product> }) =>
+      Object.assign({}, state, { products })
   )
 );
 
-export function reducer(state: ProductState | undefined, action: Action): ProductState {
+export function reducer(
+  state: ProductState | undefined,
+  action: Action
+): ProductState {
   return productReducer(state, action);
 }

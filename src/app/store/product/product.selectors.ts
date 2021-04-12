@@ -4,6 +4,12 @@ import { ProductState } from '../../models/product-state';
 
 export const productFeature = (state: AppState) => state.product;
 
-export const products = createSelector(productFeature, (state: ProductState) => state.products);
+export const products = createSelector(
+  productFeature,
+  (state: ProductState) => state.products
+);
 
-export const search = createSelector(productFeature, (state: ProductState) => state.search);
+export const search = createSelector(
+  productFeature,
+  (state: ProductState) => state.search
+);
