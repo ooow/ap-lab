@@ -27,27 +27,27 @@ import { LANGUAGES_TOKEN } from './tokens/languages.token';
 @NgModule({
   declarations: [
     AppComponent,
+    LangSelectorComponent,
+    LangSelectorOptionComponent,
     ProductComponent,
     ProductSearchPipe,
     SearchComponent,
     SearchComponent,
-    SearchOptionsPipe,
-    LangSelectorComponent,
-    LangSelectorOptionComponent
+    SearchOptionsPipe
   ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
+    BrowserModule,
     MatAutocompleteModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatIconModule,
-    MatSelectModule,
+    MatButtonModule,
+    MatCardModule,
     MatDividerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
+    ReactiveFormsModule,
     StoreModule.forRoot({
       product: ProductReducer,
       lang: LangReducer
