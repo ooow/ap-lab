@@ -1,5 +1,25 @@
 <ng-container [ngSwitch]="lang">
-  <span *ngSwitchCase="Lang.en" i18n="Language selector english option@@lang-selector.option.en">English</span>
+  <span
+    *ngSwitchCase="Lang.en"
+    data-role="tk-lang-selector-option-en"
+    i18n="Language selector english option@@lang-selector-option.en"
+  >
+    English
+  </span>
 
-  <span *ngSwitchCase="Lang.ru" i18n="Language selector russian option@@lang-selector.option.ru">Russian</span>
+  <span
+    *ngSwitchCase="Lang.ru"
+    data-role="tk-lang-selector-option-ru"
+    i18n="Language selector russian option@@lang-selector-option.ru"
+  >
+    Russian
+  </span>
+
+  <span
+    *ngSwitchDefault
+    data-role="tk-lang-selector-option-default"
+    i18n="Language selector russian option@@lang-selector-option.default"
+  >
+    Provided language is not supported yet
+  </span>
 </ng-container>
