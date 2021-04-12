@@ -33,14 +33,11 @@ export class AppComponent implements OnDestroy {
   readonly LangActions = LangActions;
   private readonly destroy$ = new Subject<void>();
 
-  constructor(
-    readonly store: Store,
-    private readonly productService: ProductService
-  ) {
+  constructor(readonly store: Store, productService: ProductService) {
     this.lang$
       .pipe(
         tap(() => this.loading$.next(true)),
-        switchMap((lang) => this.productService.getProducts(lang)),
+        switchMap((lang) => productService.getProducts(lang)),
         finalize(() => this.loading$.next(false)),
         takeUntil(this.destroy$)
       )

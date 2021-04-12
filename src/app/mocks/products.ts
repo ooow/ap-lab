@@ -89,7 +89,7 @@ export function getProducts(lang: Lang): ReadonlyArray<Product> {
       return PRODUCTS_MOCK_EN;
     case Lang.ru:
       return PRODUCTS_MOCK_RU;
+    default:
+      return [];
   }
-
-  return [];
 }
