@@ -11,19 +11,22 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     name: 'Австралийская пастушья собака',
     description:
       'Австралийская пастушья собака или австралийский хилер (англ. Australian Cattle Dog) порода изначально появившаяся в Австралии. Пастушья собака, которая помогала перегонять стада через суровые земли. Среднего размера и короткошерстные, они бывают двух окрасов — голубого и красного.',
-    picture: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/ACD-blue-spud.jpg'
+    picture:
+      'https://upload.wikimedia.org/wikipedia/commons/c/cc/ACD-blue-spud.jpg'
   },
   {
     name: 'Австралийский келпи',
     description:
       'Австралийский келпи (англ. Australian Kelpie) это пастушья собака родом из Австралии, которая мастерски управляется со стадом без помощи хозяина. Среднего размера, она может быть практически любого окраса и сейчас в основном используется по своему назначению.',
-    picture: 'https://i.pinimg.com/originals/4c/21/0b/4c210bed718f49d742e9e9215d49d66c.png'
+    picture:
+      'https://i.pinimg.com/originals/4c/21/0b/4c210bed718f49d742e9e9215d49d66c.png'
   },
   {
     name: 'Аляскинский маламут',
     description:
       'Аляскинский маламут (англ. Alaskan Malamute) это крупная собака, предназначенная для работы в упряжке на Аляске. Считается что это одна из древнейших пород собак, выведенная эскимосским племенем малемьют сначала как обычная, а затем как ездовая собака. Зачастую их путают с сибирскими хаски, так как у них схожие окрасы, но маламуты значительно крупнее и обладают более доминантным характером.',
-    picture: 'https://mybarbos.com/wp-content/uploads/2016/08/aljaskinskij-malamut-03.jpg'
+    picture:
+      'https://mybarbos.com/wp-content/uploads/2016/08/aljaskinskij-malamut-03.jpg'
   },
   {
     name: 'Американский булли',
@@ -49,19 +52,22 @@ const PRODUCTS_MOCK_EN: ReadonlyArray<Product> = [
     name: 'Australian cattle dog',
     description:
       'The Australian Cattle Dog breed originally originated in Australia. A herding dog who helped drive herds across the harsh lands. Medium in size and short-haired, they come in two colors - blue and red.',
-    picture: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/ACD-blue-spud.jpg'
+    picture:
+      'https://upload.wikimedia.org/wikipedia/commons/c/cc/ACD-blue-spud.jpg'
   },
   {
     name: 'Australian kelpie',
     description:
       'The Australian Kelpie is a herding dog native to Australia that is adept at handling a herd without the help of an owner. Medium in size, it can be of almost any color and is now mostly used for its intended purpose.',
-    picture: 'https://i.pinimg.com/originals/4c/21/0b/4c210bed718f49d742e9e9215d49d66c.png'
+    picture:
+      'https://i.pinimg.com/originals/4c/21/0b/4c210bed718f49d742e9e9215d49d66c.png'
   },
   {
     name: 'Alaskan Malamute',
     description:
       'The Alaskan Malamute is a large sled dog in Alaska. It is believed that this is one of the oldest dog breeds, bred by the Eskimo tribe Malemute, first as an ordinary dog, and then as a sled dog. They are often confused with Siberian huskies, as they have similar colors, but malamutes are much larger and have a more dominant character.',
-    picture: 'https://mybarbos.com/wp-content/uploads/2016/08/aljaskinskij-malamut-03.jpg'
+    picture:
+      'https://mybarbos.com/wp-content/uploads/2016/08/aljaskinskij-malamut-03.jpg'
   },
   {
     name: 'American bully',

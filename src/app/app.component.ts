@@ -16,18 +16,27 @@ import * as ProductSelectors from './store/product/product.selectors';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
-  readonly products$: Observable<Array<Product>> = this.store.select(ProductSelectors.products);
-  readonly search$: Observable<string> = this.store.select(ProductSelectors.search);
+  readonly products$: Observable<Array<Product>> = this.store.select(
+    ProductSelectors.products
+  );
+  readonly search$: Observable<string> = this.store.select(
+    ProductSelectors.search
+  );
   readonly searchOptions$: Observable<Array<string>> = this.products$.pipe(
     map((products) => products.map((cv) => cv.name))
   );
-  readonly lang$: Observable<Lang> = this.store.select(LangSelectors.langSelector);
+  readonly lang$: Observable<Lang> = this.store.select(
+    LangSelectors.langSelector
+  );
   readonly loading$ = new BehaviorSubject<boolean>(true);
   readonly ProductActions = ProductActions;
   readonly LangActions = LangActions;
   private readonly destroy$ = new Subject<void>();
 
-  constructor(readonly store: Store, private readonly productService: ProductService) {
+  constructor(
+    readonly store: Store,
+    private readonly productService: ProductService
+  ) {
     this.lang$
       .pipe(
         tap(() => this.loading$.next(true)),
