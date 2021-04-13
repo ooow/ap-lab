@@ -53,9 +53,9 @@ describe('AppModule => LangSelectorOptionComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const ruLangOption = await loader.getHarness(LangSelectorOptionHarness);
+    const langOption = await loader.getHarness(LangSelectorOptionHarness);
 
-    expect(await ruLangOption.text()).toBe('Russian');
+    expect(await langOption.text()).toBe('Russian');
   });
 
   it('should show english language option', async () => {
@@ -64,8 +64,8 @@ describe('AppModule => LangSelectorOptionComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const ruLangOption = await loader.getHarness(LangSelectorOptionHarness);
+    const langOption = await loader.getHarness(LangSelectorOptionHarness);
 
-    expect(await ruLangOption.text()).toBe('English');
+    expect(await langOption.text()).toBe('English');
   });
 });
