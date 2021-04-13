@@ -1,30 +1,27 @@
-import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { Lang } from '../../models/lang';
 import { LangSelectorOptionComponent } from './lang-selector-option.component';
+import { LangSelectorOptionHarness } from './lang-selector-option.harness';
+
+@Component({
+  selector: 'tk-test',
+  template: '<tk-lang-selector-option [lang]="lang"></tk-lang-selector-option>'
+})
+class TestComponent {
+  lang: Lang;
+}
 
 describe('AppModule => LangSelectorOptionComponent', () => {
-  let fixture: ComponentFixture<LangSelectorOptionComponent>;
-  let component: LangSelectorOptionComponent;
-
-  class Select {
-    static get eng(): DebugElement {
-      return fixture.debugElement.query(By.css('[data-role="tk-lang-selector-option-en"]'));
-    }
-
-    static get rus(): DebugElement {
-      return fixture.debugElement.query(By.css('[data-role="tk-lang-selector-option-ru"]'));
-    }
-
-    static get default(): DebugElement {
-      return fixture.debugElement.query(By.css('[data-role="tk-lang-selector-option-default"]'));
-    }
-  }
+  let fixture: ComponentFixture<TestComponent>;
+  let component: TestComponent;
+  let loader: HarnessLoader;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LangSelectorOptionComponent]
+      declarations: [LangSelectorOptionComponent, TestComponent]
     })
       .overrideComponent(LangSelectorOptionComponent, {
         set: {
@@ -33,34 +30,42 @@ describe('AppModule => LangSelectorOptionComponent', () => {
       })
       .compileComponents();
 
-    fixture = TestBed.createComponent(LangSelectorOptionComponent);
+    fixture = TestBed.createComponent(TestComponent);
+    loader = TestbedHarnessEnvironment.loader(fixture);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
     expect(component).not.toBeNull();
   });
 
-  it('should show russian element', () => {
-    expect(Select.rus).toBeNull();
+  // tslint:disable-next-line:max-line-length
+  it('should show default option if lang property was not provided', async () => {
+    const langOption = await loader.getHarness(LangSelectorOptionHarness);
+    expect(await langOption.text()).toBe(
+      'Provided language is not supported yet'
+    );
+  });
 
+  it('should show russian language option', async () => {
     component.lang = Lang.ru;
-    fixture.detectChanges();
 
-    expect(Select.rus).not.toBeNull();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const ruLangOption = await loader.getHarness(LangSelectorOptionHarness);
+
+    expect(await ruLangOption.text()).toBe('Russian');
   });
 
-  it('should show english element', () => {
-    expect(Select.eng).toBeNull();
-
+  it('should show english element', async () => {
     component.lang = Lang.en;
+
     fixture.detectChanges();
+    await fixture.whenStable();
 
-    expect(Select.eng).not.toBeNull();
-  });
+    const ruLangOption = await loader.getHarness(LangSelectorOptionHarness);
 
-  it('should show default element', () => {
-    expect(Select.default).not.toBeNull();
+    expect(await ruLangOption.text()).toBe('English');
   });
 });
