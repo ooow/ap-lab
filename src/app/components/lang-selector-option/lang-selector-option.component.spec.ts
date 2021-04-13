@@ -58,7 +58,7 @@ describe('AppModule => LangSelectorOptionComponent', () => {
     expect(await ruLangOption.text()).toBe('Russian');
   });
 
-  it('should show english element', async () => {
+  it('should show english language option', async () => {
     component.lang = Lang.en;
 
     fixture.detectChanges();
