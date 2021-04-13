@@ -15,12 +15,10 @@
     <mat-autocomplete
       #auto="matAutocomplete"
       autoActiveFirstOption
-      data-role="tk-search-mat-autocomplete"
     >
       <mat-option
         *ngFor="let option of options | searchOptions: searchControl.value"
         [value]="option"
-        data-role="tk-search-mat-autocomplete-option"
       >
         {{ option }}
       </mat-option>
@@ -29,7 +27,6 @@
   <button
     (click)="searchControl.setValue('')"
     class="search__clear"
-    data-role="tk-search-clear"
     i18n="Clear button text@@product-search.clear-button.text"
     mat-raised-button
   >

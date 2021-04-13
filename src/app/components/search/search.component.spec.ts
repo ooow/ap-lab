@@ -1,14 +1,19 @@
-import {
-  DebugElement,
-  NO_ERRORS_SCHEMA,
-  Pipe,
-  PipeTransform
-} from '@angular/core';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { By } from '@angular/platform-browser';
+import { MatAutocompleteHarness } from '@angular/material/autocomplete/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatIconHarness } from '@angular/material/icon/testing';
+import { MatInputModule } from '@angular/material/input';
+import { MatInputHarness } from '@angular/material/input/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchComponent } from './search.component';
+import { SearchHarness } from './search.harness';
 
 @Pipe({ name: 'searchOptions' })
 class MockPipe implements PipeTransform {
@@ -17,59 +22,126 @@ class MockPipe implements PipeTransform {
   }
 }
 
+@Component({
+  selector: 'tk-test',
+  template:
+    '<tk-search [options]="options" (valueChange)="valueChange($event)"></tk-search>'
+})
+class TestComponent {
+  options: string[];
+
+  valueChange(event): void {}
+}
+
 describe('AppComponent => SearchComponent', () => {
-  let fixture: ComponentFixture<SearchComponent>;
-  let component: SearchComponent;
+  let fixture: ComponentFixture<TestComponent>;
+  let component: TestComponent;
+  let loader: HarnessLoader;
+  const options = ['option1', 'option2'];
 
-  class Select {
-    static get searchClear(): DebugElement {
-      return fixture.debugElement.query(
-        By.css('[data-role="tk-search-clear"]')
-      );
-    }
-  }
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, MatAutocompleteModule],
-      declarations: [SearchComponent, MockPipe],
-      schemas: [NO_ERRORS_SCHEMA]
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        NoopAnimationsModule
+      ],
+      declarations: [SearchComponent, MockPipe, TestComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SearchComponent);
+    fixture = TestBed.createComponent(TestComponent);
+    loader = TestbedHarnessEnvironment.loader(fixture);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
     expect(component).not.toBeNull();
   });
 
-  describe('search field value change event', () => {
-    let value;
+  it('should show search field label name "Products"', async () => {
+    const search = await loader.getHarness(SearchHarness);
 
-    beforeEach(() => {
-      value = 'value';
-      spyOn(component.valueChange, 'emit');
-    });
+    expect(await search.labelText()).toBe('Products');
+  });
 
-    it('should propagate value on search field control value change', () => {
-      component.searchControl.setValue(value);
-      fixture.detectChanges();
+  it('should propagate search input field value on change event', async () => {
+    const inputText = 'text';
+    spyOn(component, 'valueChange');
 
-      expect(component.valueChange.emit).toHaveBeenCalledWith(value);
-    });
+    const input = await loader.getHarness(MatInputHarness);
+    await input.setValue(inputText);
 
-    it('should propagate empty string value on clear button click', () => {
-      component.searchControl.setValue(value);
-      fixture.detectChanges();
+    expect(component.valueChange).toHaveBeenCalledWith('text');
+  });
 
-      Select.searchClear.triggerEventHandler('click', {});
-      fixture.detectChanges();
+  // tslint:disable-next-line:max-line-length
+  it('should open autocomplete drop down when search input focused', async () => {
+    component.options = options;
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      expect(component.valueChange.emit).toHaveBeenCalledTimes(2);
-      expect(component.valueChange.emit).toHaveBeenCalledWith('');
-      expect(component.searchControl.value).toBe('');
-    });
+    const autocomplete = await loader.getHarness(MatAutocompleteHarness);
+    const input = await loader.getHarness(MatInputHarness);
+    await input.focus();
+
+    expect(await autocomplete.isOpen()).toBeTrue();
+  });
+
+  // tslint:disable-next-line:max-line-length
+  it('should show autocomplete drop down with list of provided options', async () => {
+    component.options = options;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const autocomplete = await loader.getHarness(MatAutocompleteHarness);
+    const input = await loader.getHarness(MatInputHarness);
+    await input.focus();
+
+    const optionArr = await autocomplete.getOptions();
+
+    expect(optionArr.length).toBe(options.length);
+    expect(await optionArr[0].getText()).toBe(options[0]);
+    expect(await optionArr[1].getText()).toBe(options[1]);
+  });
+
+  it('should preselect first autocomplete option when autocomplete drop down opens', async () => {
+    component.options = options;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const autocomplete = await loader.getHarness(MatAutocompleteHarness);
+    const input = await loader.getHarness(MatInputHarness);
+    await input.focus();
+
+    const [firstOption] = await autocomplete.getOptions();
+
+    expect(await firstOption.isActive()).toBeTrue();
+  });
+
+  it('should clear search input on clear button click', async () => {
+    const inputText = 'text';
+    spyOn(component, 'valueChange');
+
+    const input = await loader.getHarness(MatInputHarness);
+    await input.setValue(inputText);
+
+    expect(component.valueChange).toHaveBeenCalledWith(inputText);
+
+    const clear = await loader.getHarness(MatButtonHarness);
+    await clear.click();
+
+    expect(component.valueChange).toHaveBeenCalledWith('');
+    expect(await input.getValue()).toBe('');
+  });
+
+  // tslint:disable-next-line:max-line-length
+  it('should show clear button with "Clear" text and "refresh" icon', async () => {
+    const clear = await loader.getHarness(MatButtonHarness);
+    expect(await clear.getText()).toContain('Clear');
+    const icon = await clear.getHarness(MatIconHarness);
+    expect(await icon.getName()).toBe('refresh');
   });
 });
