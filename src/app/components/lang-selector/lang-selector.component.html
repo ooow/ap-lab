@@ -1,7 +1,7 @@
 <mat-form-field appearance="fill">
   <mat-label i18n="Language selector@@lang-selector.label">Language</mat-label>
-  <mat-select data-role="tk-lang-selector-mat-select" [value]="lang" (valueChange)="langChanged.emit($event)">
-    <mat-option data-role="tk-lang-selector-mat-option" *ngFor="let value of langs" [value]="value">
+  <mat-select [value]="lang" (valueChange)="langChanged.emit($event)">
+    <mat-option *ngFor="let value of langs" [value]="value">
       <tk-lang-selector-option [lang]="value"></tk-lang-selector-option>
     </mat-option>
   </mat-select>
