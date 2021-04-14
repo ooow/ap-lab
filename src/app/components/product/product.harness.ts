@@ -1,4 +1,4 @@
-import { ComponentHarness } from '@angular/cdk/testing';
+import { ComponentHarness, TestElement } from '@angular/cdk/testing';
 
 export class ProductHarness extends ComponentHarness {
   static hostSelector = 'tk-product';
@@ -12,14 +12,8 @@ export class ProductHarness extends ComponentHarness {
     return title.text();
   }
 
-  async imgSrc(): Promise<string> {
-    const img = await this.getImage();
-    return img.getAttribute('src');
-  }
-
-  async imgAlt(): Promise<string> {
-    const img = await this.getImage();
-    return img.getAttribute('alt');
+  async img(): Promise<TestElement> {
+    return this.getImage();
   }
 
   async description(): Promise<string> {

@@ -48,22 +48,13 @@ describe('AppComponent => ProductComponent', () => {
     expect(component).not.toBeNull();
   });
 
-  it('should show product name', async () => {
-    const productCom = await loader.getHarness(ProductHarness);
+  it('should render component appropriately', async () => {
+    const harness = await loader.getHarness(ProductHarness);
+    const img = await harness.img();
 
-    expect(await productCom.titleText()).toBe(product.name);
-  });
-
-  it('should show product image', async () => {
-    const productCom = await loader.getHarness(ProductHarness);
-
-    expect(await productCom.imgAlt()).toBe(product.name);
-    expect(await productCom.imgSrc()).toBe(product.picture);
-  });
-
-  it('should show product description', async () => {
-    const productCom = await loader.getHarness(ProductHarness);
-
-    expect(await productCom.description()).toBe(product.description);
+    expect(await img.getProperty('alt')).toBe(product.name);
+    expect(await img.getProperty('src')).toBe(product.picture);
+    expect(await harness.titleText()).toBe(product.name);
+    expect(await harness.description()).toBe(product.description);
   });
 });
