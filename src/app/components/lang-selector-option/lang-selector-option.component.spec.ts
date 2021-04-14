@@ -41,31 +41,28 @@ describe('AppModule => LangSelectorOptionComponent', () => {
 
   // tslint:disable-next-line:max-line-length
   it('should show default option if lang property was not provided', async () => {
-    const langOption = await loader.getHarness(LangSelectorOptionHarness);
-    expect(await langOption.text()).toBe(
-      'Provided language is not supported yet'
-    );
+    const harness = await loader.getHarness(LangSelectorOptionHarness);
+
+    expect(await harness.text()).toBe('Provided language is not supported yet');
   });
 
   it('should show russian language option', async () => {
-    component.lang = Lang.ru;
+    const harness = await loader.getHarness(LangSelectorOptionHarness);
 
+    component.lang = Lang.ru;
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const langOption = await loader.getHarness(LangSelectorOptionHarness);
-
-    expect(await langOption.text()).toBe('Russian');
+    expect(await harness.text()).toBe('Russian');
   });
 
   it('should show english language option', async () => {
-    component.lang = Lang.en;
+    const harness = await loader.getHarness(LangSelectorOptionHarness);
 
+    component.lang = Lang.en;
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const langOption = await loader.getHarness(LangSelectorOptionHarness);
-
-    expect(await langOption.text()).toBe('English');
+    expect(await harness.text()).toBe('English');
   });
 });
