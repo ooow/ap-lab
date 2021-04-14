@@ -17,7 +17,10 @@ class TestComponent {
 describe('AppModule => ProductSearchPipe', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
-  const products = [{ name: 'first' }, { name: 'second' }] as Product[];
+  const products = [
+    { name: 'first', description: '', picture: '' },
+    { name: 'second', description: '', picture: '' }
+  ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

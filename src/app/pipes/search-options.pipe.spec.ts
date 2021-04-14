@@ -16,7 +16,7 @@ class TestComponent {
 describe('AppModule => SearchOptionsPipe', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
-  const options = ['first', 'second'] as string[];
+  const options = ['first', 'second'];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
