@@ -1,21 +1,21 @@
-<div class='search'>
-  <mat-form-field appearance='fill' class='search__input'>
-    <mat-label i18n='Product search label@@product-search.label'>
+<div class="search">
+  <mat-form-field appearance="fill" class="search__input">
+    <mat-label i18n="Product search label@@product-search.label">
       Products
     </mat-label>
     <input
-      [formControl]='searchControl'
-      [matAutocomplete]='auto'
-      aria-label='Products'
-      i18n-aria-label='
-        Product search input aria-label@@product-search.input.aria-label'
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+      aria-label="Products"
+      i18n-aria-label="
+        Product search input aria-label@@product-search.input.aria-label"
       matInput
-      type='text'
+      type="text"
     />
-    <mat-autocomplete #auto='matAutocomplete' autoActiveFirstOption>
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
       <mat-option
-        *ngFor='let option of options | searchOptions: searchControl.value'
-        [value]='option'
+        *ngFor="let option of options | searchOptions: searchControl.value"
+        [value]="option"
       >
         {{ option }}
       </mat-option>
@@ -23,16 +23,17 @@
   </mat-form-field>
   <button
     (click)="searchControl.setValue('')"
-    class='search__clear'
-    i18n='Clear button text@@product-search.clear-button.text'
+    class="search__clear"
+    i18n="Clear button text@@product-search.clear-button.text"
     mat-raised-button
   >
     Clear
     <mat-icon
-      aria-hidden='false'
-      aria-label='Refresh icon'
-      i18n-aria-label='
-        Clear button icon aria-label@@product-search.clear-button.icon'>
+      aria-hidden="false"
+      aria-label="Refresh icon"
+      i18n-aria-label="
+        Clear button icon aria-label@@product-search.clear-button.icon"
+    >
       refresh
     </mat-icon>
   </button>
