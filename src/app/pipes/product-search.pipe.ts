@@ -5,7 +5,7 @@ import { Product } from '../models/product';
   name: 'productSearch'
 })
 export class ProductSearchPipe implements PipeTransform {
-  transform(products: Product[], query: string): Product[] {
+  transform(products: Product[], query: string | undefined): Product[] {
     if (!query) {
       return products;
     }
