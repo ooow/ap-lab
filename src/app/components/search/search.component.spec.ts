@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatIconHarness } from '@angular/material/icon/testing';
 import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SearchComponent } from './search.component';
 import { SearchHarness } from './search.harness';
@@ -24,16 +25,13 @@ class MockPipe implements PipeTransform {
 
 @Component({
   selector: 'tk-test',
-  template:
-    '<tk-search [options]="options" (valueChange)="valueChange($event)"></tk-search>'
+  template: '<tk-search [options]="options"></tk-search>'
 })
 class TestComponent {
   options: string[];
-
-  valueChange(event): void {}
 }
 
-describe('AppComponent => SearchComponent', () => {
+describe('AppModule => SearchComponent', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let loader: HarnessLoader;
@@ -69,12 +67,14 @@ describe('AppComponent => SearchComponent', () => {
 
   it('should propagate search input field value on change event', async () => {
     const inputText = 'text';
-    spyOn(component, 'valueChange');
-
+    // prettier-ignore
+    const search = fixture.debugElement.query(By.css('tk-search')).componentInstance;
     const input = await loader.getHarness(MatInputHarness);
+    spyOn(search.valueChange, 'emit');
+
     await input.setValue(inputText);
 
-    expect(component.valueChange).toHaveBeenCalledWith('text');
+    expect(search.valueChange.emit).toHaveBeenCalledWith('text');
   });
 
   // tslint:disable-next-line:max-line-length
@@ -99,7 +99,6 @@ describe('AppComponent => SearchComponent', () => {
     const autocomplete = await loader.getHarness(MatAutocompleteHarness);
     const input = await loader.getHarness(MatInputHarness);
     await input.focus();
-
     const optionArr = await autocomplete.getOptions();
 
     expect(optionArr.length).toBe(options.length);
@@ -123,25 +122,27 @@ describe('AppComponent => SearchComponent', () => {
 
   it('should clear search input on clear button click', async () => {
     const inputText = 'text';
-    spyOn(component, 'valueChange');
-
+    // prettier-ignore
+    const search = fixture.debugElement.query(By.css('tk-search')).componentInstance;
     const input = await loader.getHarness(MatInputHarness);
+    spyOn(search.valueChange, 'emit');
     await input.setValue(inputText);
 
-    expect(component.valueChange).toHaveBeenCalledWith(inputText);
+    expect(search.valueChange.emit).toHaveBeenCalledWith(inputText);
 
     const clear = await loader.getHarness(MatButtonHarness);
     await clear.click();
 
-    expect(component.valueChange).toHaveBeenCalledWith('');
+    expect(search.valueChange.emit).toHaveBeenCalledWith('');
     expect(await input.getValue()).toBe('');
   });
 
   // tslint:disable-next-line:max-line-length
   it('should show clear button with "Clear" text and "refresh" icon', async () => {
     const clear = await loader.getHarness(MatButtonHarness);
-    expect(await clear.getText()).toContain('Clear');
     const icon = await clear.getHarness(MatIconHarness);
+
+    expect(await clear.getText()).toContain('Clear');
     expect(await icon.getName()).toBe('refresh');
   });
 });
