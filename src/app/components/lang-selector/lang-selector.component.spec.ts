@@ -4,6 +4,7 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSelectHarness } from '@angular/material/select/testing';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Lang } from '../../models/lang';
 import { LANGUAGES_TOKEN } from '../../tokens/languages.token';
@@ -13,13 +14,10 @@ import { LangSelectorHarness } from './lang-selector.harness';
 
 @Component({
   selector: 'tk-test',
-  template:
-    '<tk-lang-selector [lang]="lang" (langChanged)="langChanged($event)"></tk-lang-selector>'
+  template: '<tk-lang-selector [lang]="lang"></tk-lang-selector>'
 })
 class TestComponent {
   lang: Lang;
-
-  langChanged(value): void {}
 }
 
 describe('AppComponent => LangSelectorComponent', () => {
@@ -57,50 +55,54 @@ describe('AppComponent => LangSelectorComponent', () => {
   });
 
   it('should show selector label name "Language"', async () => {
-    const langSelector = await loader.getHarness(LangSelectorHarness);
+    const harness = await loader.getHarness(LangSelectorHarness);
 
-    expect(await langSelector.labelText()).toBe('Language');
+    expect(await harness.labelText()).toBe('Language');
   });
 
   // tslint:disable-next-line:max-line-length
   it('should preset provided default language for selector component', async () => {
+    const harness = await loader.getHarness(MatSelectHarness);
+
     component.lang = Lang.ru;
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const selector = await loader.getHarness(MatSelectHarness);
-
-    expect(await selector.getValueText()).toBe('Russian');
+    expect(await harness.getValueText()).toBe('Russian');
   });
 
   // tslint:disable-next-line:max-line-length
   it('should preset provided default language for selector component', async () => {
+    const harness = await loader.getHarness(MatSelectHarness);
+
     component.lang = Lang.ru;
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const selector = await loader.getHarness(MatSelectHarness);
-
-    expect(await selector.getValueText()).toBe('Russian');
+    expect(await harness.getValueText()).toBe('Russian');
   });
 
   // tslint:disable-next-line:max-line-length
   it('should show selector options matching LANGUAGES_TOKEN provided value', async () => {
-    const selector = await loader.getHarness(MatSelectHarness);
-    await selector.open();
-    const options = await selector.getOptions();
+    const selectorHarness = await loader.getHarness(MatSelectHarness);
+    await selectorHarness.open();
+    const options = await selectorHarness.getOptions();
+
     expect(options.length).toBe(languages.length);
     expect(await options[0].getText()).toBe('Russian');
     expect(await options[1].getText()).toBe('English');
   });
 
   it('should propagate selected option language value', async () => {
-    spyOn(component, 'langChanged');
-    const selector = await loader.getHarness(MatSelectHarness);
-    await selector.open();
-    const [ruOption] = await selector.getOptions();
-    await ruOption.click();
+    // prettier-ignore
+    const langSelectorComponent = fixture.debugElement.query(By.css('tk-lang-selector')).componentInstance;
+    spyOn(langSelectorComponent.langChanged, 'emit');
+    const selectorHarness = await loader.getHarness(MatSelectHarness);
+    await selectorHarness.open();
+    const [optionHarness] = await selectorHarness.getOptions();
+    await optionHarness.click();
 
-    expect(component.langChanged).toHaveBeenCalledWith(Lang.ru);
+    // prettier-ignore
+    expect(langSelectorComponent.langChanged.emit).toHaveBeenCalledWith(Lang.ru);
   });
 });
