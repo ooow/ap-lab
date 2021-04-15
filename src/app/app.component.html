@@ -1,5 +1,5 @@
 <div class="main">
-  <ng-container *ngIf="!(loading$ | async); else loading">
+  <ng-container *ngIf="!(globalLoading$ | async); else loading">
     <div class="main__header">
       <div class="toolbar">
         <tk-search
@@ -20,11 +20,22 @@
     <div class="product-list">
       <tk-product
         *ngFor="
-          let product of products$ | async | productSearch: (search$ | async)
+          let product of topProducts$ | async | productSearch: (search$ | async)
         "
         [product]="product"
         class="product-list__item"
       ></tk-product>
+    </div>
+
+    <div>
+      <tk-product-table
+        [loading]="loading$ | async"
+        [products]="products$ | async"
+        [pageIndex]="pageIndex$ | async"
+        [totalNumber]="totalNumber$ | async"
+        [search]="search$ | async"
+        (pageChange)="store.dispatch(ProductActions.changePage({pageIndex: $event}))"
+      ></tk-product-table>
     </div>
   </ng-container>
 </div>

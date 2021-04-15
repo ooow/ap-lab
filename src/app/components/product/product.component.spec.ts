@@ -17,7 +17,7 @@ class TestComponent {
   product: Product;
 }
 
-describe('AppComponent => ProductComponent', () => {
+describe('AppModule => ProductComponent', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let loader: HarnessLoader;

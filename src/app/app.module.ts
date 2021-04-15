@@ -7,8 +7,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
@@ -23,6 +26,7 @@ import { SearchOptionsPipe } from './pipes/search-options.pipe';
 import { reducer as LangReducer } from './store/lang/lang.reducers';
 import { reducer as ProductReducer } from './store/product/product.reducers';
 import { LANGUAGES_TOKEN } from './tokens/languages.token';
+import { ProductTableComponent } from './components/product-table/product-table.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,8 @@ import { LANGUAGES_TOKEN } from './tokens/languages.token';
     ProductSearchPipe,
     SearchComponent,
     SearchComponent,
-    SearchOptionsPipe
+    SearchOptionsPipe,
+    ProductTableComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -45,8 +50,11 @@ import { LANGUAGES_TOKEN } from './tokens/languages.token';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatTableModule,
     MatSelectModule,
+    MatSortModule,
     ReactiveFormsModule,
     StoreModule.forRoot({
       product: ProductReducer,

@@ -1,0 +1,38 @@
+.product-table {
+  margin: 20px;
+  position: relative;
+  min-height: 200px;
+}
+
+table {
+  width: 100%;
+}
+
+td, th {
+  width: 33%;
+}
+
+.break-word {
+  word-break: break-all;
+}
+
+td.mat-cell {
+  padding: 10px 0;
+
+  &:not(:last-child) {
+    padding-right: 25px;
+  }
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
