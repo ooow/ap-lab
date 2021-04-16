@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>
+  {{data.product.name}}
+  <button mat-icon-button (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div mat-dialog-content>
+  <img [src]="data.product.picture" [alt]="data.product.name">
+  <p>{{data.product.description}}</p>
+</div>
