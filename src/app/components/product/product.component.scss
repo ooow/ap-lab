@@ -1,3 +1,31 @@
 .card {
-  width: 400px;
+  cursor: pointer;
+  width: 200px;
+
+  &__image {
+    align-items: center;
+    display: flex;
+    height: 160px;
+    justify-content: center;
+    margin: 0 -15px 15px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.mat-card-title {
+  max-width: 166px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.mat-card-content p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

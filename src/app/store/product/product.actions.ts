@@ -6,6 +6,16 @@ export const search = createAction(
 );
 
 export const retrieveProducts = createAction(
-  '[Products API] Retrieve products request',
+  '[Products API] Retrieve products',
+  props<{ products; totalNumber }>()
+);
+
+export const changePage = createAction(
+  '[Products table] Change table page',
+  props<{ pageIndex }>()
+);
+
+export const topProducts = createAction(
+  '[Products API] Retrieve top five products',
   props<{ products }>()
 );

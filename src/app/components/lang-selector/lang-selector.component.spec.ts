@@ -20,7 +20,7 @@ class TestComponent {
   lang: Lang;
 }
 
-describe('AppComponent => LangSelectorComponent', () => {
+describe('AppModule => LangSelectorComponent', () => {
   const languages = [Lang.ru, Lang.en];
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;

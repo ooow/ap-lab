@@ -3,13 +3,23 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { getProducts } from '../mocks/products';
 import { Lang } from '../models/lang';
-import { Product } from '../models/product';
+import { ProductsResp } from '../models/products-resp';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  getProducts(lang: Lang): Observable<ReadonlyArray<Product>> {
-    return of(getProducts(lang)).pipe(delay(1000));
+  getProducts(
+    lang: Lang,
+    pageIndex: number,
+    size = 10
+  ): Observable<ProductsResp> {
+    const allProducts = getProducts(lang);
+    const start = pageIndex * size;
+
+    return of({
+      products: allProducts.slice(start, start + size),
+      totalNumber: allProducts.length
+    }).pipe(delay(1000));
   }
 }
