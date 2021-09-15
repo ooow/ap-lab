@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,6 +28,7 @@ import { reducer as LangReducer } from './store/lang/lang.reducers';
 import { reducer as ProductReducer } from './store/product/product.reducers';
 import { LANGUAGES_TOKEN } from './tokens/languages.token';
 import { ProductTableComponent } from './components/product-table/product-table.component';
+import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { ProductTableComponent } from './components/product-table/product-table.
     SearchComponent,
     SearchComponent,
     SearchOptionsPipe,
+    ProductDetailsModalComponent,
     ProductTableComponent
   ],
   imports: [
@@ -46,6 +49,7 @@ import { ProductTableComponent } from './components/product-table/product-table.
     MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
     MatIconModule,

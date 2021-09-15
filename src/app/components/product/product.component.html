@@ -2,7 +2,9 @@
   <mat-card-header>
     <mat-card-title>{{ product.name }}</mat-card-title>
   </mat-card-header>
-  <img mat-card-image [src]="product.picture" [alt]="product.name" />
+  <div class="card__image">
+    <img [src]="product.picture" [alt]="product.name" />
+  </div>
   <mat-card-content>
     <p>{{ product.description }}</p>
   </mat-card-content>

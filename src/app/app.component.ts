@@ -1,7 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 import { Lang } from './models/lang';
 import { Product } from './models/product';
 import { ProductsResp } from './models/products-resp';
@@ -54,7 +56,11 @@ export class AppComponent implements OnDestroy {
   readonly LangActions = LangActions;
   private readonly destroy$ = new Subject<void>();
 
-  constructor(readonly store: Store, productService: ProductService) {
+  constructor(
+    readonly store: Store,
+    readonly productService: ProductService,
+    readonly dialog: MatDialog
+  ) {
     combineLatest([this.lang$, this.pageIndex$])
       .pipe(
         tap(() => this.loading$.next(true)),
@@ -82,6 +88,13 @@ export class AppComponent implements OnDestroy {
         );
         this.globalLoading$.next(false);
       });
+  }
+
+  productDetails(product: Product): void {
+    this.dialog.open(ProductDetailsModalComponent, {
+      width: '600px',
+      data: { product }
+    });
   }
 
   ngOnDestroy(): void {

@@ -23,6 +23,7 @@
           let product of topProducts$ | async | productSearch: (search$ | async)
         "
         [product]="product"
+        (click)="productDetails(product)"
         class="product-list__item"
       ></tk-product>
     </div>
