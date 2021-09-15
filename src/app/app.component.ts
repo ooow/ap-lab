@@ -58,8 +58,8 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     readonly store: Store,
-    productService: ProductService,
-    public dialog: MatDialog
+    readonly productService: ProductService,
+    readonly dialog: MatDialog
   ) {
     combineLatest([this.lang$, this.pageIndex$])
       .pipe(
