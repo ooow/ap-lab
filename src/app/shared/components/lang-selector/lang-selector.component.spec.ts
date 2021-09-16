@@ -7,7 +7,7 @@ import { MatSelectHarness } from '@angular/material/select/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Lang } from '../../models/lang';
-import { LANGUAGES_TOKEN } from '../../tokens/languages.token';
+import { LANGUAGES_TOKEN } from '../../../tokens/languages.token';
 import { LangSelectorOptionComponent } from '../lang-selector-option/lang-selector-option.component';
 import { LangSelectorComponent } from './lang-selector.component';
 import { LangSelectorHarness } from './lang-selector.harness';

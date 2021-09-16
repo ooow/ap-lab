@@ -1,4 +1,20 @@
 <div class="search">
+  <button
+    (click)="searchControl.setValue('')"
+    class="search__clear"
+    i18n="Clear button text@@product-search.clear-button.text"
+    mat-raised-button
+  >
+    Clear
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Refresh icon"
+      i18n-aria-label="
+        Clear button icon aria-label@@product-search.clear-button.icon"
+    >
+      refresh
+    </mat-icon>
+  </button>
   <mat-form-field appearance="fill" class="search__input">
     <mat-label i18n="Product search label@@product-search.label">
       Products
@@ -21,20 +37,5 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  <button
-    (click)="searchControl.setValue('')"
-    class="search__clear"
-    i18n="Clear button text@@product-search.clear-button.text"
-    mat-raised-button
-  >
-    Clear
-    <mat-icon
-      aria-hidden="false"
-      aria-label="Refresh icon"
-      i18n-aria-label="
-        Clear button icon aria-label@@product-search.clear-button.icon"
-    >
-      refresh
-    </mat-icon>
-  </button>
+
 </div>

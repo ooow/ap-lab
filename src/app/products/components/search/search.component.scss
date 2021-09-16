@@ -1,0 +1,10 @@
+.search {
+  display: flex;
+  align-items: baseline;
+  justify-content: end;
+  padding: 10px 20px 0;
+
+  &__clear {
+    margin-right: 10px;
+  }
+}

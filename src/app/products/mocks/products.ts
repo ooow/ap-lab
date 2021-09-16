@@ -1,4 +1,4 @@
-import { Lang } from '../models/lang';
+import { Lang } from '../../shared/models/lang';
 import { Product } from '../models/product';
 
 const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [

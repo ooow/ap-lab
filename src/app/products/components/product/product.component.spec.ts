@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { getProducts } from '../../mocks/products';
-import { Lang } from '../../models/lang';
+import { Lang } from '../../../shared/models/lang';
 import { Product } from '../../models/product';
 import { ProductComponent } from './product.component';
 import { ProductHarness } from './product.harness';

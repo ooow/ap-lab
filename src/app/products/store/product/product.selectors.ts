@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { AppState } from '../../models/app-state';
+import { AppState } from '../../../shared/models/app-state';
 import { ProductState } from '../../models/product-state';
 
 export const productFeature = (state: AppState) => state.product;

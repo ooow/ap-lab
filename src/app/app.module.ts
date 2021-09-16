@@ -1,69 +1,46 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
+
 import { AppComponent } from './app.component';
-import { LangSelectorOptionComponent } from './components/lang-selector-option/lang-selector-option.component';
-import { LangSelectorComponent } from './components/lang-selector/lang-selector.component';
-import { ProductComponent } from './components/product/product.component';
-import { SearchComponent } from './components/search/search.component';
-import { Lang } from './models/lang';
-import { ProductSearchPipe } from './pipes/product-search.pipe';
-import { SearchOptionsPipe } from './pipes/search-options.pipe';
-import { reducer as LangReducer } from './store/lang/lang.reducers';
-import { reducer as ProductReducer } from './store/product/product.reducers';
+import { LangSelectorOptionComponent } from './shared/components/lang-selector-option/lang-selector-option.component';
+import { LangSelectorComponent } from './shared/components/lang-selector/lang-selector.component';
+import { Lang } from './shared/models/lang';
+import { reducer as LangReducer } from './shared/store/lang/lang.reducers';
 import { LANGUAGES_TOKEN } from './tokens/languages.token';
-import { ProductTableComponent } from './components/product-table/product-table.component';
-import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
+import { ProductsModule } from './products/products.module';
+import { LoaderComponent } from './shared/components/loader/loader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LangSelectorComponent,
-    LangSelectorOptionComponent,
-    ProductComponent,
-    ProductSearchPipe,
-    SearchComponent,
-    SearchComponent,
-    SearchOptionsPipe,
-    ProductDetailsModalComponent,
-    ProductTableComponent
+    LangSelectorOptionComponent
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     MatAutocompleteModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatPaginatorModule,
+    MatOptionModule,
     MatProgressSpinnerModule,
-    MatTableModule,
     MatSelectModule,
-    MatSortModule,
+    ProductsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({
-      product: ProductReducer,
       lang: LangReducer
-    })
+    }),
+    RouterModule.forRoot([])
   ],
   providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
   bootstrap: [AppComponent]
