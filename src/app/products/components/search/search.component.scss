@@ -1,10 +1,26 @@
 .search {
-  display: flex;
-  align-items: baseline;
-  justify-content: end;
-  padding: 10px 0 0;
+  display: inline-block;
+  position: relative;
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: unset;
+  }
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
 
   &__clear {
-    margin-right: 10px;
+    padding: 0 5px;
+    min-width: unset;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+
+    ::ng-deep .mat-button-focus-overlay,
+    ::ng-deep .mat-ripple {
+      border-radius: 50%;
+    }
   }
 }
