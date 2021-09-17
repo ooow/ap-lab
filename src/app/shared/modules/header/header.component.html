@@ -1,6 +1,11 @@
 <header>
   <nav class="navbar">
-    <a mat-button [routerLink]="['/']">Home</a>
+    <a
+      mat-button
+      [routerLink]="['/']"
+      [ngClass]="{ 'navbar-item-selected': this.router.url === '/' }"
+      >Home</a
+    >
     <a
       mat-button
       [routerLink]="['/products']"

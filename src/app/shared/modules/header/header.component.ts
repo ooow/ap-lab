@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Lang } from 'src/app/shared/models/lang';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'tk-header',
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit {
   );
   readonly LangActions = LangActions;
 
-  constructor(readonly store: Store) {}
+  constructor(readonly store: Store, readonly router: Router) {}
 
   ngOnInit(): void {}
 }
