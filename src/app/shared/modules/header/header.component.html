@@ -1,0 +1,22 @@
+<header>
+  <nav class="navbar">
+    <a mat-button [routerLink]="['/']">Home</a>
+    <a
+      mat-button
+      [routerLink]="['/products']"
+      routerLinkActive="navbar-item-selected"
+      >Products</a
+    >
+    <a
+      mat-button
+      [routerLink]="['/dashboard']"
+      routerLinkActive="navbar-item-selected"
+      >Dashboard</a
+    >
+  </nav>
+  <span class="spacer"></span>
+  <tk-lang-selector
+    (langChanged)="store.dispatch(LangActions.change({ lang: $event }))"
+    [lang]="lang$ | async"
+  ></tk-lang-selector>
+</header>

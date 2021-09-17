@@ -1,0 +1,45 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  padding: 10px 20px;
+  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%),
+    0 1px 18px 0 rgb(0 0 0 / 12%);
+  background-color: #3f51b5;
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline,
+  ::ng-deep .mat-form-field.mat-focused .mat-form-field-label,
+  ::ng-deep .mat-form-field-label,
+  ::ng-deep .mat-select-value,
+  ::ng-deep .mat-select-arrow {
+    color: white;
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: 0;
+  }
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding: unset;
+  }
+}
+
+.navbar {
+  height: fit-content;
+  align-self: center;
+
+  .mat-button {
+    color: white;
+  }
+
+  .mat-button.navbar-item-selected {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

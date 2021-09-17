@@ -1,15 +1,5 @@
-.main {
+main {
   margin: 0 auto;
   max-width: 1420px;
-  padding: 20px 0;
-
-  &__header {
-    padding: 0 20px;
-  }
+  padding: 75px 20px 20px;
 }
-
-.toolbar {
-  display: flex;
-  justify-content: flex-end;
-}
-

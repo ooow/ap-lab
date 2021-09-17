@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { Lang } from '../../models/lang';
-import { LANGUAGES_TOKEN } from '../../../tokens/languages.token';
+import { Lang } from 'src/app/shared/models/lang';
+import { LANGUAGES_TOKEN } from 'src/app/tokens/languages.token';
 
 @Component({
   selector: 'tk-lang-selector',

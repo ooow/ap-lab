@@ -2,9 +2,9 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Lang } from '../../models/lang';
-import { LangSelectorOptionComponent } from './lang-selector-option.component';
-import { LangSelectorOptionHarness } from './lang-selector-option.harness';
+import { Lang } from 'src/app/shared/models/lang';
+import { LangSelectorOptionComponent } from 'src/app/shared/modules/header/components/lang-selector-option/lang-selector-option.component';
+import { LangSelectorOptionHarness } from 'src/app/shared/modules/header/components/lang-selector-option/lang-selector-option.harness';
 
 @Component({
   selector: 'tk-test',

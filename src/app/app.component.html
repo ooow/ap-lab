@@ -1,14 +1,2 @@
-<div class="main">
-  <div class="main__header">
-    <div class="toolbar">
-      <tk-lang-selector
-        (langChanged)="store.dispatch(LangActions.change({ lang: $event }))"
-        [lang]="lang$ | async"
-      ></tk-lang-selector>
-    </div>
-    <mat-divider></mat-divider>
-  </div>
-    <router-outlet></router-outlet>
-</div>
-
-
+<tk-header></tk-header>
+<main> <router-outlet></router-outlet> </main>
