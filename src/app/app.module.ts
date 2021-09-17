@@ -13,6 +13,7 @@ import { LANGUAGES_TOKEN } from './tokens/languages.token';
 import { ProductsModule } from './products/products.module';
 import { HeaderModule } from 'src/app/shared/modules/header/header.module';
 import { DashboardModule } from 'src/app/dashboard/dashboard.module';
+import { HomeModule } from 'src/app/home/home.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { DashboardModule } from 'src/app/dashboard/dashboard.module';
     BrowserAnimationsModule,
     BrowserModule,
     MatProgressSpinnerModule,
+    HomeModule,
     ProductsModule,
     HeaderModule,
     DashboardModule,
