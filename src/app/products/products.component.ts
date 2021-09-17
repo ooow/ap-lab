@@ -1,7 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { Lang } from '../shared/models/lang';
@@ -34,19 +34,6 @@ export class ProductsComponent implements OnDestroy {
   );
   readonly search$: Observable<string> = this.store.select(
     ProductSelectors.search
-  );
-  readonly searchOptions$: Observable<Array<string>> = combineLatest([
-    this.products$,
-    this.topProducts$
-  ]).pipe(
-    map(([products, topProducts]: [Product[], Product[]]) => {
-      return Array.from(
-        new Set([
-          ...products.map((cv) => cv.name),
-          ...topProducts.map((cv) => cv.name)
-        ])
-      );
-    })
   );
   readonly lang$: Observable<Lang> = this.store.select(
     LangSelectors.langSelector

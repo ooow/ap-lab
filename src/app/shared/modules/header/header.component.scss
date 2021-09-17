@@ -14,7 +14,9 @@ header {
   ::ng-deep .mat-form-field.mat-focused .mat-form-field-label,
   ::ng-deep .mat-form-field-label,
   ::ng-deep .mat-select-value,
-  ::ng-deep .mat-select-arrow {
+  ::ng-deep .mat-select-arrow,
+  ::ng-deep .mat-icon,
+  ::ng-deep .mat-input-element {
     color: white;
   }
 
@@ -40,6 +42,19 @@ header {
   }
 }
 
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
 .spacer {
   flex: 1 1 auto;
+}
+
+@media (max-width: 705px) {
+  .toolbar {
+    flex-direction: column-reverse;
+  }
 }

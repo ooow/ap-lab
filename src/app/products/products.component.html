@@ -1,17 +1,9 @@
 <ng-container *ngIf="!(globalLoading$ | async); else loading">
-  <tk-search
-    *ngIf="router.url === '/products'"
-    (valueChange)="
-            store.dispatch(ProductActions.search({ search: $event }))
-          "
-    [options]="searchOptions$ | async"
-  ></tk-search>
-
   <div class="product-list">
     <tk-product
       *ngFor="
-          let product of topProducts$ | async | productSearch: (search$ | async)
-        "
+        let product of topProducts$ | async | productSearch: (search$ | async)
+      "
       [product]="product"
       (click)="productDetails(product)"
       class="product-list__item"
@@ -25,7 +17,9 @@
       [pageIndex]="pageIndex$ | async"
       [totalNumber]="totalNumber$ | async"
       [search]="search$ | async"
-      (pageChange)="store.dispatch(ProductActions.changePage({pageIndex: $event}))"
+      (pageChange)="
+        store.dispatch(ProductActions.changePage({ pageIndex: $event }))
+      "
     ></tk-product-table>
   </div>
 </ng-container>
