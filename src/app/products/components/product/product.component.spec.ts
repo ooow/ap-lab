@@ -3,11 +3,12 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+
 import { getProducts } from '../../mocks/products';
-import { Lang } from '../../../shared/models/lang';
+import { Lang } from 'src/app/shared/models/lang';
 import { Product } from '../../models/product';
-import { ProductComponent } from './product.component';
-import { ProductHarness } from './product.harness';
+import { ProductComponent } from 'src/app/products/components/product/product.component';
+import { ProductHarness } from 'src/app/products/components/product/product.harness';
 
 @Component({
   selector: 'tk-test',

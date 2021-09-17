@@ -4,7 +4,7 @@ export class ProductHarness extends ComponentHarness {
   static hostSelector = 'tk-product';
 
   getTitle = this.locatorFor('mat-card-title');
-  getImage = this.locatorFor('[mat-card-image]');
+  getImage = this.locatorFor('.card__image img');
   getDescription = this.locatorFor('mat-card-content p');
 
   async titleText(): Promise<string> {

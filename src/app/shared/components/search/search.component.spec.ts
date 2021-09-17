@@ -13,8 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SearchComponent } from './search.component';
-import { SearchHarness } from './search.harness';
+import { SearchComponent } from 'src/app/shared/components/search/search.component';
+import { SearchHarness } from 'src/app/shared/components/search/search.harness';
 
 @Pipe({ name: 'searchOptions' })
 class MockPipe implements PipeTransform {
@@ -138,11 +138,11 @@ describe('AppModule => SearchComponent', () => {
   });
 
   // tslint:disable-next-line:max-line-length
-  it('should show clear button with "Clear" text and "refresh" icon', async () => {
+  it('should show clear button with  "refresh" icon', async () => {
     const clear = await loader.getHarness(MatButtonHarness);
     const icon = await clear.getHarness(MatIconHarness);
 
-    expect(await clear.getText()).toContain('Clear');
+    expect(await clear.getText()).toContain('');
     expect(await icon.getName()).toBe('refresh');
   });
 });
