@@ -3,7 +3,7 @@
     <a
       mat-button
       [routerLink]="['/']"
-      [ngClass]="{ 'navbar-item-selected': this.router.url === '/' }"
+      [ngClass]="{ 'navbar-item-selected': router.url === '/' }"
       >Home</a
     >
     <a
@@ -22,7 +22,7 @@
   <span class="spacer"></span>
   <div class="toolbar">
     <tk-search
-      *ngIf="router.url === '/products'"
+      *ngIf="isProductSearchVisible()"
       (valueChange)="store.dispatch(ProductActions.search({ search: $event }))"
       [options]="searchOptions$ | async"
     ></tk-search>

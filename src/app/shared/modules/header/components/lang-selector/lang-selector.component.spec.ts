@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Lang } from 'src/app/shared/models/lang';
-import { LANGUAGES_TOKEN } from 'src/app/tokens/languages.token';
+import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
 import { LangSelectorOptionComponent } from 'src/app/shared/modules/header/components/lang-selector-option/lang-selector-option.component';
 import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
 import { LangSelectorHarness } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.harness';

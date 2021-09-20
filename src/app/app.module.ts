@@ -9,7 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { Lang } from './shared/models/lang';
 import { reducer as LangReducer } from './shared/store/lang/lang.reducers';
-import { LANGUAGES_TOKEN } from './tokens/languages.token';
+import { LANGUAGES_TOKEN } from './shared/tokens/languages.token';
 import { ProductsModule } from './products/products.module';
 import { HeaderModule } from 'src/app/shared/modules/header/header.module';
 import { DashboardModule } from 'src/app/dashboard/dashboard.module';

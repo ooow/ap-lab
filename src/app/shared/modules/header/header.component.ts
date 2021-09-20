@@ -43,7 +43,15 @@ export class HeaderComponent implements OnInit {
   readonly LangActions = LangActions;
   readonly ProductActions = ProductActions;
 
+  private routesToShowSearchList = ['/dashboard', '/products'];
+
   constructor(readonly store: Store, readonly router: Router) {}
+
+  isProductSearchVisible(): boolean {
+    return this.routesToShowSearchList.some((route) =>
+      this.router.isActive(route, false)
+    );
+  }
 
   ngOnInit(): void {}
 }
