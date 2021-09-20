@@ -15,7 +15,6 @@ import { LangSelectorComponent } from 'src/app/shared/modules/header/components/
 import { LangSelectorOptionComponent } from 'src/app/shared/modules/header/components/lang-selector-option/lang-selector-option.component';
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { SearchOptionsPipe } from 'src/app/products/pipes/search-options.pipe';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @NgModule({

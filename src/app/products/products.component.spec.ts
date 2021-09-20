@@ -6,7 +6,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockComponent, MockPipe, MockProvider, MockService } from 'ng-mocks';
+import { MockComponent, MockPipe, MockProvider } from 'ng-mocks';
+import { of } from 'rxjs';
 
 import { ProductsComponent } from 'src/app/products/products.component';
 import { ProductsHarness } from 'src/app/products/products.harness';
@@ -14,18 +15,11 @@ import { ProductSearchPipe } from 'src/app/products/pipes/product-search.pipe';
 import { ProductComponent } from 'src/app/products/components/product/product.component';
 import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
 import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
-import { ProductState } from 'src/app/products/models/product-state';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { ProductService } from 'src/app/products/services/product.service';
-import { of } from 'rxjs';
-import { Lang } from 'src/app/shared/models/lang';
+import { initialState } from 'src/app/test-utils/test-mocks';
 
-const mockProductsData = [
-  { name: 'product1', description: 'description1', picture: 'picture1' },
-  { name: 'product2', description: 'description2', picture: 'picture2' }
-];
-
-fdescribe('Products', () => {
+describe('Products', () => {
   @Component({
     template: '<tk-products></tk-products>'
   })
@@ -35,17 +29,6 @@ fdescribe('Products', () => {
   let component: ProductsComponent;
   let harness: ProductsHarness;
   let store: MockStore;
-
-  const initialState = {
-    product: {
-      topProducts: [...mockProductsData],
-      products: [...mockProductsData],
-      search: '',
-      pageIndex: 1,
-      totalNumber: 3
-    } as ProductState,
-    lang: 'ru' as Lang
-  };
 
   const mockProductService = {
     getProducts: jasmine.createSpy('getProducts').and.returnValue(of({}))

@@ -2,19 +2,16 @@
   <nav class="navbar">
     <a
       mat-button
-      [routerLink]="['/']"
+      routerLink="/"
       [ngClass]="{ 'navbar-item-selected': router.url === '/' }"
       >Home</a
     >
-    <a
-      mat-button
-      [routerLink]="['/products']"
-      routerLinkActive="navbar-item-selected"
+    <a mat-button routerLink="/products" routerLinkActive="navbar-item-selected"
       >Products</a
     >
     <a
       mat-button
-      [routerLink]="['/dashboard']"
+      routerLink="/dashboard"
       routerLinkActive="navbar-item-selected"
       >Dashboard</a
     >
