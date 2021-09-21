@@ -12,8 +12,10 @@ import { MatTableHarness } from '@angular/material/table/testing';
 import { MatRowHarness } from '@angular/material/table/testing/row-harness';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { ProductTableComponent } from './product-table.component';
 import { ProductTableHarness } from './product-table.harness';
+import { Product } from 'src/app/products/models/product';
 
 @Component({
   selector: 'tk-test',
@@ -28,7 +30,7 @@ describe('AppModule => ProductTable', () => {
   const products = [
     { name: 'first', picture: 'picUrl', description: 'firstDesc' },
     { name: 'second', picture: 'picUrl', description: 'secondDesc' }
-  ];
+  ] as Product[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

@@ -1,9 +1,9 @@
-import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
+import { LoaderComponent } from 'src/app/shared/modules/loader/loader.component';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { LoaderHarness } from 'src/app/shared/components/loader/loader.harness';
+import { LoaderHarness } from 'src/app/shared/modules/loader/loader.harness';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';

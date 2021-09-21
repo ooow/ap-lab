@@ -11,7 +11,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
-import { LoaderComponent } from '../shared/components/loader/loader.component';
+import { LoaderModule } from 'src/app/shared/modules/loader/loader.module';
 import { ProductsComponent } from './products.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProductTableComponent } from './components/product-table/product-table.component';
@@ -23,7 +23,6 @@ const routes = [{ path: 'products', component: ProductsComponent }];
 
 @NgModule({
   declarations: [
-    LoaderComponent,
     ProductsComponent,
     ProductComponent,
     ProductDetailsModalComponent,
@@ -32,6 +31,7 @@ const routes = [{ path: 'products', component: ProductsComponent }];
   ],
   imports: [
     CommonModule,
+    LoaderModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,

@@ -1,1 +1,22 @@
-<h1>Dashboard Page</h1>
+<ng-container *ngIf="!(loading$ | async); else loading">
+  <h1>Product Info Dashboard</h1>
+  <mat-divider></mat-divider>
+  <section class="pie-chart">
+    <ng-container *ngIf="search$ | async; else productNotSelected">
+      <tk-pie-chart
+        [chartData]="products$ | async | productChartData: (search$ | async)"
+        [chartConfigs]="chartConfigs"
+      ></tk-pie-chart>
+    </ng-container>
+    <ng-template #productNotSelected>
+      <h2>
+        Select the product in the Products Menu to see the availability ratio by
+        location
+      </h2>
+    </ng-template>
+  </section>
+</ng-container>
+
+<ng-template #loading>
+  <tk-loader></tk-loader>
+</ng-template>
