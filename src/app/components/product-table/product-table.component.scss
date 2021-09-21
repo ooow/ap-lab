@@ -8,12 +8,9 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   width: 33%;
-}
-
-.break-word {
-  word-break: break-all;
 }
 
 td.mat-cell {
@@ -35,4 +32,67 @@ td.mat-cell {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.description {
+  box-sizing: border-box;
+  white-space: pre-line;
+  word-wrap: break-word;
+
+  p {
+    margin: unset;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}
+
+.picture-url-container {
+  display: flex;
+  align-items: center;
+  max-width: 300px;
+  p {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 0 0 8px;
+  }
+}
+
+.picture-url-container {
+  ::ng-deep .mat-icon-button {
+    line-height: 24px;
+    width: 24px;
+    height: 24px;
+  }
+  ::ng-deep .mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .picture-url-container {
+    max-width: 250px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .picture-url-container {
+    max-width: 200px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .picture-url-container p {
+    display: none;
+  }
+
+  .picture-url-container button::after {
+    content: 'Copy Url ';
+    font-weight: 400;
+  }
 }

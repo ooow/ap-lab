@@ -29,6 +29,8 @@ import { reducer as ProductReducer } from './store/product/product.reducers';
 import { LANGUAGES_TOKEN } from './tokens/languages.token';
 import { ProductTableComponent } from './components/product-table/product-table.component';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { ProductDetailsModalComponent } from './components/product-details-modal
     StoreModule.forRoot({
       product: ProductReducer,
       lang: LangReducer
-    })
+    }),
+    MatTooltipModule,
+    ClipboardModule
   ],
   providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
   bootstrap: [AppComponent]

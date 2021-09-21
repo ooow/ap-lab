@@ -1,5 +1,5 @@
 // prettier-ignore
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '../../models/product';
@@ -35,6 +35,12 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
     this.searchValue = value;
   }
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  isEllipsisActive(e: HTMLElement): boolean {
+    return e ? e.offsetHeight < e.scrollHeight : false;
+  }
+
   ngOnInit(): void {
     this.dataSource.filterPredicate = (value: Product, filter: string) =>
       value.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
@@ -42,5 +48,6 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+    this.cdr.detectChanges();
   }
 }
