@@ -2,9 +2,9 @@
   <h1>Product Info Dashboard</h1>
   <mat-divider></mat-divider>
   <section class="pie-chart">
-    <ng-container *ngIf="search$ | async; else productNotSelected">
+    <ng-container *ngIf="product$ | async; else productNotSelected">
       <tk-pie-chart
-        [chartData]="products$ | async | productChartData: (search$ | async)"
+        [chartData]="product$ | async | pieChartProductData"
         [chartConfigs]="chartConfigs"
       ></tk-pie-chart>
     </ng-container>

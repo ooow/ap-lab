@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  OnChanges,
   Component,
   ElementRef,
   Input,
@@ -17,7 +17,7 @@ declare var google: any;
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.scss']
 })
-export class PieChartComponent implements AfterViewInit {
+export class PieChartComponent implements OnChanges {
   @ViewChild('pieChart') pieChart: ElementRef;
   @Input() chartData: PieChartDataType;
   @Input() chartConfigs: PieChartConfigsType;
@@ -35,7 +35,7 @@ export class PieChartComponent implements AfterViewInit {
     chart.draw(data, this.chartConfigs);
   }
 
-  ngAfterViewInit(): void {
+  ngOnChanges(): void {
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(() => this.drawChart(this.chartData));
   }

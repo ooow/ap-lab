@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Lang } from 'src/app/shared/models/lang';
 import { ProductsResp } from 'src/app/products/models/products-resp';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { ProductService } from 'src/app/products/services/product.service';
@@ -25,6 +25,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   );
   readonly products$: Observable<Product[]> = this.store.select(
     ProductSelectors.products
+  );
+
+  readonly product$: Observable<Product | null> = combineLatest([
+    this.search$,
+    this.products$
+  ]).pipe(
+    switchMap(([search, products]: [string, Product[]]) => {
+      const searchResult =
+        search &&
+        products.find(
+          (product) =>
+            product.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
+        );
+      return of(searchResult || null);
+    })
   );
 
   readonly loading$ = new BehaviorSubject<boolean>(true);
@@ -51,8 +66,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.loading$.next(false);
       });
 
-    this.search$.pipe(takeUntil(this.destroy$)).subscribe((searchRes) => {
-      this.chartConfigs.title = `${searchRes} availability by location`;
+    this.product$.pipe(takeUntil(this.destroy$)).subscribe((product) => {
+      if (product) {
+        this.chartConfigs.title = `${product.name} available by location`;
+      }
     });
   }
 

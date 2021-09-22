@@ -16,7 +16,7 @@ const mockPieChartData: PieChartDataType = {
 };
 const mockConfigs = { configs: 'test-configs' };
 
-fdescribe('Pie Chart', () => {
+describe('Pie Chart', () => {
   let component: PieChartComponent;
   let fixture: ComponentFixture<PieChartComponent>;
   let dom: HTMLElement;
@@ -55,18 +55,20 @@ fdescribe('Pie Chart', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call google charts methods onAfterViewInit', () => {
+  it('should call google charts methods onChanges', () => {
+    component.ngOnChanges();
     expect(google.charts.setOnLoadCallback).toHaveBeenCalled();
     expect(google.charts.load).toHaveBeenCalled();
   });
 
   it('should call drawChart method with data as argument', () => {
     spyOn(component, 'drawChart');
-    component.ngAfterViewInit();
+    component.ngOnChanges();
     expect(component.drawChart).toHaveBeenCalledOnceWith(mockPieChartData);
   });
 
   it('should call google draw methods on drawChart call from setOnLoadCallback', () => {
+    component.ngOnChanges();
     expect(google.visualization.arrayToDataTable).toHaveBeenCalled();
     expect(drawSpy).toHaveBeenCalledOnceWith('test-data', mockConfigs);
   });
