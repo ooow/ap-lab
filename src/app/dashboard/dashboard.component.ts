@@ -31,12 +31,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   readonly chartConfigs = {
-    title: 'Product Availability By Location',
+    title: '',
     width: 800,
-    height: 600
+    height: 600,
+    pieSliceText: 'value'
   };
 
-  constructor(private store: Store, private productService: ProductService) {
+  constructor(private store: Store, productService: ProductService) {
     this.lang$
       .pipe(
         tap(() => this.loading$.next(true)),
@@ -49,6 +50,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.loading$.next(false);
       });
+
+    this.search$.pipe(takeUntil(this.destroy$)).subscribe((searchRes) => {
+      this.chartConfigs.title = `${searchRes} availability by location`;
+    });
   }
 
   ngOnInit(): void {}

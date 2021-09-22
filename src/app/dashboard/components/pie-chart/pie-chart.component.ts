@@ -6,9 +6,10 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  ChartConfigsType,
-  ChartDataType
+  PieChartConfigsType,
+  PieChartDataType
 } from 'src/app/dashboard/components/pie-chart/pie-chart.types';
+
 declare var google: any;
 
 @Component({
@@ -18,13 +19,13 @@ declare var google: any;
 })
 export class PieChartComponent implements AfterViewInit {
   @ViewChild('pieChart') pieChart: ElementRef;
-  @Input() chartData: ChartDataType;
-  @Input() chartConfigs: ChartConfigsType;
+  @Input() chartData: PieChartDataType;
+  @Input() chartConfigs: PieChartConfigsType;
 
-  drawChart = () => {
+  drawChart(chartData: PieChartDataType): void {
     const data = google.visualization.arrayToDataTable([
-      this.chartData.fieldNames,
-      ...this.chartData.data
+      chartData.fieldNames,
+      ...chartData.data
     ]);
 
     const chart = new google.visualization.PieChart(
@@ -32,10 +33,10 @@ export class PieChartComponent implements AfterViewInit {
     );
 
     chart.draw(data, this.chartConfigs);
-  };
+  }
 
   ngAfterViewInit(): void {
     google.charts.load('current', { packages: ['corechart'] });
-    google.charts.setOnLoadCallback(this.drawChart);
+    google.charts.setOnLoadCallback(() => this.drawChart(this.chartData));
   }
 }

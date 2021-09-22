@@ -13,6 +13,7 @@ export class ProductHarness extends ComponentHarness {
   }
 
   async img(): Promise<TestElement> {
+    const image = await this.getImage();
     return this.getImage();
   }
 
