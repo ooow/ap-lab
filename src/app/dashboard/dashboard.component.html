@@ -5,7 +5,7 @@
     <ng-container *ngIf="product$ | async; else productNotSelected">
       <tk-pie-chart
         [chartData]="product$ | async | pieChartProductData"
-        [chartConfigs]="chartConfigs"
+        [chartConfigs]="pieChartConfigs"
       ></tk-pie-chart>
     </ng-container>
     <ng-template #productNotSelected>

@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly loading$ = new BehaviorSubject<boolean>(true);
   private readonly destroy$ = new Subject<void>();
 
-  chartConfigs: PieChartConfigsType = {
+  pieChartConfigs: PieChartConfigsType = {
     title: '',
     width: 800,
     height: 600,
@@ -76,10 +76,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
           const { name } = product;
           switch (lang) {
             case Lang.en:
-              this.chartConfigs.title = `${name} available by location`;
+              this.pieChartConfigs.title = `${name} available by location`;
               break;
             case Lang.ru:
-              this.chartConfigs.title = `${name}: доступное колличество по локации`;
+              this.pieChartConfigs.title = `${name}: доступное количество по локациям`;
               break;
             default:
               break;

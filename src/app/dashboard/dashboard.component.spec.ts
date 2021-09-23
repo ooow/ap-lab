@@ -132,7 +132,7 @@ describe('Dashboard', () => {
 
     it('should pass correct props to pie chart', () => {
       const chartConfigs = { config: 'test-config' };
-      component.chartConfigs = chartConfigs;
+      component.pieChartConfigs = chartConfigs;
       fixture.detectChanges();
 
       expect(pieChartComponent.chartData).toEqual(

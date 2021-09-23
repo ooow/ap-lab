@@ -14,8 +14,7 @@ declare var google: any;
 
 @Component({
   selector: 'tk-pie-chart',
-  templateUrl: './pie-chart.component.html',
-  styleUrls: ['./pie-chart.component.scss']
+  templateUrl: './pie-chart.component.html'
 })
 export class PieChartComponent implements OnChanges {
   @ViewChild('pieChart') pieChart: ElementRef;
