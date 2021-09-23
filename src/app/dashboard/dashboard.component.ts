@@ -10,6 +10,8 @@ import * as ProductActions from 'src/app/products/store/product/product.actions'
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 import { Product } from 'src/app/products/models/product';
+import { PieChartConfigsType } from 'src/app/dashboard/components/pie-chart/pie-chart.types';
+import { AppState } from 'src/app/shared/models/app-state';
 
 @Component({
   selector: 'tk-dashboard',
@@ -45,7 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly loading$ = new BehaviorSubject<boolean>(true);
   private readonly destroy$ = new Subject<void>();
 
-  readonly chartConfigs = {
+  chartConfigs: PieChartConfigsType = {
     title: '',
     width: 800,
     height: 600,
@@ -61,6 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((resp: ProductsResp) => {
+        console.log('dispatch');
         this.store.dispatch(ProductActions.retrieveProducts(resp));
 
         this.loading$.next(false);

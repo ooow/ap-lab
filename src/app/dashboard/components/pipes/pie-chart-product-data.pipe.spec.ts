@@ -1,7 +1,7 @@
 import { PieChartProductDataPipe } from 'src/app/dashboard/components/pipes/pie-chart-product-data.pipe';
 import { PieChartDataType } from 'src/app/dashboard/components/pie-chart/pie-chart.types';
 
-fdescribe('ProductSearchPipe', () => {
+describe('ProductSearchPipe', () => {
   const mockProduct = {
     name: 'test-product',
     description: '',

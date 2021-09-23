@@ -1,5 +1,5 @@
 <ng-container *ngIf="!(loading$ | async); else loading">
-  <h1>Product Info Dashboard</h1>
+  <h1 data-testid="dashboard-title">Product Info Dashboard</h1>
   <mat-divider></mat-divider>
   <section class="pie-chart">
     <ng-container *ngIf="product$ | async; else productNotSelected">
@@ -9,7 +9,7 @@
       ></tk-pie-chart>
     </ng-container>
     <ng-template #productNotSelected>
-      <h3>
+      <h3 data-testid="dashboard-text">
         Select the product in the Products Menu to see the availability ratio by
         location
       </h3>
