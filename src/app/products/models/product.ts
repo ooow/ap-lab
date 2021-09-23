@@ -4,6 +4,7 @@ export interface Product {
   picture: string;
   counts: {
     location: string;
-    quantityAvailable: string;
+    quantityAvailable: number;
+    price: number;
   }[];
 }

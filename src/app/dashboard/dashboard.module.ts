@@ -3,18 +3,20 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
-import { PieChartComponent } from 'src/app/dashboard/components/pie-chart/pie-chart.component';
+import { ChartComponent } from 'src/app/dashboard/components/chart/chart.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { LoaderModule } from 'src/app/shared/modules/loader/loader.module';
-import { PieChartProductDataPipe } from 'src/app/dashboard/components/pipes/pie-chart-product-data.pipe';
+import { PieChartProductDataPipe } from 'src/app/dashboard/pipes/pie-chart-product-data.pipe';
+import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
 
 const routes = [{ path: 'dashboard', component: DashboardComponent }];
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    PieChartComponent,
-    PieChartProductDataPipe
+    ChartComponent,
+    PieChartProductDataPipe,
+    BarChartProductDataPipe
   ],
   imports: [
     CommonModule,

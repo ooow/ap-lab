@@ -13,9 +13,8 @@ import { ProductService } from 'src/app/products/services/product.service';
 import { By } from '@angular/platform-browser';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
-import { PieChartProductDataPipe } from 'src/app/dashboard/components/pipes/pie-chart-product-data.pipe';
-import { PieChartDataType } from 'src/app/dashboard/components/pie-chart/pie-chart.types';
-import { PieChartComponent } from 'src/app/dashboard/components/pie-chart/pie-chart.component';
+import { PieChartProductDataPipe } from 'src/app/dashboard/pipes/pie-chart-product-data.pipe';
+import { ChartComponent } from 'src/app/dashboard/components/chart/chart.component';
 import { DashboardHarness } from 'src/app/dashboard/dashboard.harness';
 import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
@@ -38,7 +37,7 @@ describe('Dashboard', () => {
       .and.returnValue(of(mockProductResponse))
   };
 
-  const mockPieChartProductDataPipeReturn: PieChartDataType = {
+  const mockPieChartProductDataPipeReturn = {
     fieldNames: ['Task', 'Hours per Day'],
     data: [
       ['Work', 11],
@@ -59,7 +58,7 @@ describe('Dashboard', () => {
           PieChartProductDataPipe,
           (products) => mockPieChartProductDataPipeReturn
         ),
-        MockComponent(PieChartComponent)
+        MockComponent(ChartComponent)
       ],
       providers: [
         provideMockStore({ initialState }),
@@ -101,9 +100,7 @@ describe('Dashboard', () => {
   it('should display text when product not selected', async () => {
     const pageText = await harness.pageText();
     expect(pageText).not.toBeNull();
-    expect(
-      fixture.debugElement.query(By.directive(PieChartComponent))
-    ).toBeNull();
+    expect(fixture.debugElement.query(By.directive(ChartComponent))).toBeNull();
   });
 
   it('should dispatch products retrieval on component creation', () => {
@@ -114,7 +111,7 @@ describe('Dashboard', () => {
 
   describe('Pie Chart', () => {
     const targetProduct = initialState.product.products[0];
-    let pieChartComponent: PieChartComponent;
+    let pieChartComponent: ChartComponent;
 
     beforeEach(() => {
       store.overrideSelector(ProductSelectors.search, targetProduct.name);
@@ -122,7 +119,7 @@ describe('Dashboard', () => {
       fixture.detectChanges();
 
       pieChartComponent = fixture.debugElement.query(
-        By.directive(PieChartComponent)
+        By.directive(ChartComponent)
       ).componentInstance;
     });
 

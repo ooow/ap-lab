@@ -1,6 +1,5 @@
 import { AsyncFactoryFn, ComponentHarness } from '@angular/cdk/testing';
 import { LoaderHarness } from 'src/app/shared/modules/loader/loader.harness';
-import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
 
 export class DashboardHarness extends ComponentHarness {
   static hostSelector = 'tk-dashboard';

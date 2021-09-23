@@ -8,13 +8,17 @@ const mockProductsData = [
     name: 'product1',
     description: 'description1',
     picture: 'picture1',
-    counts: [{ location: 'product1-location', quantityAvailable: '666' }]
+    counts: [
+      { location: 'product1-location', quantityAvailable: '666', price: '999' }
+    ]
   },
   {
     name: 'product2',
     description: 'description2',
     picture: 'picture2',
-    counts: [{ location: 'product2-location', quantityAvailable: '999' }]
+    counts: [
+      { location: 'product2-location', quantityAvailable: '999', price: '666' }
+    ]
   }
 ];
 

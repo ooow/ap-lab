@@ -1,10 +1,9 @@
-import { PieChartComponent } from 'src/app/dashboard/components/pie-chart/pie-chart.component';
+import { ChartComponent } from 'src/app/dashboard/components/chart/chart.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PieChartDataType } from 'src/app/dashboard/components/pie-chart/pie-chart.types';
 
 declare var google: any;
 
-const mockPieChartData: PieChartDataType = {
+const mockChartData = {
   fieldNames: ['Task', 'Hours per Day'],
   data: [
     ['Work', 11],
@@ -16,19 +15,20 @@ const mockPieChartData: PieChartDataType = {
 };
 const mockConfigs = { configs: 'test-configs' };
 
-describe('Pie Chart', () => {
-  let component: PieChartComponent;
-  let fixture: ComponentFixture<PieChartComponent>;
+describe('Chart', () => {
+  let component: ChartComponent;
+  let fixture: ComponentFixture<ChartComponent>;
   let dom: HTMLElement;
   const drawSpy = jasmine.createSpy('draw');
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PieChartComponent]
+      declarations: [ChartComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PieChartComponent);
+    fixture = TestBed.createComponent(ChartComponent);
     component = fixture.componentInstance;
-    component.chartData = mockPieChartData;
+    component.chartType = 'PieChart';
+    component.chartData = mockChartData;
     component.chartConfigs = mockConfigs;
     dom = fixture.debugElement.componentInstance;
     // tslint:disable-next-line:no-string-literal
@@ -43,7 +43,8 @@ describe('Pie Chart', () => {
         arrayToDataTable: jasmine
           .createSpy('arrayToDataTable')
           .and.returnValue('test-data'),
-        PieChart: jasmine.createSpy().and.returnValue({ draw: drawSpy })
+        PieChart: jasmine.createSpy().and.returnValue({ draw: drawSpy }),
+        BarChart: jasmine.createSpy().and.returnValue({ draw: drawSpy })
       }
     };
 
@@ -64,12 +65,22 @@ describe('Pie Chart', () => {
   it('should call drawChart method with data as argument', () => {
     spyOn(component, 'drawChart');
     component.ngOnChanges();
-    expect(component.drawChart).toHaveBeenCalledOnceWith(mockPieChartData);
+    expect(component.drawChart).toHaveBeenCalledOnceWith(mockChartData);
   });
 
   it('should call google draw methods on drawChart call from setOnLoadCallback', () => {
     component.ngOnChanges();
     expect(google.visualization.arrayToDataTable).toHaveBeenCalled();
     expect(drawSpy).toHaveBeenCalledOnceWith('test-data', mockConfigs);
+  });
+
+  it('should instantiate right chart type', () => {
+    component.ngOnChanges();
+    expect(google.visualization.PieChart).toHaveBeenCalled();
+    expect(google.visualization.BarChart).toHaveBeenCalledTimes(0);
+
+    component.chartType = 'BarChart';
+    component.ngOnChanges();
+    expect(google.visualization.BarChart).toHaveBeenCalled();
   });
 });

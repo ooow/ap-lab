@@ -10,7 +10,7 @@ import * as ProductActions from 'src/app/products/store/product/product.actions'
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 import { Product } from 'src/app/products/models/product';
-import { PieChartConfigsType } from 'src/app/dashboard/components/pie-chart/pie-chart.types';
+import { ChartConfigsType } from 'src/app/dashboard/components/chart/chart.types';
 
 @Component({
   selector: 'tk-dashboard',
@@ -46,11 +46,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly loading$ = new BehaviorSubject<boolean>(true);
   private readonly destroy$ = new Subject<void>();
 
-  pieChartConfigs: PieChartConfigsType = {
+  pieChartConfigs: ChartConfigsType = {
     title: '',
-    width: 800,
-    height: 600,
+    width: 700,
+    height: 400,
     pieSliceText: 'value'
+  };
+
+  barChartConfigs: ChartConfigsType = {
+    title: '',
+    width: 600,
+    height: 400
   };
 
   constructor(private store: Store, productService: ProductService) {
@@ -77,9 +83,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           switch (lang) {
             case Lang.en:
               this.pieChartConfigs.title = `${name} available by location`;
+              this.barChartConfigs.title = `${name} pricing model per item `;
               break;
             case Lang.ru:
-              this.pieChartConfigs.title = `${name}: доступное количество по локациям`;
+              this.pieChartConfigs.title = `${name}: доступное  по локациям`;
+              this.barChartConfigs.title = `${name}: стоимость за единицу в зависимости от региона`;
               break;
             default:
               break;
