@@ -25,6 +25,10 @@ export class HeaderComponent {
   readonly topProducts$: Observable<Array<Product>> = this.store.select(
     ProductSelectors.topProducts
   );
+  readonly search$: Observable<string> = this.store.select(
+    ProductSelectors.search
+  );
+
   readonly searchOptions$: Observable<Array<string>> = combineLatest([
     this.products$,
     this.topProducts$

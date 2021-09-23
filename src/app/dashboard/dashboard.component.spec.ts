@@ -21,7 +21,7 @@ import * as ProductSelectors from 'src/app/products/store/product/product.select
 import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { AppState } from 'src/app/shared/models/app-state';
 
-fdescribe('Dashboard', () => {
+describe('Dashboard', () => {
   @Component({
     template: '<tk-dashboard></tk-dashboard>'
   })
@@ -107,7 +107,7 @@ fdescribe('Dashboard', () => {
   });
 
   it('should dispatch products retrieval on component creation', () => {
-    expect(store.dispatch).toHaveBeenCalledOnceWith(
+    expect(store.dispatch).toHaveBeenCalledWith(
       ProductActions.retrieveProducts(mockProductResponse)
     );
   });

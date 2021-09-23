@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output
@@ -15,8 +16,9 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit, OnDestroy, OnChanges {
   @Input() options: string[] = [];
+  @Input() search = '';
   @Output() valueChange = new EventEmitter<string>();
 
   readonly searchControl = new FormControl();
@@ -27,6 +29,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.searchControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) => this.valueChange.emit(value));
+  }
+
+  ngOnChanges(): void {
+    this.searchControl.setValue(this.search);
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Lang } from 'src/app/shared/models/lang';
 import { ProductsResp } from 'src/app/products/models/products-resp';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
@@ -11,7 +11,6 @@ import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 import { Product } from 'src/app/products/models/product';
 import { PieChartConfigsType } from 'src/app/dashboard/components/pie-chart/pie-chart.types';
-import { AppState } from 'src/app/shared/models/app-state';
 
 @Component({
   selector: 'tk-dashboard',
@@ -25,7 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   readonly search$: Observable<string> = this.store.select(
     ProductSelectors.search
   );
-  readonly products$: Observable<Product[]> = this.store.select(
+  private products$: Observable<Product[]> = this.store.select(
     ProductSelectors.products
   );
 
@@ -63,17 +62,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((resp: ProductsResp) => {
-        console.log('dispatch');
         this.store.dispatch(ProductActions.retrieveProducts(resp));
-
+        this.store.dispatch(
+          ProductActions.search({ search: resp.products[0].name })
+        );
         this.loading$.next(false);
       });
 
-    this.product$.pipe(takeUntil(this.destroy$)).subscribe((product) => {
-      if (product) {
-        this.chartConfigs.title = `${product.name} available by location`;
-      }
-    });
+    combineLatest([this.product$, this.lang$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([product, lang]: [Product, Lang]) => {
+        if (product) {
+          const { name } = product;
+          switch (lang) {
+            case Lang.en:
+              this.chartConfigs.title = `${name} available by location`;
+              break;
+            case Lang.ru:
+              this.chartConfigs.title = `${name}: доступное колличество по локации`;
+              break;
+            default:
+              break;
+          }
+        }
+      });
   }
 
   ngOnInit(): void {}

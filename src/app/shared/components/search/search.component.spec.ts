@@ -25,10 +25,11 @@ class MockPipe implements PipeTransform {
 
 @Component({
   selector: 'tk-test',
-  template: '<tk-search [options]="options"></tk-search>'
+  template: '<tk-search [options]="options" [search]="search"></tk-search>'
 })
 class TestComponent {
   options: string[];
+  search: string;
 }
 
 describe('AppModule => SearchComponent', () => {
@@ -75,6 +76,17 @@ describe('AppModule => SearchComponent', () => {
     await input.setValue(inputText);
 
     expect(search.valueChange.emit).toHaveBeenCalledWith('text');
+  });
+
+  it('should set search input value from props onChanges', async () => {
+    const testSearch = 'test-search';
+    const input = await loader.getHarness(MatInputHarness);
+
+    expect(await input.getValue()).toBe('');
+
+    component.search = 'test-search';
+
+    expect(await input.getValue()).toBe(testSearch);
   });
 
   // tslint:disable-next-line:max-line-length

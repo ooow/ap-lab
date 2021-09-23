@@ -1,5 +1,5 @@
-import { Lang } from '../../shared/models/lang';
-import { Product } from '../models/product';
+import { Product } from 'src/app/products/models/product';
+import { Lang } from 'src/app/shared/models/lang';
 
 const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
   {
@@ -7,11 +7,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     description: `Австралийская овчарка или аусси (англ. Australian Shepherd, Aussie) порода собак среднего размера, выведенная на ранчо в западных штатах США. Несмотря на название, они не имеют отношения к Австралии, родина их Америка.`,
     picture: 'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -21,11 +21,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     picture:
       'https://upload.wikimedia.org/wikipedia/commons/c/cc/ACD-blue-spud.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -35,11 +35,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     picture:
       'https://i.pinimg.com/originals/4c/21/0b/4c210bed718f49d742e9e9215d49d66c.png',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -49,11 +49,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     picture:
       'https://2.bp.blogspot.com/-pbdNn_1TOyI/V14_6BIJXGI/AAAAAAAAF2o/ZLRrUxl6G4AgMnWsattnhTdaoHGPwq9FwCKgB/s1600/Alaskan_Malamute_Lead_Shot.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -62,11 +62,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
       'Американский булли (англ. American Bully) — молодая порода собак, которая впервые появилась в 1990 годах и внезапно приобрела большую популярность. Эти собаки известны своей суровой и пугающей внешностью, но дружелюбным характером.',
     picture: 'https://sobaky.info/wp-content/uploads/2020/04/7-7.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -75,11 +75,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
       'Басенджи или африканская нелающая собака (англ. Basenji) это древнейшая порода охотничьих собак, родом из центральной Африки. Эти собаки издают необычные звуки, схожие с урчанием, так как у них необычная форма гортани. За это их еще называют не лающими собаками, а звуки, которые они издают — “barroo”.',
     picture: 'https://petsi.net/images/dogbreed/26.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -87,11 +87,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     description: `Австралийская овчарка или аусси (англ. Australian Shepherd, Aussie) порода собак среднего размера, выведенная на ранчо в западных штатах США. Несмотря на название, они не имеют отношения к Австралии, родина их Америка.`,
     picture: 'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -101,11 +101,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     picture:
       'https://upload.wikimedia.org/wikipedia/commons/c/cc/ACD-blue-spud.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -115,11 +115,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     picture:
       'https://i.pinimg.com/originals/4c/21/0b/4c210bed718f49d742e9e9215d49d66c.png',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -129,11 +129,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
     picture:
       'https://2.bp.blogspot.com/-pbdNn_1TOyI/V14_6BIJXGI/AAAAAAAAF2o/ZLRrUxl6G4AgMnWsattnhTdaoHGPwq9FwCKgB/s1600/Alaskan_Malamute_Lead_Shot.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -142,11 +142,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
       'Американский булли (англ. American Bully) — молодая порода собак, которая впервые появилась в 1990 годах и внезапно приобрела большую популярность. Эти собаки известны своей суровой и пугающей внешностью, но дружелюбным характером.',
     picture: 'https://sobaky.info/wp-content/uploads/2020/04/7-7.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   },
   {
@@ -155,11 +155,11 @@ const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
       'Басенджи или африканская нелающая собака (англ. Basenji) это древнейшая порода охотничьих собак, родом из центральной Африки. Эти собаки издают необычные звуки, схожие с урчанием, так как у них необычная форма гортани. За это их еще называют не лающими собаками, а звуки, которые они издают — “barroo”.',
     picture: 'https://petsi.net/images/dogbreed/26.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'США', quantityAvailable: '54' },
+      { location: 'Канада', quantityAvailable: '112' },
+      { location: 'Франция', quantityAvailable: '99' },
+      { location: 'Великобритания', quantityAvailable: '12' },
+      { location: 'Австралия', quantityAvailable: '22' }
     ]
   }
 ];
@@ -184,11 +184,11 @@ const PRODUCTS_MOCK_EN: ReadonlyArray<Product> = [
     picture:
       'https://upload.wikimedia.org/wikipedia/commons/c/cc/ACD-blue-spud.jpg',
     counts: [
-      { location: 'USA', quantityAvailable: '54' },
-      { location: 'Canada', quantityAvailable: '112' },
-      { location: 'France', quantityAvailable: '99' },
-      { location: 'United Kingdom', quantityAvailable: '12' },
-      { location: 'Australia', quantityAvailable: '22' }
+      { location: 'USA', quantityAvailable: '11' },
+      { location: 'Canada', quantityAvailable: '82' },
+      { location: 'France', quantityAvailable: '0' },
+      { location: 'United Kingdom', quantityAvailable: '34' },
+      { location: 'Australia', quantityAvailable: '234' }
     ]
   },
   {
