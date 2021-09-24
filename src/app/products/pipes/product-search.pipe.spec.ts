@@ -22,13 +22,13 @@ describe('AppModule => ProductSearchPipe', () => {
       name: 'first',
       description: '',
       picture: '',
-      counts: [{ location: '', quantityAvailable: '' }]
+      counts: [{ location: '', quantityAvailable: 1, price: 12 }]
     },
     {
       name: 'second',
       description: '',
       picture: '',
-      counts: [{ location: '', quantityAvailable: '' }]
+      counts: [{ location: '', quantityAvailable: 2, price: 21 }]
     }
   ];
 

@@ -1,21 +1,14 @@
 import { PieChartProductDataPipe } from 'src/app/dashboard/pipes/pie-chart-product-data.pipe';
 import { ChartDataType } from 'src/app/dashboard/components/chart/chart.types';
+import { mockProductsData } from 'src/app/test-utils/test-mocks';
 
-describe('ProductSearchPipe', () => {
-  const mockProduct = {
-    name: 'test-product',
-    description: '',
-    picture: '',
-    counts: [{ location: 'product-location', quantityAvailable: '666' }]
-  };
+describe('PieChartProductDataPipe', () => {
+  const mockProduct = mockProductsData[0];
 
   const expectedReturn: ChartDataType = {
     fieldNames: ['Location', 'Quantity'],
     data: [
-      [
-        mockProduct.counts[0].location,
-        Number(mockProduct.counts[0].quantityAvailable)
-      ]
+      [mockProduct.counts[0].location, mockProduct.counts[0].quantityAvailable]
     ]
   };
 

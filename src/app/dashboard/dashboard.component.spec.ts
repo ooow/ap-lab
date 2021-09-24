@@ -19,6 +19,7 @@ import { DashboardHarness } from 'src/app/dashboard/dashboard.harness';
 import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { AppState } from 'src/app/shared/models/app-state';
+import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
 
 describe('Dashboard', () => {
   @Component({
@@ -37,7 +38,7 @@ describe('Dashboard', () => {
       .and.returnValue(of(mockProductResponse))
   };
 
-  const mockPieChartProductDataPipeReturn = {
+  const mockChartProductData = {
     fieldNames: ['Task', 'Hours per Day'],
     data: [
       ['Work', 11],
@@ -54,10 +55,8 @@ describe('Dashboard', () => {
       declarations: [
         TestComponent,
         DashboardComponent,
-        MockPipe(
-          PieChartProductDataPipe,
-          (products) => mockPieChartProductDataPipeReturn
-        ),
+        MockPipe(PieChartProductDataPipe, (products) => mockChartProductData),
+        MockPipe(BarChartProductDataPipe, (products) => mockChartProductData),
         MockComponent(ChartComponent)
       ],
       providers: [
@@ -100,7 +99,9 @@ describe('Dashboard', () => {
   it('should display text when product not selected', async () => {
     const pageText = await harness.pageText();
     expect(pageText).not.toBeNull();
-    expect(fixture.debugElement.query(By.directive(ChartComponent))).toBeNull();
+    expect(
+      fixture.debugElement.queryAll(By.directive(ChartComponent)).length
+    ).toBe(0);
   });
 
   it('should dispatch products retrieval on component creation', () => {
@@ -118,28 +119,62 @@ describe('Dashboard', () => {
       store.refreshState();
       fixture.detectChanges();
 
-      pieChartComponent = fixture.debugElement.query(
+      pieChartComponent = fixture.debugElement.queryAll(
         By.directive(ChartComponent)
-      ).componentInstance;
+      )[0].componentInstance;
     });
 
     it('should render pie chart when product selected', () => {
       expect(pieChartComponent).toBeTruthy();
+      expect(pieChartComponent.chartType).toEqual('PieChart');
     });
 
     it('should pass correct props to pie chart', () => {
-      const chartConfigs = { config: 'test-config' };
+      const chartConfigs = { config: 'test-pie-chart-config' };
       component.pieChartConfigs = chartConfigs;
       fixture.detectChanges();
 
-      expect(pieChartComponent.chartData).toEqual(
-        mockPieChartProductDataPipeReturn
-      );
+      expect(pieChartComponent.chartData).toEqual(mockChartProductData);
       expect(pieChartComponent.chartConfigs).toEqual(chartConfigs);
     });
 
     it('should pass product name as a title in chartConfig', () => {
       expect(pieChartComponent.chartConfigs.title).toContain(
+        targetProduct.name
+      );
+    });
+  });
+
+  describe('Bar Chart', () => {
+    const targetProduct = initialState.product.products[0];
+    let barChartComponent: ChartComponent;
+
+    beforeEach(() => {
+      store.overrideSelector(ProductSelectors.search, targetProduct.name);
+      store.refreshState();
+      fixture.detectChanges();
+
+      barChartComponent = fixture.debugElement.queryAll(
+        By.directive(ChartComponent)
+      )[1].componentInstance;
+    });
+
+    it('should render bar chart when product selected', () => {
+      expect(barChartComponent).toBeTruthy();
+      expect(barChartComponent.chartType).toEqual('BarChart');
+    });
+
+    it('should pass correct props to bar chart', () => {
+      const chartConfigs = { config: 'test-bar-chart-config' };
+      component.barChartConfigs = chartConfigs;
+      fixture.detectChanges();
+
+      expect(barChartComponent.chartData).toEqual(mockChartProductData);
+      expect(barChartComponent.chartConfigs).toEqual(chartConfigs);
+    });
+
+    it('should pass product name as a title in chartConfig', () => {
+      expect(barChartComponent.chartConfigs.title).toContain(
         targetProduct.name
       );
     });

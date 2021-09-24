@@ -3,13 +3,13 @@ import { AppState } from 'src/app/shared/models/app-state';
 import { ProductsResp } from 'src/app/products/models/products-resp';
 import { Product } from 'src/app/products/models/product';
 
-const mockProductsData = [
+export const mockProductsData = [
   {
     name: 'product1',
     description: 'description1',
     picture: 'picture1',
     counts: [
-      { location: 'product1-location', quantityAvailable: '666', price: '999' }
+      { location: 'product1-location', quantityAvailable: 666, price: 999 }
     ]
   },
   {
@@ -17,7 +17,7 @@ const mockProductsData = [
     description: 'description2',
     picture: 'picture2',
     counts: [
-      { location: 'product2-location', quantityAvailable: '999', price: '666' }
+      { location: 'product2-location', quantityAvailable: 999, price: 666 }
     ]
   }
 ];
