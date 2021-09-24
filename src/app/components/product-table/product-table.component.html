@@ -1,61 +1,57 @@
 <div class="product-table mat-elevation-z4">
-
-
   <div *ngIf="loading" class="loading-shade">
     <mat-spinner></mat-spinner>
   </div>
-  <table mat-table matSort [dataSource]="dataSource">
+  <table [dataSource]="dataSource" mat-table matSort>
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+      <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-      <td mat-cell *matCellDef="let row" class="description"
-        ><p
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
+      <td *matCellDef="let row" class="description" mat-cell>
+        <p
           #tooltip
-          [matTooltip]="row.description"
           [matTooltipDisabled]="!isEllipsisActive(tooltip)"
-          matTooltipPosition="above"
+          [matTooltip]="row.description"
           aria-label="Hover for the whole text of description"
-          data-testid="description-text"
+          matTooltipPosition="above"
         >
-          {{ row.description }}</p
-        ></td
-      >
+          {{ row.description }}
+        </p>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="picture">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Picture Url </th>
-      <td mat-cell *matCellDef="let row">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Picture Url</th>
+      <td *matCellDef="let row" mat-cell>
         <div class="picture-url-container">
           <button
-            mat-icon-button
-            aria-label="Copy Image URL"
             [cdkCopyToClipboard]="row.picture"
-            data-testid="copy-picture-url"
+            aria-label="Copy Image URL"
+            mat-icon-button
           >
             <mat-icon>file_copy</mat-icon>
           </button>
-          <p data-testid="picture-url">{{ row.picture }}</p>
+          <p>{{ row.picture }}</p>
         </div>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
 
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="3"
-        >No data matching the filter "{{ dataSource.filter }}"</td
-      >
+    <tr *matNoDataRow class="mat-row">
+      <td class="mat-cell" colspan="3">
+        No data matching the filter "{{ dataSource.filter }}"
+      </td>
     </tr>
   </table>
   <mat-paginator
-    [length]="totalNumber"
-    [pageSize]="10"
-    [pageIndex]="pageIndex"
     (page)="pageChange.emit($event.pageIndex)"
+    [length]="totalNumber"
+    [pageIndex]="pageIndex"
+    [pageSize]="10"
   ></mat-paginator>
 </div>

@@ -14,7 +14,6 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ProductTableComponent } from './product-table.component';
 import { ProductTableHarness } from './product-table.harness';
-import { click, findEl } from 'src/app/test-utils/test-helpers';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -25,7 +24,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 })
 class TestComponent {}
 
-fdescribe('AppModule => ProductTable', () => {
+describe('AppModule => ProductTable', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: ProductTableComponent;
   let loader: HarnessLoader;
@@ -149,29 +148,29 @@ fdescribe('AppModule => ProductTable', () => {
 
     it('should be rendered appropriately to provided products', async () => {
       const [firstProduct] = products;
+      const productTableHarness = await loader.getHarness(ProductTableHarness);
       const table = await loader.getHarness(MatTableHarness);
       const rows = await table.getRows();
       const firstRowCells = await rows[0].getCells();
       const [firstCell, _, thirdCell] = firstRowCells;
-      const picUrl = findEl(fixture, 'picture-url').nativeElement.innerText;
-      const copyPicUrl = findEl(fixture, 'copy-picture-url').nativeElement;
 
       expect(rows.length).toBe(products.length);
       expect(firstRowCells.length).toBe(3);
       expect(await firstCell.getText()).toBe(firstProduct.name);
-      expect(picUrl).toBe(firstProduct.picture);
+      expect(await productTableHarness.pictureUrl()).toBe(firstProduct.picture);
       expect(await thirdCell.getText()).toBe(firstProduct.description);
       // render copy button icon
-      expect(copyPicUrl.innerText).toBe('file_copy');
+      const copyUrlBtn = await productTableHarness.getCopyPictureUrlBtn();
+      expect(await copyUrlBtn.text()).toBe('file_copy');
     });
 
     it('should copy pic url on Copy Url btn click', async () => {
       spyOn(document, 'execCommand');
-      const [firstProduct] = products;
-      click(fixture, 'copy-picture-url');
+      const harness = await loader.getHarness(ProductTableHarness);
+
+      await harness.clickCopyPicUrlBtn();
+
       expect(document.execCommand).toHaveBeenCalledWith('copy');
-      // const copiedUrl = await navigator.clipboard.readText();
-      // expect(copiedUrl).toEqual(firstProduct.picture);
     });
 
     it('should show description tooltip over truncated text', async () => {

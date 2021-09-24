@@ -1,7 +1,7 @@
 .product-table {
   margin: 20px;
-  position: relative;
   min-height: 200px;
+  position: relative;
 }
 
 table {
@@ -22,16 +22,16 @@ td.mat-cell {
 }
 
 .loading-shade {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  display: flex;
   align-items: center;
+  background: rgba(0, 0, 0, 0.15);
+  bottom: 0;
+  display: flex;
   justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
 }
 
 .description {
@@ -40,37 +40,39 @@ td.mat-cell {
   word-wrap: break-word;
 
   p {
-    margin: unset;
-    display: -webkit-box;
     -webkit-box-orient: vertical;
+    display: -webkit-box;
     -webkit-line-clamp: 2;
+    margin: unset;
     overflow: hidden;
   }
 }
 
 .picture-url-container {
-  display: flex;
   align-items: center;
+  display: flex;
   max-width: 300px;
+
   p {
     display: inline-block;
-    white-space: nowrap;
+    margin: 0 0 0 8px;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin: 0 0 0 8px;
+    white-space: nowrap;
   }
 }
 
 .picture-url-container {
   ::ng-deep .mat-icon-button {
+    height: 24px;
     line-height: 24px;
     width: 24px;
-    height: 24px;
   }
+
   ::ng-deep .mat-icon {
     font-size: 20px;
-    width: 20px;
     height: 20px;
+    width: 20px;
   }
 }
 

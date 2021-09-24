@@ -1,15 +1,15 @@
 import { ComponentHarness } from '@angular/cdk/testing';
 import { MatProgressSpinnerHarness } from '@angular/material/progress-spinner/testing';
-import { MatIconHarness } from '@angular/material/icon/testing';
-import { MatToolbarHarness } from '@angular/material/toolbar/testing';
 import { MatTooltipHarness } from '@angular/material/tooltip/testing';
 
 export class ProductTableHarness extends ComponentHarness {
   static hostSelector = 'tk-product-table';
 
   getLoadingSpinner = this.locatorForOptional(MatProgressSpinnerHarness);
-
   getTooltips = this.locatorForAll(MatTooltipHarness);
+  getPictureUrl = this.locatorFor('.picture-url-container p');
+  getCopyPictureUrlBtn = this.locatorFor('.picture-url-container button');
+  async;
 
   async isLoading(): Promise<boolean> {
     const spinner = await this.getLoadingSpinner();
@@ -26,5 +26,15 @@ export class ProductTableHarness extends ComponentHarness {
       return tooltipText;
     }
     return null;
+  }
+
+  async pictureUrl(): Promise<string> {
+    const picUrl = await this.getPictureUrl();
+    return picUrl.text();
+  }
+
+  async clickCopyPicUrlBtn(): Promise<void> {
+    const copyPictureUrlBtn = await this.getCopyPictureUrlBtn();
+    await copyPictureUrlBtn.click();
   }
 }
