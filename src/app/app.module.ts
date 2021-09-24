@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,24 +14,24 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
+
 import { AppComponent } from './app.component';
 import { LangSelectorOptionComponent } from './components/lang-selector-option/lang-selector-option.component';
 import { LangSelectorComponent } from './components/lang-selector/lang-selector.component';
-import { ProductComponent } from './components/product/product.component';
-import { SearchComponent } from './components/search/search.component';
 import { Lang } from './models/lang';
-import { ProductSearchPipe } from './pipes/product-search.pipe';
-import { SearchOptionsPipe } from './pipes/search-options.pipe';
-import { reducer as LangReducer } from './store/lang/lang.reducers';
-import { reducer as ProductReducer } from './store/product/product.reducers';
 import { LANGUAGES_TOKEN } from './tokens/languages.token';
+import { ProductComponent } from './components/product/product.component';
+import { ProductSearchPipe } from './pipes/product-search.pipe';
 import { ProductTableComponent } from './components/product-table/product-table.component';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ClipboardModule } from '@angular/cdk/clipboard';
+import { reducer as LangReducer } from './store/lang/lang.reducers';
+import { reducer as ProductReducer } from './store/product/product.reducers';
+import { SearchComponent } from './components/search/search.component';
+import { SearchOptionsPipe } from './pipes/search-options.pipe';
 
 @NgModule({
   declarations: [
@@ -39,15 +40,16 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     LangSelectorOptionComponent,
     ProductComponent,
     ProductSearchPipe,
-    SearchComponent,
-    SearchComponent,
-    SearchOptionsPipe,
     ProductDetailsModalComponent,
-    ProductTableComponent
+    ProductTableComponent,
+    SearchComponent,
+    SearchComponent,
+    SearchOptionsPipe
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    ClipboardModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
@@ -58,16 +60,15 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     MatInputModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatTableModule,
     MatSelectModule,
     MatSortModule,
+    MatTableModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     StoreModule.forRoot({
       product: ProductReducer,
       lang: LangReducer
-    }),
-    MatTooltipModule,
-    ClipboardModule
+    })
   ],
   providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
   bootstrap: [AppComponent]
