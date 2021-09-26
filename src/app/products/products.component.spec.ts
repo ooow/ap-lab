@@ -17,7 +17,7 @@ import { ProductTableComponent } from 'src/app/products/components/product-table
 import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { ProductService } from 'src/app/products/services/product.service';
-import { initialState } from 'src/app/test-utils/test-mocks';
+import { initialState } from 'src/app/shared/mocks/test-mocks';
 
 describe('Products', () => {
   @Component({

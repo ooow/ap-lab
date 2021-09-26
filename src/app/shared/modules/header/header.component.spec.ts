@@ -4,22 +4,20 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { By } from '@angular/platform-browser';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-
-import { HeaderModule } from 'src/app/shared/modules/header/header.module';
 import { HeaderComponent } from 'src/app/shared/modules/header/header.component';
 import { HeaderHarness } from 'src/app/shared/modules/header/header.harness';
-import { initialState } from 'src/app/test-utils/test-mocks';
-import { MockProvider } from 'ng-mocks';
+import { initialState } from 'src/app/shared/mocks/test-mocks';
+import { MockComponent, MockProvider } from 'ng-mocks';
 
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { queryByCss } from 'src/app/test-utils/test-helpers';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import { products } from 'src/app/products/store/product/product.selectors';
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
 import { Lang } from 'src/app/shared/models/lang';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   template: '<tk-header></tk-header>'
@@ -34,14 +32,19 @@ describe('Header', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent],
+      declarations: [
+        TestComponent,
+        HeaderComponent,
+        MockComponent(SearchComponent),
+        MockComponent(LangSelectorComponent)
+      ],
       imports: [
-        HeaderModule,
+        MatButtonModule,
+        NoopAnimationsModule,
         RouterTestingModule.withRoutes([
-          { path: '', component: TestComponent },
-          { path: 'products', component: TestComponent }
-        ]),
-        NoopAnimationsModule
+          { path: 'products', component: TestComponent },
+          { path: 'dashboard', component: TestComponent }
+        ])
       ],
       providers: [
         provideMockStore({ initialState }),
@@ -69,33 +72,24 @@ describe('Header', () => {
     const selectedClass = '.navbar-item-selected';
 
     it('should render navbar', () => {
-      const navbar = queryByCss(fixture, '.navbar').nativeElement;
+      const navbar = fixture.debugElement.query(By.css('.navbar'));
       expect(navbar).toBeTruthy();
     });
 
     it('should render all the nav buttons', async () => {
       const navButtons = await harness.findAllNavButtons();
-      expect(navButtons.length).toEqual(3);
-      expect(navButtons[0]).toEqual('Home');
+      expect(navButtons.length).toEqual(2);
+      expect(navButtons[0]).toEqual('Products');
     });
 
     it('should change selected link on click', async () => {
-      const homeBtn = queryByCss(fixture, selectedClass);
-      expect(homeBtn.nativeElement.innerText).toEqual('Home');
-      await harness.clickNavButton('Products');
-      const productBtn = queryByCss(fixture, selectedClass);
-      expect(productBtn.nativeElement.innerText).toEqual('Products');
-    });
+      await harness.clickNavButton('Dashboard');
+      const productBtn = fixture.debugElement.query(By.css(selectedClass));
+      expect(productBtn.nativeElement.innerText).toEqual('Dashboard');
 
-    it('should make search field visible on products page', async () => {
-      expect(
-        fixture.debugElement.query(By.directive(SearchComponent))
-      ).toBeNull();
       await harness.clickNavButton('Products');
-      expect(
-        fixture.debugElement.query(By.directive(SearchComponent))
-          .componentInstance
-      ).toBeTruthy();
+      const productsBtn = fixture.debugElement.query(By.css(selectedClass));
+      expect(productsBtn.nativeElement.innerText).toEqual('Products');
     });
   });
 
@@ -113,7 +107,7 @@ describe('Header', () => {
     });
 
     it('should render toolbar', () => {
-      const toolbar = queryByCss(fixture, '.toolbar').nativeElement;
+      const toolbar = fixture.debugElement.query(By.css('.toolbar'));
       expect(toolbar).toBeTruthy();
     });
 

@@ -31,7 +31,7 @@ class TestComponent {
   options: string[];
 }
 
-xdescribe('AppModule => SearchComponent', () => {
+describe('AppModule => SearchComponent', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let loader: HarnessLoader;
