@@ -1,7 +1,6 @@
 import { Lang } from 'src/app/shared/models/lang';
 import { AppState } from 'src/app/shared/models/app-state';
 import { ProductsResp } from 'src/app/products/models/products-resp';
-import { Product } from 'src/app/products/models/product';
 
 export const mockProductsData = [
   {

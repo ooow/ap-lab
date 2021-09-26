@@ -4,8 +4,8 @@ import { LoaderHarness } from 'src/app/shared/modules/loader/loader.harness';
 export class DashboardHarness extends ComponentHarness {
   static hostSelector = 'tk-dashboard';
 
-  getPageTitle = this.locatorFor('[data-testid="dashboard-title"]');
-  getText = this.locatorForOptional('[data-testid="dashboard-text"]');
+  getPageTitle = this.locatorFor('h1');
+  getText = this.locatorForOptional('h3');
 
   async pageTitle(): Promise<string> {
     const title = await this.getPageTitle();

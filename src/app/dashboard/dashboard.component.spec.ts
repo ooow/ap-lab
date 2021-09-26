@@ -5,10 +5,11 @@ import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockComponent, MockPipe, MockProvider } from 'ng-mocks';
+
 import {
   initialState,
   mockProductResponse
-} from 'src/app/test-utils/test-mocks';
+} from 'src/app/shared/mocks/test-mocks';
 import { ProductService } from 'src/app/products/services/product.service';
 import { By } from '@angular/platform-browser';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
@@ -55,8 +56,8 @@ describe('Dashboard', () => {
       declarations: [
         TestComponent,
         DashboardComponent,
-        MockPipe(PieChartProductDataPipe, (products) => mockChartProductData),
-        MockPipe(BarChartProductDataPipe, (products) => mockChartProductData),
+        MockPipe(PieChartProductDataPipe, () => mockChartProductData),
+        MockPipe(BarChartProductDataPipe, () => mockChartProductData),
         MockComponent(ChartComponent)
       ],
       providers: [

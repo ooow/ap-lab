@@ -1,22 +1,22 @@
 <ng-container *ngIf="!(loading$ | async); else loading">
-  <h1 data-testid="dashboard-title">Product Info Dashboard</h1>
+  <h1>Product Info Dashboard</h1>
   <mat-divider></mat-divider>
   <ng-container *ngIf="product$ | async; else productNotSelected">
     <tk-chart
-      [chartType]="'PieChart'"
-      [chartData]="product$ | async | pieChartProductData"
       [chartConfigs]="pieChartConfigs"
+      [chartData]="product$ | async | pieChartProductData"
+      [chartType]="'PieChart'"
     ></tk-chart>
     <mat-divider></mat-divider>
     <tk-chart
-      [chartType]="'BarChart'"
-      [chartData]="product$ | async | barChartProductData"
       [chartConfigs]="barChartConfigs"
+      [chartData]="product$ | async | barChartProductData"
+      [chartType]="'BarChart'"
     ></tk-chart>
   </ng-container>
 
   <ng-template #productNotSelected>
-    <h3 data-testid="dashboard-text">
+    <h3>
       Select the product in the Products Menu to see the availability and price
       charts by location
     </h3>

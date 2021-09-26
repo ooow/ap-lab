@@ -1,6 +1,6 @@
 import { PieChartProductDataPipe } from 'src/app/dashboard/pipes/pie-chart-product-data.pipe';
 import { ChartDataType } from 'src/app/dashboard/components/chart/chart.types';
-import { mockProductsData } from 'src/app/test-utils/test-mocks';
+import { mockProductsData } from 'src/app/shared/mocks/test-mocks';
 
 describe('PieChartProductDataPipe', () => {
   const mockProduct = mockProductsData[0];
