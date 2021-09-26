@@ -1,18 +1,18 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 
-import { AppComponent } from './app.component';
-import { Lang } from './shared/models/lang';
-import { reducer as LangReducer } from './shared/store/lang/lang.reducers';
-import { LANGUAGES_TOKEN } from './shared/tokens/languages.token';
-import { ProductsModule } from './products/products.module';
-import { HeaderModule } from 'src/app/shared/modules/header/header.module';
+import { AppComponent } from 'src/app/app.component';
 import { DashboardModule } from 'src/app/dashboard/dashboard.module';
+import { HeaderModule } from 'src/app/shared/modules/header/header.module';
+import { Lang } from 'src/app/shared/models/lang';
+import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
+import { ProductsModule } from 'src/app/products/products.module';
+import { reducer as LangReducer } from 'src/app/shared/store/lang/lang.reducers';
 
 const routes: Routes = [
   { path: '', redirectTo: 'products', pathMatch: 'full' }
@@ -23,15 +23,15 @@ const routes: Routes = [
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    DashboardModule,
+    HeaderModule,
     MatProgressSpinnerModule,
     ProductsModule,
-    HeaderModule,
-    DashboardModule,
     ReactiveFormsModule,
+    RouterModule.forRoot(routes),
     StoreModule.forRoot({
       lang: LangReducer
-    }),
-    RouterModule.forRoot(routes)
+    })
   ],
   providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
   bootstrap: [AppComponent]

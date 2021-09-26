@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatOptionModule } from '@angular/material/core';
@@ -6,23 +5,24 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { HeaderComponent } from 'src/app/shared/modules/header/header.component';
 import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
 import { LangSelectorOptionComponent } from 'src/app/shared/modules/header/components/lang-selector-option/lang-selector-option.component';
+import { MatInputModule } from '@angular/material/input';
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { SearchOptionsPipe } from 'src/app/products/pipes/search-options.pipe';
-import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    SearchComponent,
     LangSelectorComponent,
     LangSelectorOptionComponent,
+    SearchComponent,
     SearchOptionsPipe
   ],
   imports: [
@@ -31,12 +31,12 @@ import { MatInputModule } from '@angular/material/input';
     MatOptionModule,
     MatSelectModule,
     MatToolbarModule,
-    RouterModule,
     MatButtonModule,
     MatAutocompleteModule,
     MatIconModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [HeaderComponent]
 })
