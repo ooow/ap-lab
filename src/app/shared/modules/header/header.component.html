@@ -1,11 +1,5 @@
 <header>
   <nav class="navbar">
-    <a
-      mat-button
-      routerLink="/"
-      [ngClass]="{ 'navbar-item-selected': router.url === '/' }"
-      >Home</a
-    >
     <a mat-button routerLink="/products" routerLinkActive="navbar-item-selected"
       >Products</a
     >
@@ -19,7 +13,6 @@
   <span class="spacer"></span>
   <div class="toolbar">
     <tk-search
-      *ngIf="isProductSearchVisible()"
       (valueChange)="store.dispatch(ProductActions.search({ search: $event }))"
       [options]="searchOptions$ | async"
     ></tk-search>

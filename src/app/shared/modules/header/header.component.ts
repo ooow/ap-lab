@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 import { Lang } from 'src/app/shared/models/lang';
@@ -16,7 +15,7 @@ import { Product } from 'src/app/products/models/product';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   readonly lang$: Observable<Lang> = this.store.select(
     LangSelectors.langSelector
   );
@@ -43,15 +42,5 @@ export class HeaderComponent implements OnInit {
   readonly LangActions = LangActions;
   readonly ProductActions = ProductActions;
 
-  private routesToShowSearchList = ['/dashboard', '/products'];
-
-  constructor(readonly store: Store, readonly router: Router) {}
-
-  isProductSearchVisible(): boolean {
-    return this.routesToShowSearchList.some((route) =>
-      this.router.isActive(route, false)
-    );
-  }
-
-  ngOnInit(): void {}
+  constructor(readonly store: Store) {}
 }

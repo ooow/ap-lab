@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +13,10 @@ import { LANGUAGES_TOKEN } from './shared/tokens/languages.token';
 import { ProductsModule } from './products/products.module';
 import { HeaderModule } from 'src/app/shared/modules/header/header.module';
 import { DashboardModule } from 'src/app/dashboard/dashboard.module';
-import { HomeModule } from 'src/app/home/home.module';
+
+const routes: Routes = [
+  { path: '', redirectTo: 'products', pathMatch: 'full' }
+];
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +24,6 @@ import { HomeModule } from 'src/app/home/home.module';
     BrowserAnimationsModule,
     BrowserModule,
     MatProgressSpinnerModule,
-    HomeModule,
     ProductsModule,
     HeaderModule,
     DashboardModule,
@@ -29,7 +31,7 @@ import { HomeModule } from 'src/app/home/home.module';
     StoreModule.forRoot({
       lang: LangReducer
     }),
-    RouterModule.forRoot([])
+    RouterModule.forRoot(routes)
   ],
   providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
   bootstrap: [AppComponent]
