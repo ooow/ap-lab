@@ -35,16 +35,21 @@ td.mat-cell {
 }
 
 .description {
-  box-sizing: border-box;
-  white-space: pre-line;
-  word-wrap: break-word;
-
   p {
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
+    height: 40px;
     margin: unset;
     overflow: hidden;
+    padding-right: 0.7rem;
+    position: relative;
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  p::before {
+    content: '...';
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    position: absolute;
   }
 }
 
@@ -63,13 +68,13 @@ td.mat-cell {
 }
 
 .picture-url-container {
-  ::ng-deep .mat-icon-button {
+  .mat-icon-button {
     height: 24px;
     line-height: 24px;
     width: 24px;
   }
 
-  ::ng-deep .mat-icon {
+  mat-icon {
     font-size: 20px;
     height: 20px;
     width: 20px;

@@ -13,7 +13,6 @@
       <td *matCellDef="let row" class="description" mat-cell>
         <p
           #tooltip
-          [matTooltipDisabled]="!isEllipsisActive(tooltip)"
           [matTooltip]="row.description"
           aria-label="Hover for the whole text of description"
           matTooltipPosition="above"

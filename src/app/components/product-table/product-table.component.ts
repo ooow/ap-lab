@@ -1,6 +1,5 @@
 // prettier-ignore
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -18,7 +17,7 @@ import { Product } from '../../models/product';
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.scss']
 })
-export class ProductTableComponent implements OnInit, AfterViewInit {
+export class ProductTableComponent implements OnInit {
   @Input() totalNumber: number;
   @Input() pageIndex: number;
   @Input() loading: boolean;
@@ -46,17 +45,8 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
     this.searchValue = value;
   }
 
-  isEllipsisActive(e: HTMLElement): boolean {
-    return e ? e.offsetHeight < e.scrollHeight : false;
-  }
-
   ngOnInit(): void {
     this.dataSource.filterPredicate = (value: Product, filter: string) =>
       value.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.cdr.detectChanges();
   }
 }
