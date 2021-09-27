@@ -1,8 +1,10 @@
-header {
+mat-toolbar {
   background-color: #3f51b5;
   box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%),
     0 1px 18px 0 rgb(0 0 0 / 12%);
+  color: white;
   display: flex;
+  justify-content: space-between;
   left: 0;
   padding: 10px 20px;
   position: fixed;
@@ -10,18 +12,8 @@ header {
   top: 0;
   z-index: 2;
 
-  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline,
-  ::ng-deep .mat-form-field.mat-focused .mat-form-field-label,
-  ::ng-deep .mat-form-field-label,
-  ::ng-deep .mat-select-value,
-  ::ng-deep .mat-select-arrow,
-  ::ng-deep .mat-icon,
-  ::ng-deep .mat-input-element {
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
     color: white;
-  }
-
-  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
-    margin: 0;
   }
 
   ::ng-deep .mat-form-field-wrapper {
@@ -33,10 +25,6 @@ header {
   align-self: center;
   height: fit-content;
 
-  .mat-button {
-    color: white;
-  }
-
   .mat-button.navbar-item-selected {
     background-color: rgba(0, 0, 0, 0.2);
   }
@@ -45,6 +33,7 @@ header {
 .toolbar {
   display: flex;
   flex-wrap: wrap;
+  font-size: 0.875rem;
   gap: 5px;
   justify-content: flex-end;
 }

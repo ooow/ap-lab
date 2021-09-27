@@ -2,25 +2,12 @@
   display: inline-block;
   position: relative;
 
-  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
-    margin: unset;
-  }
-
-  ::ng-deep .mat-form-field-wrapper {
-    padding-bottom: 0;
-  }
-
   &__clear {
-    padding: 0 5px;
     min-width: unset;
+    padding: 0 5px;
     position: absolute;
-    top: 50%;
     right: 5px;
+    top: 50%;
     transform: translateY(-50%);
-
-    ::ng-deep .mat-button-focus-overlay,
-    ::ng-deep .mat-ripple {
-      border-radius: 50%;
-    }
   }
 }

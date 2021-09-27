@@ -1,16 +1,20 @@
-<header>
+<mat-toolbar>
   <nav class="navbar">
-    <a mat-button routerLink="/products" routerLinkActive="navbar-item-selected"
-      >Products</a
+    <a
+      mat-button
+      routerLink="/products"
+      routerLinkActive="navbar-item-selected"
     >
+      Products
+    </a>
     <a
       mat-button
       routerLink="/dashboard"
       routerLinkActive="navbar-item-selected"
-      >Dashboard</a
     >
+      Dashboard
+    </a>
   </nav>
-  <span class="spacer"></span>
   <div class="toolbar">
     <tk-search
       (valueChange)="store.dispatch(ProductActions.search({ search: $event }))"
@@ -21,4 +25,4 @@
       [lang]="lang$ | async"
     ></tk-lang-selector>
   </div>
-</header>
+</mat-toolbar>

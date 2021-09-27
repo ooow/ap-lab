@@ -15,6 +15,7 @@ import { LangSelectorOptionComponent } from 'src/app/shared/modules/header/compo
 import { MatInputModule } from '@angular/material/input';
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { SearchOptionsPipe } from 'src/app/products/pipes/search-options.pipe';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SearchOptionsPipe } from 'src/app/products/pipes/search-options.pipe';
     MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    MatToolbarModule
   ],
   exports: [HeaderComponent]
 })
