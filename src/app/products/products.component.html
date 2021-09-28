@@ -1,0 +1,29 @@
+<ng-container *ngIf="!(globalLoading$ | async); else loading">
+  <div class="product-list">
+    <tk-product
+      (click)="productDetails(product)"
+      *ngFor="
+        let product of topProducts$ | async | productSearch: (search$ | async)
+      "
+      [product]="product"
+      class="product-list__item"
+    ></tk-product>
+  </div>
+
+  <div>
+    <tk-product-table
+      (pageChange)="
+        store.dispatch(ProductActions.changePage({ pageIndex: $event }))
+      "
+      [loading]="loading$ | async"
+      [pageIndex]="pageIndex$ | async"
+      [products]="products$ | async"
+      [search]="search$ | async"
+      [totalNumber]="totalNumber$ | async"
+    ></tk-product-table>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <tk-loader></tk-loader>
+</ng-template>
