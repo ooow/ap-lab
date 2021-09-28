@@ -22,7 +22,7 @@ import * as ProductActions from 'src/app/products/store/product/product.actions'
 import { AppState } from 'src/app/shared/models/app-state';
 import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
 
-fdescribe('Dashboard', () => {
+describe('Dashboard', () => {
   @Component({
     template: '<tk-dashboard></tk-dashboard>'
   })

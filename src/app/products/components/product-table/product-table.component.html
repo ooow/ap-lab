@@ -4,29 +4,47 @@
   </div>
   <table [dataSource]="dataSource" mat-table matSort>
     <ng-container matColumnDef="name">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Name </th>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
       <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Description </th>
-      <td *matCellDef="let row" mat-cell>{{ row.description }}</td>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
+      <td *matCellDef="let row" class="description" mat-cell>
+        <p
+          #tooltip
+          [matTooltip]="row.description"
+          aria-label="Hover for the whole text of description"
+          matTooltipPosition="above"
+        >
+          {{ row.description }}
+        </p>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="picture">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Picture Url </th>
-      <td *matCellDef="let row" class="break-word" mat-cell>{{
-        row.picture
-      }}</td>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Picture Url</th>
+      <td *matCellDef="let row" mat-cell>
+        <div class="picture-url-container">
+          <button
+            [cdkCopyToClipboard]="row.picture"
+            aria-label="Copy Image URL"
+            mat-icon-button
+          >
+            <mat-icon>file_copy</mat-icon>
+          </button>
+          <p>{{ row.picture }}</p>
+        </div>
+      </td>
     </ng-container>
 
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
     <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
 
     <tr *matNoDataRow class="mat-row">
-      <td class="mat-cell" colspan="3"
-        >No data matching the filter "{{ dataSource.filter }}"</td
-      >
+      <td class="mat-cell" colspan="3">
+        No data matching the filter "{{ dataSource.filter }}"
+      </td>
     </tr>
   </table>
   <mat-paginator

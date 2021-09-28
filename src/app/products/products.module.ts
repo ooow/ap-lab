@@ -1,12 +1,14 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -30,6 +32,7 @@ const routes = [{ path: 'products', component: ProductsComponent }];
     ProductTableComponent
   ],
   imports: [
+    ClipboardModule,
     CommonModule,
     LoaderModule,
     MatButtonModule,
@@ -37,9 +40,10 @@ const routes = [{ path: 'products', component: ProductsComponent }];
     MatDialogModule,
     MatIconModule,
     MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
     MatProgressSpinnerModule,
+    MatSortModule,
+    MatTableModule,
+    MatTooltipModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('product', reducer)
   ]
