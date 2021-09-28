@@ -5,13 +5,13 @@
     <tk-chart
       [chartConfigs]="pieChartConfigs"
       [chartData]="product$ | async | pieChartProductData"
-      [chartType]="'PieChart'"
+      [chartType]="ChartType.PIE_CHART"
     ></tk-chart>
     <mat-divider></mat-divider>
     <tk-chart
       [chartConfigs]="barChartConfigs"
       [chartData]="product$ | async | barChartProductData"
-      [chartType]="'BarChart'"
+      [chartType]="ChartType.BAR_CHART"
     ></tk-chart>
   </ng-container>
 

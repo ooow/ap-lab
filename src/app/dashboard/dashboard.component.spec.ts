@@ -22,7 +22,7 @@ import * as ProductActions from 'src/app/products/store/product/product.actions'
 import { AppState } from 'src/app/shared/models/app-state';
 import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
 
-describe('Dashboard', () => {
+fdescribe('Dashboard', () => {
   @Component({
     template: '<tk-dashboard></tk-dashboard>'
   })
@@ -99,10 +99,10 @@ describe('Dashboard', () => {
 
   it('should display text when product not selected', async () => {
     const pageText = await harness.pageText();
+    const charts = await harness.charts();
+
     expect(pageText).not.toBeNull();
-    expect(
-      fixture.debugElement.queryAll(By.directive(ChartComponent)).length
-    ).toBe(0);
+    expect(charts.length).toBe(0);
   });
 
   it('should dispatch products retrieval on component creation', () => {
@@ -115,7 +115,7 @@ describe('Dashboard', () => {
     const targetProduct = initialState.product.products[0];
     let pieChartComponent: ChartComponent;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       store.overrideSelector(ProductSelectors.search, targetProduct.name);
       store.refreshState();
       fixture.detectChanges();
@@ -125,18 +125,14 @@ describe('Dashboard', () => {
       )[0].componentInstance;
     });
 
-    it('should render pie chart when product selected', () => {
+    it('should render pie chart when product selected', async () => {
       expect(pieChartComponent).toBeTruthy();
       expect(pieChartComponent.chartType).toEqual('PieChart');
     });
 
     it('should pass correct props to pie chart', () => {
-      const chartConfigs = { config: 'test-pie-chart-config' };
-      component.pieChartConfigs = chartConfigs;
-      fixture.detectChanges();
-
       expect(pieChartComponent.chartData).toEqual(mockChartProductData);
-      expect(pieChartComponent.chartConfigs).toEqual(chartConfigs);
+      expect(pieChartComponent.chartConfigs).toEqual(component.pieChartConfigs);
     });
 
     it('should pass product name as a title in chartConfig', () => {
@@ -166,12 +162,8 @@ describe('Dashboard', () => {
     });
 
     it('should pass correct props to bar chart', () => {
-      const chartConfigs = { config: 'test-bar-chart-config' };
-      component.barChartConfigs = chartConfigs;
-      fixture.detectChanges();
-
       expect(barChartComponent.chartData).toEqual(mockChartProductData);
-      expect(barChartComponent.chartConfigs).toEqual(chartConfigs);
+      expect(barChartComponent.chartConfigs).toEqual(component.barChartConfigs);
     });
 
     it('should pass product name as a title in chartConfig', () => {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Lang } from 'src/app/shared/models/lang';
 import { ProductsResp } from 'src/app/products/models/products-resp';
@@ -10,24 +10,41 @@ import * as ProductActions from 'src/app/products/store/product/product.actions'
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 import { Product } from 'src/app/products/models/product';
-import { ChartConfigsType } from 'src/app/dashboard/components/chart/chart.types';
+import {
+  ChartConfigsType,
+  ChartType
+} from 'src/app/dashboard/components/chart/chart.types';
 
 @Component({
   selector: 'tk-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnDestroy {
   readonly lang$: Observable<Lang> = this.store.select(
     LangSelectors.langSelector
   );
   readonly search$: Observable<string> = this.store.select(
     ProductSelectors.search
   );
+  readonly loading$ = new BehaviorSubject<boolean>(true);
+
+  readonly pieChartConfigs: ChartConfigsType = {
+    title: '',
+    width: 700,
+    height: 400,
+    pieSliceText: 'value'
+  };
+  readonly barChartConfigs: ChartConfigsType = {
+    title: '',
+    width: 600,
+    height: 400
+  };
+  readonly ChartType = ChartType;
+
   private products$: Observable<Product[]> = this.store.select(
     ProductSelectors.products
   );
-
   readonly product$: Observable<Product | null> = combineLatest([
     this.search$,
     this.products$
@@ -43,21 +60,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   );
 
-  readonly loading$ = new BehaviorSubject<boolean>(true);
   private readonly destroy$ = new Subject<void>();
-
-  pieChartConfigs: ChartConfigsType = {
-    title: '',
-    width: 700,
-    height: 400,
-    pieSliceText: 'value'
-  };
-
-  barChartConfigs: ChartConfigsType = {
-    title: '',
-    width: 600,
-    height: 400
-  };
 
   constructor(private store: Store, productService: ProductService) {
     this.lang$
@@ -86,7 +89,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
               this.barChartConfigs.title = `${name} pricing model per item `;
               break;
             case Lang.ru:
-              this.pieChartConfigs.title = `${name}: доступное  по локациям`;
+              this.pieChartConfigs.title = `${name}: доступное количество по локациям`;
               this.barChartConfigs.title = `${name}: стоимость за единицу в зависимости от региона`;
               break;
             default:
@@ -95,8 +98,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroy$.next();

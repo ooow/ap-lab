@@ -1,11 +1,17 @@
-import { AsyncFactoryFn, ComponentHarness } from '@angular/cdk/testing';
+import {
+  AsyncFactoryFn,
+  ComponentHarness,
+  TestElement
+} from '@angular/cdk/testing';
 import { LoaderHarness } from 'src/app/shared/modules/loader/loader.harness';
+import { ChartHarness } from 'src/app/dashboard/components/chart/chart.harness';
 
 export class DashboardHarness extends ComponentHarness {
   static hostSelector = 'tk-dashboard';
 
-  getPageTitle = this.locatorFor('h1');
-  getText = this.locatorForOptional('h3');
+  protected getPageTitle = this.locatorFor('h1');
+  protected getText = this.locatorForOptional('h3');
+  protected getCharts = this.locatorForAll(ChartHarness);
 
   async pageTitle(): Promise<string> {
     const title = await this.getPageTitle();
@@ -23,5 +29,11 @@ export class DashboardHarness extends ComponentHarness {
     );
     const loader = await getSpinner();
     return Boolean(loader);
+  }
+
+  async charts(): Promise<TestElement[]> {
+    const chartHarnesses = await this.getCharts();
+    const chartTestElements = chartHarnesses.map((harness) => harness.host());
+    return Promise.all(chartTestElements);
   }
 }

@@ -1,5 +1,6 @@
 import { ChartComponent } from 'src/app/dashboard/components/chart/chart.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChartType } from 'src/app/dashboard/components/chart/chart.types';
 
 declare var google: any;
 
@@ -27,7 +28,7 @@ describe('Chart', () => {
 
     fixture = TestBed.createComponent(ChartComponent);
     component = fixture.componentInstance;
-    component.chartType = 'PieChart';
+    component.chartType = ChartType.PIE_CHART;
     component.chartData = mockChartData;
     component.chartConfigs = mockConfigs;
     dom = fixture.debugElement.componentInstance;
@@ -79,7 +80,7 @@ describe('Chart', () => {
     expect(google.visualization.PieChart).toHaveBeenCalled();
     expect(google.visualization.BarChart).toHaveBeenCalledTimes(0);
 
-    component.chartType = 'BarChart';
+    component.chartType = ChartType.BAR_CHART;
     component.ngOnChanges();
     expect(google.visualization.BarChart).toHaveBeenCalled();
   });
