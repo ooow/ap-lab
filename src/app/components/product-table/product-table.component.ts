@@ -1,6 +1,4 @@
-// prettier-ignore
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -26,8 +24,6 @@ export class ProductTableComponent implements OnInit {
   readonly displayedColumns = ['name', 'picture', 'description'];
   dataSource: MatTableDataSource<Product>;
   private searchValue: string;
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   @Input() set products(value: Array<Product>) {
     this.dataSource = new MatTableDataSource(value);
