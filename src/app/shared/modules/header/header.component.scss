@@ -42,8 +42,13 @@ mat-toolbar {
   flex: 1 1 auto;
 }
 
-@media (max-width: 705px) {
+@media (max-width: 640px) {
+  mat-toolbar {
+    height: 128px;
+  }
+
   .toolbar {
     flex-direction: column-reverse;
+    gap: unset;
   }
 }
