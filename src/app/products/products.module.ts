@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -46,6 +47,7 @@ const routes = [{ path: 'products', component: ProductsComponent }];
     MatTooltipModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('product', reducer)
-  ]
+  ],
+  providers: [MatSnackBar]
 })
 export class ProductsModule {}
