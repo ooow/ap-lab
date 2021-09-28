@@ -1,19 +1,16 @@
 .product-table {
   margin: 20px;
-  position: relative;
   min-height: 200px;
+  position: relative;
 }
 
 table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   width: 33%;
-}
-
-.break-word {
-  word-break: break-all;
 }
 
 td.mat-cell {
@@ -25,14 +22,84 @@ td.mat-cell {
 }
 
 .loading-shade {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  display: flex;
   align-items: center;
+  background: rgba(0, 0, 0, 0.15);
+  bottom: 0;
+  display: flex;
   justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.description {
+  p {
+    height: 40px;
+    margin: unset;
+    overflow: hidden;
+    padding-right: 0.7rem;
+    position: relative;
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  p::before {
+    content: '...';
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    position: absolute;
+  }
+}
+
+.picture-url-container {
+  align-items: center;
+  display: flex;
+  max-width: 300px;
+
+  p {
+    display: inline-block;
+    margin: 0 0 0 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.picture-url-container {
+  .mat-icon-button {
+    height: 24px;
+    line-height: 24px;
+    width: 24px;
+  }
+
+  mat-icon {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .picture-url-container {
+    max-width: 250px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .picture-url-container {
+    max-width: 200px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .picture-url-container p {
+    display: none;
+  }
+
+  .picture-url-container button::after {
+    content: 'Copy Url ';
+    font-weight: 400;
+  }
 }
