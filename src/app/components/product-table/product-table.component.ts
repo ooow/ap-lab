@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -16,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.scss']
 })
-export class ProductTableComponent implements OnInit {
+export class ProductTableComponent implements OnInit, AfterViewInit {
   @Input() totalNumber: number;
   @Input() pageIndex: number;
   @Input() loading: boolean;
@@ -55,5 +56,9 @@ export class ProductTableComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource.filterPredicate = (value: Product, filter: string) =>
       value.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
   }
 }
