@@ -9,6 +9,8 @@ import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { Product } from 'src/app/products/models/product';
+import { Router } from '@angular/router';
+import { SearchTypes } from 'src/app/shared/modules/header/components/search/search.types';
 
 @Component({
   selector: 'tk-header',
@@ -46,5 +48,18 @@ export class HeaderComponent {
   readonly LangActions = LangActions;
   readonly ProductActions = ProductActions;
 
-  constructor(readonly store: Store) {}
+  constructor(readonly store: Store, readonly router: Router) {}
+
+  getSearchType(): SearchTypes {
+    const url = this.router.url;
+    console.log(url);
+    switch (url) {
+      case '/dashboard':
+        return SearchTypes.SELECTOR;
+      case '/products':
+        return SearchTypes.INPUT;
+      default:
+        return SearchTypes.INPUT;
+    }
+  }
 }

@@ -13,8 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SearchComponent } from 'src/app/shared/components/search/search.component';
-import { SearchHarness } from 'src/app/shared/components/search/search.harness';
+import { SearchComponent } from 'src/app/shared/modules/header/components/search/search.component';
+import { SearchHarness } from 'src/app/shared/modules/header/components/search/search.harness';
 
 @Pipe({ name: 'searchOptions' })
 class MockPipe implements PipeTransform {
