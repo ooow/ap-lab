@@ -34,9 +34,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatAutocompleteModule,
     MatIconModule,
     MatInputModule,
+    MatToolbarModule,
     ReactiveFormsModule,
-    RouterModule,
-    MatToolbarModule
+    RouterModule
   ],
   exports: [HeaderComponent]
 })
