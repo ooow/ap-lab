@@ -18,8 +18,18 @@ describe('AppModule => ProductSearchPipe', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   const products = [
-    { name: 'first', description: '', picture: '' },
-    { name: 'second', description: '', picture: '' }
+    {
+      name: 'first',
+      description: '',
+      picture: '',
+      counts: [{ location: '', quantityAvailable: 1, price: 12 }]
+    },
+    {
+      name: 'second',
+      description: '',
+      picture: '',
+      counts: [{ location: '', quantityAvailable: 2, price: 21 }]
+    }
   ];
 
   beforeEach(async () => {

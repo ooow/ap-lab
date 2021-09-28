@@ -12,6 +12,7 @@ import { MockComponent, MockProvider } from 'ng-mocks';
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
+import * as ProductSelector from 'src/app/products/store/product/product.selectors';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import { products } from 'src/app/products/store/product/product.selectors';
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
@@ -112,7 +113,15 @@ describe('Header', () => {
     });
 
     it('should pass correct props to search component', async () => {
+      expect(search.search).toEqual('');
       expect(search.options).toEqual(['product1', 'product2']);
+
+      const testSearch = 'test-search';
+      store.overrideSelector(ProductSelector.search, testSearch);
+      store.refreshState();
+      fixture.detectChanges();
+
+      expect(search.search).toEqual(testSearch);
     });
 
     it('should listen for value changes on search component', async () => {

@@ -12,6 +12,7 @@ import { MatTableHarness } from '@angular/material/table/testing';
 import { MatRowHarness } from '@angular/material/table/testing/row-harness';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { ProductTableComponent } from './product-table.component';
 import { ProductTableHarness } from './product-table.harness';
 
@@ -26,8 +27,22 @@ describe('AppModule => ProductTable', () => {
   let component: ProductTableComponent;
   let loader: HarnessLoader;
   const products = [
-    { name: 'first', picture: 'picUrl', description: 'firstDesc' },
-    { name: 'second', picture: 'picUrl', description: 'secondDesc' }
+    {
+      name: 'first',
+      picture: 'picUrl',
+      description: 'firstDesc',
+      counts: [
+        { location: 'firstLocation', quantityAvailable: 666, price: 999 }
+      ]
+    },
+    {
+      name: 'second',
+      picture: 'picUrl',
+      description: 'secondDesc',
+      counts: [
+        { location: 'firstLocation', quantityAvailable: 999, price: 666 }
+      ]
+    }
   ];
 
   beforeEach(async () => {

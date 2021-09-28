@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnDestroy {
+export class ProductsComponent implements OnDestroy, OnInit {
   readonly products$: Observable<Array<Product>> = this.store.select(
     ProductSelectors.products
   );
@@ -83,6 +83,10 @@ export class ProductsComponent implements OnDestroy {
       width: '600px',
       data: { product }
     });
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(ProductActions.search({ search: '' }));
   }
 
   ngOnDestroy(): void {

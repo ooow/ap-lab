@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { getProducts } from '../mocks/products';
+import { getProducts } from 'src/app/products/mocks/products';
 import { Lang } from '../../shared/models/lang';
 import { ProductsResp } from '../models/products-resp';
 

@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
@@ -25,7 +24,6 @@ const routes: Routes = [
     BrowserModule,
     DashboardModule,
     HeaderModule,
-    MatProgressSpinnerModule,
     ProductsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),

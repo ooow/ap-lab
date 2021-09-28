@@ -1,5 +1,5 @@
 import { AsyncFactoryFn, ComponentHarness } from '@angular/cdk/testing';
-import { LoaderHarness } from 'src/app/shared/components/loader/loader.harness';
+import { LoaderHarness } from 'src/app/shared/modules/loader/loader.harness';
 import { ProductsComponent } from 'src/app/products/products.component';
 
 export class ProductsHarness extends ComponentHarness {
