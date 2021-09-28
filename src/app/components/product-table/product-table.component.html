@@ -12,7 +12,7 @@
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
       <td *matCellDef="let row" class="description" mat-cell>
         <p
-          #tooltip
+          #descriptionTooltip
           [matTooltip]="row.description"
           aria-label="Hover for the whole text of description"
           matTooltipPosition="above"
@@ -27,9 +27,12 @@
       <td *matCellDef="let row" mat-cell>
         <div class="picture-url-container">
           <button
+            (click)="openSnackBar(row.name)"
             [cdkCopyToClipboard]="row.picture"
+            [matTooltip]="'Copy'"
             aria-label="Copy Image URL"
             mat-icon-button
+            matTooltipPosition="above"
           >
             <mat-icon>file_copy</mat-icon>
           </button>

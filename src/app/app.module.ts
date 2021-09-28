@@ -32,6 +32,7 @@ import { reducer as LangReducer } from './store/lang/lang.reducers';
 import { reducer as ProductReducer } from './store/product/product.reducers';
 import { SearchComponent } from './components/search/search.component';
 import { SearchOptionsPipe } from './pipes/search-options.pipe';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,10 @@ import { SearchOptionsPipe } from './pipes/search-options.pipe';
       lang: LangReducer
     })
   ],
-  providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
+  providers: [
+    { provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] },
+    MatSnackBar
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
