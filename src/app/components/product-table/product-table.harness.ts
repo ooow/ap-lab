@@ -9,7 +9,6 @@ export class ProductTableHarness extends ComponentHarness {
   getTooltips = this.locatorForAll(MatTooltipHarness);
   getPictureUrl = this.locatorFor('.picture-url-container p');
   getCopyPictureUrlBtn = this.locatorFor('.picture-url-container button');
-  async;
 
   async isLoading(): Promise<boolean> {
     const spinner = await this.getLoadingSpinner();
