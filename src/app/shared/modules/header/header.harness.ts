@@ -1,13 +1,17 @@
 import { ComponentHarness } from '@angular/cdk/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
+import { SearchHarness } from 'src/app/shared/modules/header/components/search/search.harness';
 
 export class HeaderHarness extends ComponentHarness {
   static hostSelector = 'tk-header';
 
-  private getButtons = this.locatorForAll(MatButtonHarness);
+  private getNavButtons = this.locatorForAll(
+    MatButtonHarness.with({ selector: 'a' })
+  );
+  private getProductSearch = this.locatorFor(SearchHarness);
 
   async findAllNavButtons(): Promise<string[]> {
-    const navBtns = await this.getButtons();
+    const navBtns = await this.getNavButtons();
     const navButtonNames = navBtns.map((navBtn) => navBtn.getText());
     return Promise.all(navButtonNames);
   }
@@ -17,14 +21,14 @@ export class HeaderHarness extends ComponentHarness {
     await button.click();
   }
 
-  private async findNavButton(
-    buttonName: string
-  ): Promise<MatButtonHarness | undefined> {
-    const navBtns = await this.getButtons();
-    const navButtonNames = await this.findAllNavButtons();
-    const targetNavBtnIndex = navButtonNames.findIndex(
-      (navBtnName) => buttonName === navBtnName
+  async findNavButton(buttonName: string): Promise<MatButtonHarness> {
+    const getNavBtn = this.locatorFor(
+      MatButtonHarness.with({ text: buttonName })
     );
-    return navBtns[targetNavBtnIndex];
+    return getNavBtn();
+  }
+
+  async productSearch(): Promise<SearchHarness> {
+    return await this.getProductSearch();
   }
 }

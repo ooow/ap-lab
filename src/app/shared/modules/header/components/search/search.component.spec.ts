@@ -36,7 +36,7 @@ class TestComponent {
   searchType: SearchTypes = SearchTypes.INPUT;
 }
 
-fdescribe('AppModule => SearchComponent', () => {
+describe('AppModule => SearchComponent', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let loader: HarnessLoader;
