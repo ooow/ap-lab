@@ -19,7 +19,7 @@
     <tk-search
       (valueChange)="store.dispatch(ProductActions.search({ search: $event }))"
       [options]="searchOptions$ | async"
-      [searchType]="getSearchType()"
+      [searchType]="searchType"
       [search]="search$ | async"
     ></tk-search>
     <tk-lang-selector
