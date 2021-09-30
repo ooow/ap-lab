@@ -7,12 +7,12 @@ import { MatAutocompleteHarness } from '@angular/material/autocomplete/testing';
 
 export class SearchHarness extends ComponentHarness {
   static hostSelector = 'tk-search';
-  protected getLabel = this.locatorFor('mat-label');
-  protected getInput = this.locatorForOptional(MatInputHarness);
-  protected getSelector = this.locatorForOptional(MatSelectHarness);
-  protected getClearBtn = this.locatorForOptional(
+  getInput = this.locatorForOptional(MatInputHarness);
+  getSelector = this.locatorForOptional(MatSelectHarness);
+  getClearBtn = this.locatorForOptional(
     MatButtonHarness.with({ text: 'refresh' })
   );
+  protected getLabel = this.locatorFor('mat-label');
   protected getAutocomplete = this.locatorForOptional(MatAutocompleteHarness);
 
   async labelText(): Promise<string> {
@@ -20,50 +20,44 @@ export class SearchHarness extends ComponentHarness {
     return label.text();
   }
 
-  async isInput(): Promise<boolean> {
-    const input = await this.getInput();
-    return Boolean(input);
-  }
-
-  async isSelector(): Promise<boolean> {
-    const selector = await this.getSelector();
-    return Boolean(selector);
-  }
-
-  async clearBtn(): Promise<MatButtonHarness | null> {
-    return await this.getClearBtn();
-  }
-
   async setInputValue(value: string): Promise<void> {
     const input = await this.getInput();
-    return input.setValue(value);
+    return input && input.setValue(value);
   }
 
   async setSelectorValue(option: string): Promise<void> {
     const selector = await this.getSelector();
-    return selector.clickOptions({ text: option });
+    return selector && selector.clickOptions({ text: option });
   }
 
-  async getInputValue(): Promise<string> {
+  async getInputValue(): Promise<string | null> {
     const input = await this.getInput();
-    return input.getValue();
+    return input ? input.getValue() : null;
   }
 
   async getSelectorValue(): Promise<string> {
     const selector = await this.getSelector();
-    return selector.getValueText();
+    return selector ? selector.getValueText() : null;
   }
 
-  async getInputOptions(): Promise<MatOptionHarness[]> {
+  async getInputOptions(): Promise<MatOptionHarness[] | null> {
     const autocomplete = await this.getAutocomplete();
     const input = await this.getInput();
-    await input.focus();
-    return autocomplete.getOptions();
+    if (input && autocomplete) {
+      await input.focus();
+      return autocomplete.getOptions();
+    }
+    return null;
   }
 
-  async getSelectorOptions(): Promise<MatOptionHarness[]> {
+  async getSelectorOptions(): Promise<MatOptionHarness[] | null> {
     const selector = await this.getSelector();
-    await selector.open();
-    return selector.getOptions();
+    if (selector) {
+      await selector.open();
+      const selectorOptions = selector.getOptions();
+      await selector.close();
+      return selectorOptions;
+    }
+    return null;
   }
 }

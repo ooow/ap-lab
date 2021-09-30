@@ -114,14 +114,14 @@ describe('Header', () => {
     });
 
     it('should render product search input on products page', async () => {
-      expect(await search.isInput()).toBeTrue();
-      expect(await search.clearBtn()).toBeTruthy();
+      expect(await search.getInput()).toBeTruthy();
+      expect(await search.getClearBtn()).toBeTruthy();
     });
 
     it('should render product search select on dashboard page', async () => {
       await harness.clickNavButton('Dashboard');
 
-      expect(await search.isSelector()).toBeTruthy();
+      expect(await search.getSelector()).toBeTruthy();
     });
 
     it('should pass correct props to search input', async () => {
@@ -181,7 +181,7 @@ describe('Header', () => {
     it('should reset product store search field on clear search input', async () => {
       spyOn(store, 'dispatch').and.callFake(() => {});
 
-      await search.clearBtn().then((button) => button.click());
+      await search.getClearBtn().then((button) => button.click());
 
       expect(store.dispatch).toHaveBeenCalledWith(
         ProductActions.search({ search: '' })

@@ -8,6 +8,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorHarness } from '@angular/material/paginator/testing';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRowHarness } from '@angular/material/table/testing/row-harness';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSortHarness } from '@angular/material/sort/testing';
 import { MatTableModule } from '@angular/material/table';
@@ -18,7 +19,6 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { ProductTableComponent } from './product-table.component';
 import { ProductTableHarness } from './product-table.harness';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'tk-test',

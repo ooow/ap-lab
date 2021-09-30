@@ -73,17 +73,17 @@ describe('AppModule => SearchComponent', () => {
   });
 
   it('should render input field with reset btn when searchType is Input', async () => {
-    expect(await harness.isSelector()).toBeFalse();
-    expect(await harness.isInput()).toBeTrue();
-    expect(await harness.clearBtn()).toBeTruthy();
+    expect(await harness.getSelector()).toBeFalsy();
+    expect(await harness.getInput()).toBeTruthy();
+    expect(await harness.getClearBtn()).toBeTruthy();
   });
 
   it('should render selector when searchType is Selector', async () => {
     component.searchType = SearchTypes.SELECTOR;
 
-    expect(await harness.isInput()).toBeFalse();
-    expect(await harness.clearBtn()).toBeFalsy();
-    expect(await harness.isSelector()).toBeTrue();
+    expect(await harness.getInput()).toBeFalsy();
+    expect(await harness.getClearBtn()).toBeFalsy();
+    expect(await harness.getSelector()).toBeTruthy();
   });
 
   it('should propagate search input field value on change event', async () => {
@@ -194,8 +194,8 @@ describe('AppModule => SearchComponent', () => {
 
     expect(search.valueChange.emit).toHaveBeenCalledWith(inputText);
 
-    const clear = await harness.clearBtn();
-    await clear.click();
+    const clearBtn = await harness.getClearBtn();
+    await clearBtn.click();
 
     expect(search.valueChange.emit).toHaveBeenCalledWith('');
     expect(await harness.getInputValue()).toBe('');
