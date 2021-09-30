@@ -2,7 +2,7 @@
   <div *ngIf="loading" class="loading-shade">
     <mat-spinner></mat-spinner>
   </div>
-  <table [dataSource]="dataSource" mat-table matSort>
+  <table mat-table matSort [dataSource]="dataSource">
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
       <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
@@ -10,12 +10,12 @@
 
     <ng-container matColumnDef="description">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Description</th>
-      <td *matCellDef="let row" class="description" mat-cell>
+      <td *matCellDef="let row" mat-cell class="description">
         <p
           #descriptionTooltip
-          [matTooltip]="row.description"
-          aria-label="Hover for the whole text of description"
           matTooltipPosition="above"
+          aria-label="Hover for the whole text of description"
+          [matTooltip]="row.description"
         >
           {{ row.description }}
         </p>
@@ -27,12 +27,12 @@
       <td *matCellDef="let row" mat-cell>
         <div class="picture-url-container">
           <button
-            (click)="openSnackBar(row.name)"
-            [cdkCopyToClipboard]="row.picture"
-            [matTooltip]="'Copy'"
-            aria-label="Copy Image URL"
             mat-icon-button
             matTooltipPosition="above"
+            aria-label="Copy Image URL"
+            [matTooltip]="'Copy'"
+            [cdkCopyToClipboard]="row.picture"
+            (click)="openSnackBar(row.name)"
           >
             <mat-icon>file_copy</mat-icon>
           </button>
@@ -51,9 +51,9 @@
     </tr>
   </table>
   <mat-paginator
-    (page)="pageChange.emit($event.pageIndex)"
     [length]="totalNumber"
     [pageIndex]="pageIndex"
     [pageSize]="10"
+    (page)="pageChange.emit($event.pageIndex)"
   ></mat-paginator>
 </div>
