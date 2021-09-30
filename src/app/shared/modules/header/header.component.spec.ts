@@ -181,7 +181,7 @@ describe('Header', () => {
     it('should reset product store search field on clear search input', async () => {
       spyOn(store, 'dispatch').and.callFake(() => {});
 
-      await search.getClearBtn().then((button) => button.click());
+      await search.clearSearch();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         ProductActions.search({ search: '' })

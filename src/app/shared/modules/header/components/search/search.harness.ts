@@ -60,4 +60,9 @@ export class SearchHarness extends ComponentHarness {
     }
     return null;
   }
+
+  async clearSearch(): Promise<void> {
+    const clearBtn = await this.getClearBtn();
+    return clearBtn && clearBtn.click();
+  }
 }

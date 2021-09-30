@@ -185,7 +185,7 @@ describe('AppModule => SearchComponent', () => {
     expect(await firstOption.isActive()).toBeTrue();
   });
 
-  it('should clear search input on clear button click', async () => {
+  it('should clear search input on clear btn click', async () => {
     const inputText = 'text';
     // prettier-ignore
     const search = fixture.debugElement.query(By.css('tk-search')).componentInstance;
@@ -194,8 +194,7 @@ describe('AppModule => SearchComponent', () => {
 
     expect(search.valueChange.emit).toHaveBeenCalledWith(inputText);
 
-    const clearBtn = await harness.getClearBtn();
-    await clearBtn.click();
+    await harness.clearSearch();
 
     expect(search.valueChange.emit).toHaveBeenCalledWith('');
     expect(await harness.getInputValue()).toBe('');
