@@ -10,6 +10,7 @@ import {
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from '../../models/product';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'tk-product-table',
@@ -26,6 +27,8 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Product>;
   private searchValue: string;
 
+  constructor(private snackBar: MatSnackBar) {}
+
   @Input() set products(value: Array<Product>) {
     this.dataSource = new MatTableDataSource(value);
     if (this.search) {
@@ -40,6 +43,14 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
   @Input() set search(value: string) {
     this.dataSource.filter = value.trim().toLowerCase();
     this.searchValue = value;
+  }
+
+  openSnackBar(name: string): void {
+    const message = `${name} picture link copied to clipboard`;
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'right'
+    });
   }
 
   ngOnInit(): void {

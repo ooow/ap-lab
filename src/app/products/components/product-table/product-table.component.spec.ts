@@ -18,6 +18,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { ProductTableComponent } from './product-table.component';
 import { ProductTableHarness } from './product-table.harness';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'tk-test',
@@ -48,7 +49,13 @@ describe('AppModule => ProductTable', () => {
     }
   ];
 
+  const fakeSnackBarService = jasmine.createSpyObj<MatSnackBar>('MatSnackBar', [
+    'open'
+  ]);
+
   beforeEach(async () => {
+    fakeSnackBarService.open.calls.reset();
+
     await TestBed.configureTestingModule({
       imports: [
         MatTableModule,
@@ -60,7 +67,8 @@ describe('AppModule => ProductTable', () => {
         MatTooltipModule,
         ClipboardModule
       ],
-      declarations: [TestComponent, ProductTableComponent]
+      declarations: [TestComponent, ProductTableComponent],
+      providers: [{ provide: MatSnackBar, useValue: fakeSnackBarService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
@@ -181,17 +189,28 @@ describe('AppModule => ProductTable', () => {
       expect(document.execCommand).toHaveBeenCalledWith('copy');
     });
 
-    it('should show description tooltip over truncated text', async () => {
+    it('should call snackBar open method with expected params on Copy Url btn click', async () => {
       const harness = await loader.getHarness(ProductTableHarness);
-      const expectedDescription = products[1].description;
-      const tooltipText = await harness.getTooltipText(1);
-      expect(expectedDescription).toEqual(tooltipText);
+      const expectedParams = [
+        'first picture link copied to clipboard',
+        'Close',
+        { duration: 5000, horizontalPosition: 'right' }
+      ] as const;
+
+      expect(fakeSnackBarService.open).toHaveBeenCalledTimes(0);
+
+      await harness.clickCopyPicUrlBtn();
+
+      expect(fakeSnackBarService.open).toHaveBeenCalledOnceWith(
+        ...expectedParams
+      );
     });
 
-    it('should not show description tooltip over not truncated text', async () => {
+    it('should show description tooltip', async () => {
       const harness = await loader.getHarness(ProductTableHarness);
-      const tooltipText = await harness.getTooltipText(0);
-      expect(tooltipText).toEqual('');
+      const expectedDescription = products[1].description;
+      const tooltipText = await harness.getDescriptionTooltipText(1);
+      expect(expectedDescription).toEqual(tooltipText);
     });
 
     it('should filter products by product name', async () => {
