@@ -19,10 +19,17 @@ mat-toolbar {
   ::ng-deep .mat-form-field-wrapper {
     padding: unset;
   }
+
+  .create-product-btn {
+    margin-right: 0.5rem;
+  }
 }
 
 .navbar {
   align-self: center;
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
   height: fit-content;
 
   .mat-button.navbar-item-selected {
@@ -38,11 +45,7 @@ mat-toolbar {
   justify-content: flex-end;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
-@media (max-width: 640px) {
+@media (max-width: 686px) {
   mat-toolbar {
     height: 128px;
   }

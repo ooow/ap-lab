@@ -28,9 +28,9 @@
         <div class="picture-url-container">
           <button
             mat-icon-button
+            matTooltip="Copy"
             matTooltipPosition="above"
             aria-label="Copy Image URL"
-            [matTooltip]="'Copy'"
             [cdkCopyToClipboard]="row.picture"
             (click)="openSnackBar(row.name)"
           >

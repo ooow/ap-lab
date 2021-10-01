@@ -9,6 +9,8 @@ import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { Product } from 'src/app/products/models/product';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateProductModalComponent } from 'src/app/shared/modules/create-product-modal/create-product-modal.component';
 
 @Component({
   selector: 'tk-header',
@@ -46,5 +48,18 @@ export class HeaderComponent {
   readonly LangActions = LangActions;
   readonly ProductActions = ProductActions;
 
-  constructor(readonly store: Store) {}
+  constructor(readonly store: Store, private dialog: MatDialog) {
+    this.showCreateProductDialog();
+  }
+
+  showCreateProductDialog(): void {
+    const dialogRef = this.dialog.open(CreateProductModalComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      console.log('Value: ', result);
+    });
+  }
 }
