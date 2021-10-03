@@ -15,6 +15,11 @@
         {{ getErrorMessage("pictureUrl") }}
       </mat-error>
     </mat-form-field>
+    <div class="image-preview" *ngIf="formValues?.pictureUrl">
+      <mat-divider></mat-divider>
+      <img [src]="formValues.pictureUrl" alt="Provided product image" />
+      <mat-divider></mat-divider>
+    </div>
     <mat-form-field appearance="fill">
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description"></textarea>
@@ -26,7 +31,7 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCancelClick()">Cancel</button>
-  <button mat-button [disabled]="form.invalid" [mat-dialog-close]="form.value">
+  <button mat-button [disabled]="form.invalid" [mat-dialog-close]="formValues">
     Create
   </button>
 </div>

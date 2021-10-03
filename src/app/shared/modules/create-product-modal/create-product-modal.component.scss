@@ -10,4 +10,17 @@
 .mat-dialog-content form {
   display: flex;
   flex-direction: column;
+
+  mat-form-field {
+    margin-bottom: 5px;
+  }
+
+  .image-preview {
+    margin-bottom: 10px;
+    img {
+      height: auto;
+      margin: 10px 0;
+      width: 100%;
+    }
+  }
 }

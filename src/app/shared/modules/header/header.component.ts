@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Product } from 'src/app/products/models/product';
+import * as ProductActions from 'src/app/products/store/product/product.actions';
+import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 
 import { Lang } from 'src/app/shared/models/lang';
+import { CreateProductModalComponent } from 'src/app/shared/modules/create-product-modal/create-product-modal.component';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
-import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
-import { Product } from 'src/app/products/models/product';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateProductModalComponent } from 'src/app/shared/modules/create-product-modal/create-product-modal.component';
 
 @Component({
   selector: 'tk-header',
@@ -54,7 +54,7 @@ export class HeaderComponent {
 
   showCreateProductDialog(): void {
     const dialogRef = this.dialog.open(CreateProductModalComponent, {
-      width: '400px'
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
