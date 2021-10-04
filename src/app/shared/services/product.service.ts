@@ -3,9 +3,9 @@ import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { getProducts } from 'src/app/products/mocks/products';
-import { ProductsResp } from 'src/app/products/models/products-resp';
 import { Lang } from 'src/app/shared/models/lang';
 import { Product } from 'src/app/shared/models/product';
+import { ProductsResp } from 'src/app/shared/models/products-resp';
 import { PersistenceService } from 'src/app/shared/services/persistence/persistence.service';
 import { CreateProductResponseType } from 'src/app/shared/types/create-product-response.type';
 

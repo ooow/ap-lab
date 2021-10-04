@@ -16,8 +16,8 @@ export class GetTopProductsEffect {
   getTopProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getTopProductsAction),
-      switchMap(({ lang, quantity }) => {
-        return this.productService.getProducts(lang, 0, quantity).pipe(
+      switchMap(({ lang }) => {
+        return this.productService.getProducts(lang, 0, 5).pipe(
           map((resp) => {
             return getTopProductsSuccessAction(resp);
           }),

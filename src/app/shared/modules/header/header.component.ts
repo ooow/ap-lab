@@ -1,9 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
-import { map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 
 import { Lang } from 'src/app/shared/models/lang';
 import { Product } from 'src/app/shared/models/product';
@@ -11,8 +11,10 @@ import { CreateProductModalComponent } from 'src/app/shared/modules/create-produ
 import { ProductService } from 'src/app/shared/services/product.service';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
+import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
 import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
+import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import * as TopProductsSelector from 'src/app/shared/store/top-products/top-products.selectors';
 import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
 import { CreateProductResponseType } from 'src/app/shared/types/create-product-response.type';
@@ -22,7 +24,7 @@ import { CreateProductResponseType } from 'src/app/shared/types/create-product-r
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent {
   readonly lang$: Observable<Lang> = this.store.select(
     LangSelectors.langSelector
   );
@@ -49,19 +51,12 @@ export class HeaderComponent implements OnDestroy {
     })
   );
 
-  private readonly destroy$ = new Subject<void>();
-
   constructor(
     readonly store: Store,
     private productService: ProductService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
   onSearchChange(search: string): void {
     this.store.dispatch(searchProductAction({ search }));
@@ -71,42 +66,39 @@ export class HeaderComponent implements OnDestroy {
     this.store.dispatch(LangActions.change({ lang }));
   }
 
-  showCreateProductDialog(): void {
-    const createProductDialogRef = this.dialog.open<
+  createProductDialog(): void {
+    const createProductDialogRef: MatDialogRef<
       CreateProductModalComponent,
       CreateProductFormType | null
-    >(CreateProductModalComponent, {
+    > = this.dialog.open(CreateProductModalComponent, {
       width: '500px'
     });
 
     const formValues$ = createProductDialogRef.afterClosed();
 
-    this.createProduct(formValues$).subscribe((result) => {
-      if (result) {
-        this.openSnackBar(result.message);
-      }
+    combineLatest([formValues$, this.lang$])
+      .pipe(
+        take(1),
+        switchMap(([formValues, lang]) =>
+          formValues
+            ? this.productService.createProduct(formValues, lang)
+            : of(formValues)
+        )
+      )
+      .subscribe((result: CreateProductResponseType | null) => {
+        if (result) {
+          this.openSnackBar(result.message);
+          this.updateProducts();
+        }
+      });
+  }
+
+  private updateProducts(): void {
+    this.lang$.pipe(take(1)).subscribe((lang) => {
+      this.store.dispatch(getProductsAction({ lang, pageIndex: 0 }));
+      this.store.dispatch(getTopProductsAction({ lang }));
     });
   }
-
-  private createProduct(
-    formValues$: Observable<CreateProductFormType | null>
-  ): Observable<CreateProductResponseType | null> {
-    return formValues$.pipe(
-      switchMap((productInput) =>
-        productInput
-          ? this.lang$.pipe(
-              take(1),
-              switchMap((lang) =>
-                this.productService.createProduct(productInput, lang)
-              )
-            )
-          : of(productInput as null)
-      ),
-      takeUntil(this.destroy$)
-    );
-  }
-
-  private updateProducts(): void {}
 
   private openSnackBar(message: string): void {
     this.snackBar.open(message, 'Close', {

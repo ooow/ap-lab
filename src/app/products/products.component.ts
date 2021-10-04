@@ -73,7 +73,7 @@ export class ProductsComponent implements OnDestroy, OnInit {
 
   updateTopProducts(): void {
     this.lang$.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
-      this.store.dispatch(getTopProductsAction({ lang, quantity: 5 }));
+      this.store.dispatch(getTopProductsAction({ lang }));
     });
   }
 

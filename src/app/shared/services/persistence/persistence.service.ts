@@ -27,7 +27,7 @@ export class PersistenceService {
     try {
       const retrievedData = JSON.parse(localStorage.getItem(key) as string);
       if (retrievedData && Array.isArray(retrievedData)) {
-        retrievedData.push(data);
+        retrievedData.unshift(data);
         localStorage.setItem(key, JSON.stringify(retrievedData));
         return { success: true };
       }

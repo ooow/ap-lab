@@ -13,8 +13,9 @@ import { Lang } from 'src/app/shared/models/lang';
 import { HeaderModule } from 'src/app/shared/modules/header/header.module';
 import { reducer as LangReducer } from 'src/app/shared/store/lang/lang.reducers';
 import { GetProductEffect } from 'src/app/shared/store/product/effects/get-product.effect';
-import { GetTopProductsEffect } from 'src/app/shared/store/product/effects/get-top-products.effect';
-import { reducer as productReducer } from 'src/app/shared/store/product/product.reducers';
+import { reducer as ProductReducer } from 'src/app/shared/store/product/product.reducers';
+import { GetTopProductsEffect } from 'src/app/shared/store/top-products/effects/get-top-products.effect';
+import { reducer as TopProductsReducer } from 'src/app/shared/store/top-products/top-products.reducers';
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
 
 const routes: Routes = [
@@ -33,9 +34,10 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     StoreModule.forRoot({
       lang: LangReducer,
-      product: productReducer
+      product: ProductReducer,
+      topProducts: TopProductsReducer
     }),
-    EffectsModule.forFeature([GetProductEffect, GetTopProductsEffect])
+    EffectsModule.forRoot([GetProductEffect, GetTopProductsEffect])
   ],
   providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
   bootstrap: [AppComponent]

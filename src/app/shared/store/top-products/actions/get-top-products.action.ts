@@ -4,7 +4,7 @@ import { BackendErrorsInterface } from 'src/app/shared/types/backend-errors.inte
 
 export const getTopProductsAction = createAction(
   '[Products API] Get top products',
-  props<{ lang: Lang; quantity: number }>()
+  props<{ lang: Lang }>()
 );
 
 export const getTopProductsSuccessAction = createAction(
