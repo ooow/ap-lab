@@ -7,10 +7,10 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Product } from '../../models/product';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Product } from 'src/app/shared/models/product';
 
 @Component({
   selector: 'tk-product-table',

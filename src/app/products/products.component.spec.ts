@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockPipe, MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
+import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
+import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
+import { ProductComponent } from 'src/app/products/components/product/product.component';
+import { ProductSearchPipe } from 'src/app/products/pipes/product-search.pipe';
 
 import { ProductsComponent } from 'src/app/products/products.component';
 import { ProductsHarness } from 'src/app/products/products.harness';
-import { ProductSearchPipe } from 'src/app/products/pipes/product-search.pipe';
-import { ProductComponent } from 'src/app/products/components/product/product.component';
-import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
-import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
 import * as ProductActions from 'src/app/products/store/product/product.actions';
-import { ProductService } from 'src/app/products/services/product.service';
 import { initialState } from 'src/app/shared/mocks/test-mocks';
+import { ProductService } from 'src/app/shared/services/product.service';
 
 describe('Products', () => {
   @Component({

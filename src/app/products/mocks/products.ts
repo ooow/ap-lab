@@ -1,5 +1,5 @@
-import { Product } from 'src/app/products/models/product';
 import { Lang } from 'src/app/shared/models/lang';
+import { Product } from 'src/app/shared/models/product';
 
 const PRODUCTS_MOCK_RU: ReadonlyArray<Product> = [
   {

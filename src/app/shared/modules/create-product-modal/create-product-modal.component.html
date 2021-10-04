@@ -10,14 +10,14 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Picture Url</mat-label>
-      <input matInput formControlName="pictureUrl" />
-      <mat-error *ngIf="form.get('pictureUrl').errors">
-        {{ getErrorMessage("pictureUrl") }}
+      <input matInput formControlName="picture" />
+      <mat-error *ngIf="form.get('picture').errors">
+        {{ getErrorMessage("picture") }}
       </mat-error>
     </mat-form-field>
-    <div class="image-preview" *ngIf="formValues?.pictureUrl">
+    <div class="image-preview" *ngIf="formValues?.picture">
       <mat-divider></mat-divider>
-      <img [src]="formValues.pictureUrl" alt="Provided product image" />
+      <img [src]="formValues.picture" alt="Provided product image" />
       <mat-divider></mat-divider>
     </div>
     <mat-form-field appearance="fill">

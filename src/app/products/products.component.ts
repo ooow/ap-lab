@@ -1,18 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-
-import { Lang } from '../shared/models/lang';
-import { Product } from './models/product';
-import * as ProductSelectors from './store/product/product.selectors';
-import * as LangSelectors from '../shared/store/lang/lang.selectors';
-import * as ProductActions from './store/product/product.actions';
-import { ProductService } from './services/product.service';
-import { ProductsResp } from './models/products-resp';
-import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { Product } from 'src/app/shared/models/product';
+import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
+import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
+import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
+import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
+import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
+import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
+import * as TopProductsSelectors from 'src/app/shared/store/top-products/top-products.selectors';
+import { Lang } from '../shared/models/lang';
+import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 
 @Component({
   selector: 'tk-products',
@@ -30,7 +32,7 @@ export class ProductsComponent implements OnDestroy, OnInit {
     ProductSelectors.totalNumber
   );
   readonly topProducts$: Observable<Array<Product>> = this.store.select(
-    ProductSelectors.topProducts
+    TopProductsSelectors.topProducts
   );
   readonly search$: Observable<string> = this.store.select(
     ProductSelectors.search
@@ -38,58 +40,65 @@ export class ProductsComponent implements OnDestroy, OnInit {
   readonly lang$: Observable<Lang> = this.store.select(
     LangSelectors.langSelector
   );
-  readonly loading$ = new BehaviorSubject<boolean>(true);
-  readonly globalLoading$ = new BehaviorSubject<boolean>(true);
+  readonly isLoading$: Observable<boolean> = this.store.select(
+    ProductSelectors.isLoading
+  );
+  readonly isGlobalLoading$: Observable<boolean> = this.store.select(
+    TopProductsSelectors.isLoading
+  );
   private readonly destroy$ = new Subject<void>();
-  readonly ProductActions = ProductActions;
 
   constructor(
     readonly store: Store,
-    readonly productService: ProductService,
     readonly dialog: MatDialog,
     readonly router: Router
-  ) {
-    combineLatest([this.lang$, this.pageIndex$])
-      .pipe(
-        tap(() => this.loading$.next(true)),
-        switchMap(([lang, pageIndex]: [Lang, number]) =>
-          productService.getProducts(lang, pageIndex)
-        ),
-        finalize(() => this.loading$.next(false)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((resp: ProductsResp) => {
-        this.store.dispatch(ProductActions.retrieveProducts(resp));
-        this.loading$.next(false);
-      });
+  ) {}
 
-    this.lang$
-      .pipe(
-        tap(() => this.globalLoading$.next(true)),
-        switchMap((lang: Lang) => productService.getProducts(lang, 0, 5)),
-        finalize(() => this.globalLoading$.next(false)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((resp: ProductsResp) => {
-        this.store.dispatch(
-          ProductActions.topProducts({ products: resp.products })
-        );
-        this.globalLoading$.next(false);
+  ngOnInit(): void {
+    this.clearSearch();
+    this.bindEvents();
+  }
+
+  ngOnDestroy(): void {
+    this.unbindEvents();
+  }
+
+  updateProducts(): void {
+    combineLatest([this.lang$, this.pageIndex$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([lang, pageIndex]) => {
+        this.store.dispatch(getProductsAction({ lang, pageIndex }));
       });
   }
 
-  productDetails(product: Product): void {
+  updateTopProducts(): void {
+    this.lang$.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
+      this.store.dispatch(getTopProductsAction({ lang, quantity: 5 }));
+    });
+  }
+
+  clearSearch(): void {
+    this.store.dispatch(searchProductAction({ search: '' }));
+  }
+
+  bindEvents(): void {
+    this.updateProducts();
+    this.updateTopProducts();
+  }
+
+  showProductDetails(product: Product): void {
     this.dialog.open(ProductDetailsModalComponent, {
       width: '600px',
       data: { product }
     });
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(ProductActions.search({ search: '' }));
+  onPageChange(pageIndex: number): void {
+    this.store.dispatch(changePageAction({ pageIndex }));
   }
 
-  ngOnDestroy(): void {
+  unbindEvents(): void {
     this.destroy$.next();
+    this.destroy$.complete();
   }
 }

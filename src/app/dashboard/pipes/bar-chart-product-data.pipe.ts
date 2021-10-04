@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Product } from 'src/app/products/models/product';
 import { ChartDataType } from 'src/app/dashboard/components/chart/chart.types';
+import { Product } from 'src/app/shared/models/product';
 
 @Pipe({
   name: 'barChartProductData'

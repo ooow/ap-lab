@@ -4,8 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { delay, map, takeUntil } from 'rxjs/operators';
 
-import { CreateProductModalFormType } from 'src/app/shared/modules/create-product-modal/create-product-modal.types';
 import { ImageUrlValidator } from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
+import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
 
 @Component({
   selector: 'tk-create-product-modal',
@@ -14,7 +14,7 @@ import { ImageUrlValidator } from 'src/app/shared/modules/create-product-modal/v
 })
 export class CreateProductModalComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  formValues: CreateProductModalFormType;
+  formValues: CreateProductFormType;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -53,7 +53,7 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
           return 'Enter valid name';
         }
         break;
-      case 'pictureUrl':
+      case 'picture':
         if (this.form.hasError('url', inputName)) {
           return 'Provide valid image url';
         }
@@ -87,7 +87,7 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
             Validators.pattern(textRegEx)
           ]
         ],
-        pictureUrl: [
+        picture: [
           '',
           [Validators.required],
           [this.imageUrlValidator.validate.bind(this.imageUrlValidator)]
@@ -132,8 +132,8 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
       .pipe(
         delay(500),
         map(() => ({
-          pictureUrl: !this.form.get('pictureUrl').errors
-            ? this.form.value.pictureUrl
+          picture: !this.form.get('picture').errors
+            ? this.form.value.picture
             : ''
         })),
         takeUntil(this.destroy$)

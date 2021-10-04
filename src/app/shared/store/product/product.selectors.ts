@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
-import { AppState } from '../../../shared/models/app-state';
-import { ProductState } from '../../models/product-state';
+import { AppState } from 'src/app/shared/models/app-state';
+import { ProductState } from 'src/app/shared/models/product-state';
 
 export const productFeature = (state: AppState) => state.product;
 
@@ -19,12 +19,17 @@ export const pageIndex = createSelector(
   (state: ProductState) => state.pageIndex
 );
 
-export const topProducts = createSelector(
-  productFeature,
-  (state: ProductState) => state.topProducts
-);
-
 export const totalNumber = createSelector(
   productFeature,
   (state: ProductState) => state.totalNumber
+);
+
+export const isLoading = createSelector(
+  productFeature,
+  (state: ProductState) => state.isLoading
+);
+
+export const error = createSelector(
+  productFeature,
+  (state: ProductState) => state.error
 );

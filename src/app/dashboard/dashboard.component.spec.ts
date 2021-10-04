@@ -10,7 +10,6 @@ import {
   initialState,
   mockProductResponse
 } from 'src/app/shared/mocks/test-mocks';
-import { ProductService } from 'src/app/products/services/product.service';
 import { By } from '@angular/platform-browser';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
@@ -21,6 +20,7 @@ import * as ProductSelectors from 'src/app/products/store/product/product.select
 import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { AppState } from 'src/app/shared/models/app-state';
 import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
+import { ProductService } from 'src/app/shared/services/product.service';
 
 describe('Dashboard', () => {
   @Component({
