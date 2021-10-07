@@ -1,24 +1,23 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { By } from '@angular/platform-browser';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MockComponent, MockProvider } from 'ng-mocks';
+import { SearchComponent } from 'src/app/shared/components/search/search.component';
+import { initialState } from 'src/app/shared/mocks/test-mocks';
+import { Lang } from 'src/app/shared/models/lang';
+import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
 import { HeaderComponent } from 'src/app/shared/modules/header/header.component';
 import { HeaderHarness } from 'src/app/shared/modules/header/header.harness';
-import { initialState } from 'src/app/shared/mocks/test-mocks';
-import { MockComponent, MockProvider } from 'ng-mocks';
+import * as LangActions from 'src/app/shared/store/lang/lang.actions';
+import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
+import * as ProductSelector from 'src/app/shared/store/product/product.selectors';
 
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
-import * as ProductSelector from 'src/app/products/store/product/product.selectors';
-import * as LangActions from 'src/app/shared/store/lang/lang.actions';
-import { products } from 'src/app/products/store/product/product.selectors';
-import { SearchComponent } from 'src/app/shared/components/search/search.component';
-import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
-import { Lang } from 'src/app/shared/models/lang';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   template: '<tk-header></tk-header>'
@@ -129,7 +128,7 @@ describe('Header', () => {
       const testVal = 'product1';
       search.valueChange.emit(testVal);
       expect(store.dispatch).toHaveBeenCalledWith(
-        ProductActions.search({ search: testVal })
+        searchProductAction({ search: testVal })
       );
     });
 

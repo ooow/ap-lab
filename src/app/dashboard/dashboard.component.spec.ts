@@ -1,26 +1,27 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockPipe, MockProvider } from 'ng-mocks';
+import { of } from 'rxjs';
+import { ChartComponent } from 'src/app/dashboard/components/chart/chart.component';
+import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
+import { DashboardHarness } from 'src/app/dashboard/dashboard.harness';
+import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
+import { PieChartProductDataPipe } from 'src/app/dashboard/pipes/pie-chart-product-data.pipe';
 
 import {
   initialState,
   mockProductResponse
 } from 'src/app/shared/mocks/test-mocks';
-import { By } from '@angular/platform-browser';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
-import { PieChartProductDataPipe } from 'src/app/dashboard/pipes/pie-chart-product-data.pipe';
-import { ChartComponent } from 'src/app/dashboard/components/chart/chart.component';
-import { DashboardHarness } from 'src/app/dashboard/dashboard.harness';
-import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { AppState } from 'src/app/shared/models/app-state';
-import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
 import { ProductService } from 'src/app/shared/services/product.service';
+import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
+import { isLoading } from 'src/app/shared/store/product/product.selectors';
+import { getProductsAction } from '../shared/store/product/actions/get-products.actions';
 
 describe('Dashboard', () => {
   @Component({
@@ -84,9 +85,12 @@ describe('Dashboard', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display loader when loading is true', async () => {
+  it('should display loader when isLoading is true', async () => {
     expect(await harness.isLoading()).toBeFalse();
-    component.loading$.next(true);
+    store.overrideSelector(isLoading, true);
+    store.refreshState();
+    fixture.detectChanges();
+
     expect(await harness.isLoading()).toBeTrue();
   });
 
@@ -107,7 +111,10 @@ describe('Dashboard', () => {
 
   it('should dispatch products retrieval on component creation', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
-      ProductActions.retrieveProducts(mockProductResponse)
+      getProductsAction({
+        lang: initialState.lang,
+        pageIndex: initialState.product.pageIndex
+      })
     );
   });
 

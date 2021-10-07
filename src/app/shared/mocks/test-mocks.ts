@@ -1,6 +1,6 @@
 import { Lang } from 'src/app/shared/models/lang';
 import { AppState } from 'src/app/shared/models/app-state';
-import { ProductsResp } from 'src/app/products/models/products-resp';
+import { ProductsResp } from 'src/app/shared/models/products-resp';
 
 export const mockProductsData = [
   {
@@ -23,11 +23,17 @@ export const mockProductsData = [
 
 export const initialState: AppState = {
   product: {
-    topProducts: [...mockProductsData],
     products: [...mockProductsData],
+    isLoading: false,
+    error: null,
     search: '',
     pageIndex: 1,
     totalNumber: 3
+  },
+  topProducts: {
+    topProducts: [...mockProductsData],
+    isLoading: false,
+    error: null
   },
   lang: Lang.ru
 };

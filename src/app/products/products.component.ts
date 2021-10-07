@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Lang } from 'src/app/shared/models/lang';
 
 import { Product } from 'src/app/shared/models/product';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
@@ -13,7 +14,6 @@ import { searchProductAction } from 'src/app/shared/store/product/actions/search
 import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import * as TopProductsSelectors from 'src/app/shared/store/top-products/top-products.selectors';
-import { Lang } from '../shared/models/lang';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 
 @Component({

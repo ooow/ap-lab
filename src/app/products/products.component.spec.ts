@@ -8,16 +8,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockPipe, MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
+
 import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
 import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
 import { ProductComponent } from 'src/app/products/components/product/product.component';
 import { ProductSearchPipe } from 'src/app/products/pipes/product-search.pipe';
-
 import { ProductsComponent } from 'src/app/products/products.component';
 import { ProductsHarness } from 'src/app/products/products.harness';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
 import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { ProductService } from 'src/app/shared/services/product.service';
+import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
+import { isLoading } from 'src/app/shared/store/top-products/top-products.selectors';
 
 describe('Products', () => {
   @Component({
@@ -73,9 +74,12 @@ describe('Products', () => {
   });
 
   it('should display loader when globalLoading is true', async () => {
-    harness.setLoading(component, false);
     expect(await harness.isLoading()).toBeFalse();
-    harness.setLoading(component, true);
+
+    store.overrideSelector(isLoading, false);
+    store.refreshState();
+    fixture.detectChanges();
+
     expect(await harness.isLoading()).toBeTrue();
   });
 
@@ -107,12 +111,12 @@ describe('Products', () => {
 
     it('should pass product prop', () => {
       const firstCard = productCards[0].componentInstance;
-      const expectedVal = initialState.product.topProducts[0];
+      const expectedVal = initialState.topProducts.topProducts[0];
       expect(firstCard.product).toEqual(expectedVal);
     });
 
     it('should open open product details modal on click', () => {
-      const spy = spyOn(component, 'productDetails');
+      const spy = spyOn(component, 'showProductDetails');
       expect(spy).toHaveBeenCalledTimes(0);
       const [firstCard] = productCards;
       firstCard.triggerEventHandler('click', null);
@@ -134,7 +138,6 @@ describe('Products', () => {
       });
 
       it('should pass correct props to product table', () => {
-        component.loading$.next(false);
         const {
           products,
           pageIndex,
@@ -154,7 +157,7 @@ describe('Products', () => {
         const pageIndex = 666;
         productTable.pageChange.emit(pageIndex);
         expect(store.dispatch).toHaveBeenCalledOnceWith(
-          ProductActions.changePage({ pageIndex })
+          changePageAction({ pageIndex })
         );
       });
     });
