@@ -68,38 +68,79 @@ describe('CreateProductModalComponent', () => {
     expect(await harness.getCancelBtn()).toBeTruthy();
   });
 
-  it('should close dialog on cancel btn click', async () => {
-    await harness.cancelBtnClick();
-    expect((await loader.getAllHarnesses(MatDialogHarness)).length).toBe(0);
+  fdescribe('Cancel Button', () => {
+    async function isDialogOpen(): Promise<boolean> {
+      return Boolean((await loader.getAllHarnesses(MatDialogHarness)).length);
+    }
+
+    it('should close dialog on cancel btn click', async () => {
+      await harness.cancelBtnClick();
+      expect(await isDialogOpen()).toBeFalse();
+    });
+
+    it('should call confirmation window on cancel btn click if any input is dirty', async () => {
+      spyOn(window, 'confirm').and.returnValue(true);
+      const nameInput = await harness.nameInput();
+
+      await nameInput.setValue(validInputs.name);
+      await nameInput.blur();
+      await harness.cancelBtnClick();
+
+      expect(window.confirm).toHaveBeenCalledTimes(1);
+    });
+
+    it('should close dialog on cancel btn click if confirmed', async () => {
+      spyOn(window, 'confirm').and.returnValue(true);
+      const descriptionInput = await harness.descriptionInput();
+
+      await descriptionInput.setValue(validInputs.description);
+      await descriptionInput.blur();
+      await harness.cancelBtnClick();
+
+      expect(await isDialogOpen()).toBeFalse();
+    });
+
+    it('should leave dialog open on cancel btn click if not confirmed', async () => {
+      spyOn(window, 'confirm').and.returnValue(false);
+      const pictureUrlInput = await harness.descriptionInput();
+
+      await pictureUrlInput.setValue(validInputs.picture);
+      await pictureUrlInput.blur();
+      await harness.cancelBtnClick();
+
+      expect(await isDialogOpen()).toBeTrue();
+    });
   });
 
-  it('should have create btn disabled by default', async () => {
-    const createBtn = await harness.getCreateBtn();
-    expect(await createBtn.isDisabled()).toBeTrue();
-  });
+  describe('Create Button', () => {
+    it('should have create btn disabled by default', async () => {
+      const createBtn = await harness.getCreateBtn();
+      expect(await createBtn.isDisabled()).toBeTrue();
+    });
 
-  it('should have create btn active when provided valid input', async () => {
-    const createBtn = await harness.getCreateBtn();
-    await harness.setFormValues(validInputs);
-    fixture.detectChanges();
-    await fixture.whenStable();
+    it('should have create btn active when provided valid input', async () => {
+      const createBtn = await harness.getCreateBtn();
+      await harness.setFormValues(validInputs);
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    expect(await createBtn.isDisabled()).toBeFalse();
-  });
+      expect(await createBtn.isDisabled()).toBeFalse();
+    });
 
-  it('should close dialog and emit valid form values on create btn click', async () => {
-    await harness.setFormValues(validInputs);
-    await harness.createBtnClick();
-    fixture.detectChanges();
-    await fixture.whenStable();
+    it('should close dialog and emit valid form values on create btn click', async () => {
+      await harness.setFormValues(validInputs);
+      await harness.createBtnClick();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    expect((await loader.getAllHarnesses(MatDialogHarness)).length).toBe(0);
-    component.dialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((formVals) => {
-        expect(formVals).toEqual(validInputs);
-      });
+      expect((await loader.getAllHarnesses(MatDialogHarness)).length).toBe(0);
+      component.dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((formVals) => {
+          expect(formVals).toEqual(validInputs);
+        });
+    });
   });
 
   describe('Create Product Form', () => {

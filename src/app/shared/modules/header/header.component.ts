@@ -71,7 +71,8 @@ export class HeaderComponent {
       CreateProductModalComponent,
       CreateProductFormType | null
     > = this.dialog.open(CreateProductModalComponent, {
-      width: '500px'
+      width: '500px',
+      disableClose: true
     });
 
     const formValues$ = createProductDialogRef.afterClosed();

@@ -30,6 +30,7 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeForm();
     this.cleanFormValues();
+    this.bindDialogEvents();
   }
 
   ngOnDestroy(): void {
@@ -37,8 +38,24 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onCancelClick(): void {
-    this.dialogRef.close();
+  closeDialog(): void {
+    if (this.form.pristine) {
+      this.dialogRef.close();
+    } else if (
+      confirm(
+        'You have unsaved changes! Are you sure you want to close the dialog?'
+      )
+    ) {
+      this.dialogRef.close();
+    }
+  }
+
+  bindDialogEvents(): void {
+    this.dialogRef
+      .keydownEvents()
+      .subscribe(({ key }) => key === 'Escape' && this.closeDialog());
+
+    this.dialogRef.backdropClick().subscribe(() => this.closeDialog());
   }
 
   getErrorMessage(inputName: string): string {
