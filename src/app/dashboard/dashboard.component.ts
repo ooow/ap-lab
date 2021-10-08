@@ -66,20 +66,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.bindEvents();
-  }
-
-  ngOnDestroy(): void {
-    this.unbindEvents();
-  }
-
-  bindEvents(): void {
     this.updateProductsOnLangEmit();
     this.updateSearchOnProductsEmit();
     this.updateChartConfigsTitle();
   }
 
-  unbindEvents(): void {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }

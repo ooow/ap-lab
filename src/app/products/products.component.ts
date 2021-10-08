@@ -56,11 +56,13 @@ export class ProductsComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.clearSearch();
-    this.bindEvents();
+    this.updateProducts();
+    this.updateTopProducts();
   }
 
   ngOnDestroy(): void {
-    this.unbindEvents();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   updateProducts(): void {
@@ -81,11 +83,6 @@ export class ProductsComponent implements OnDestroy, OnInit {
     this.store.dispatch(searchProductAction({ search: '' }));
   }
 
-  bindEvents(): void {
-    this.updateProducts();
-    this.updateTopProducts();
-  }
-
   showProductDetails(product: Product): void {
     this.dialog.open(ProductDetailsModalComponent, {
       width: '600px',
@@ -95,10 +92,5 @@ export class ProductsComponent implements OnDestroy, OnInit {
 
   onPageChange(pageIndex: number): void {
     this.store.dispatch(changePageAction({ pageIndex }));
-  }
-
-  unbindEvents(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

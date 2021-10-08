@@ -93,17 +93,17 @@ export class HeaderComponent {
       });
   }
 
+  openSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'right'
+    });
+  }
+
   private updateProducts(): void {
     this.lang$.pipe(take(1)).subscribe((lang) => {
       this.store.dispatch(getProductsAction({ lang, pageIndex: 0 }));
       this.store.dispatch(getTopProductsAction({ lang }));
-    });
-  }
-
-  private openSnackBar(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: 5000,
-      horizontalPosition: 'right'
     });
   }
 }

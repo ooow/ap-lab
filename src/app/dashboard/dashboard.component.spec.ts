@@ -109,11 +109,13 @@ describe('Dashboard', () => {
     expect(charts.length).toBe(0);
   });
 
-  it('should dispatch products retrieval on component creation', () => {
+  it('should dispatch products retrieval OnInit creation', () => {
+    component.ngOnInit();
+
     expect(store.dispatch).toHaveBeenCalledWith(
       getProductsAction({
         lang: initialState.lang,
-        pageIndex: initialState.product.pageIndex
+        pageIndex: 0
       })
     );
   });

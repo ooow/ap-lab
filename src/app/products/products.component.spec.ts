@@ -18,6 +18,8 @@ import { ProductsHarness } from 'src/app/products/products.harness';
 import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
+import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
+import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import { isLoading } from 'src/app/shared/store/top-products/top-products.selectors';
 
 describe('Products', () => {
@@ -34,10 +36,6 @@ describe('Products', () => {
   const mockProductService = {
     getProducts: jasmine.createSpy('getProducts').and.returnValue(of({}))
   };
-
-  afterEach(() => {
-    mockProductService.getProducts.calls.reset();
-  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -76,23 +74,26 @@ describe('Products', () => {
   it('should display loader when globalLoading is true', async () => {
     expect(await harness.isLoading()).toBeFalse();
 
-    store.overrideSelector(isLoading, false);
+    store.overrideSelector(isLoading, true);
     store.refreshState();
     fixture.detectChanges();
 
     expect(await harness.isLoading()).toBeTrue();
   });
 
-  it('should call productService.getProducts twice on creation with correct params', () => {
-    expect(mockProductService.getProducts).toHaveBeenCalledTimes(2);
-    expect(mockProductService.getProducts).toHaveBeenCalledWith(
-      initialState.lang,
-      initialState.product.pageIndex
+  it('should get products and top product OnInit', () => {
+    spyOn(store, 'dispatch').and.callFake(() => {});
+    component.ngOnInit();
+
+    expect(store.dispatch).toHaveBeenCalledTimes(3);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      getProductsAction({
+        lang: initialState.lang,
+        pageIndex: initialState.product.pageIndex
+      })
     );
-    expect(mockProductService.getProducts).toHaveBeenCalledWith(
-      initialState.lang,
-      0,
-      5
+    expect(store.dispatch).toHaveBeenCalledWith(
+      getTopProductsAction({ lang: initialState.lang })
     );
   });
 
