@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
+import { Product } from 'src/app/products/models/product';
+import * as ProductActions from 'src/app/products/store/product/product.actions';
+import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
 
 import { Lang } from 'src/app/shared/models/lang';
+import { SearchTypes } from 'src/app/shared/modules/header/components/search/search.types';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
-import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
-import { Product } from 'src/app/products/models/product';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { SearchTypes } from 'src/app/shared/modules/header/components/search/search.types';
 
 @Component({
   selector: 'tk-header',
@@ -52,14 +52,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(readonly store: Store, readonly router: Router) {}
 
   ngOnInit(): void {
-    this.initializeSubscriptions();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-  }
-
-  initializeSubscriptions(): void {
     this.router.events
       .pipe(
         filter((event: RouterEvent) => event instanceof NavigationEnd),
@@ -68,6 +60,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe((event: RouterEvent) => {
         this.searchType = this.getSearchType(event.url);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 
   getSearchType(path): SearchTypes {
