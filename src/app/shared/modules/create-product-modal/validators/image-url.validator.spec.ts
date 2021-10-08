@@ -3,7 +3,7 @@ import { take } from 'rxjs/operators';
 
 import { ImageUrlValidator } from './image-url.validator';
 
-fdescribe('ImageUrlValidator', () => {
+describe('ImageUrlValidator', () => {
   let imageUrlValidator: ImageUrlValidator;
 
   const expectedError = {

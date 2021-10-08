@@ -29,11 +29,12 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.bindEvents();
+    this.cleanFormValues();
   }
 
   ngOnDestroy(): void {
-    this.unbindEvents();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onCancelClick(): void {
@@ -74,42 +75,6 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  private initializeForm(): void {
-    const textRegEx = /^[\w\n\sЁёА-я.…,:;!?()"'\/&+-]*$/;
-
-    this.form = this.fb.group(
-      {
-        name: [
-          '',
-          [
-            Validators.required,
-            Validators.maxLength(30),
-            Validators.pattern(textRegEx)
-          ]
-        ],
-        picture: [
-          '',
-          [Validators.required],
-          [this.imageUrlValidator.validate.bind(this.imageUrlValidator)]
-        ],
-        description: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(10),
-            Validators.maxLength(500),
-            Validators.pattern(textRegEx)
-          ]
-        ]
-      },
-      { updateOn: 'blur' }
-    );
-  }
-
-  private bindEvents(): void {
-    this.cleanFormValues();
-  }
-
   private cleanFormValues(): void {
     this.form.valueChanges
       .pipe(
@@ -146,8 +111,35 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
       });
   }
 
-  private unbindEvents(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  private initializeForm(): void {
+    const textRegEx = /^[\w\n\sЁёА-я.…,:;!?()"'\/&+-]*$/;
+
+    this.form = this.fb.group(
+      {
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.maxLength(30),
+            Validators.pattern(textRegEx)
+          ]
+        ],
+        picture: [
+          '',
+          [Validators.required],
+          [this.imageUrlValidator.validate.bind(this.imageUrlValidator)]
+        ],
+        description: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(10),
+            Validators.maxLength(500),
+            Validators.pattern(textRegEx)
+          ]
+        ]
+      },
+      { updateOn: 'blur' }
+    );
   }
 }
