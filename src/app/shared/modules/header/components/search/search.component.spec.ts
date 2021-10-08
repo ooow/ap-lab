@@ -13,8 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SearchComponent } from 'src/app/shared/components/search/search.component';
-import { SearchHarness } from 'src/app/shared/components/search/search.harness';
+import { SearchComponent } from 'src/app/shared/modules/header/components/search/search.component';
+import { SearchHarness } from 'src/app/shared/modules/header/components/search/search.harness';
+import { SearchTypes } from 'src/app/shared/modules/header/components/search/search.types';
+import { MatSelectModule } from '@angular/material/select';
 
 @Pipe({ name: 'searchOptions' })
 class MockPipe implements PipeTransform {
@@ -25,19 +27,21 @@ class MockPipe implements PipeTransform {
 
 @Component({
   selector: 'tk-test',
-  template: '<tk-search [options]="options" [search]="search"></tk-search>'
+  template:
+    '<tk-search [options]="options" [search]="search" [searchType]="searchType"></tk-search>'
 })
 class TestComponent {
   options: string[];
   search: string;
+  searchType: SearchTypes = SearchTypes.INPUT;
 }
 
 describe('AppModule => SearchComponent', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let loader: HarnessLoader;
+  let harness: SearchHarness;
   const options = ['option1', 'option2'];
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -46,13 +50,15 @@ describe('AppModule => SearchComponent', () => {
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        MatSelectModule
       ],
       declarations: [SearchComponent, MockPipe, TestComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
     loader = TestbedHarnessEnvironment.loader(fixture);
+    harness = await loader.getHarness(SearchHarness);
     component = fixture.componentInstance;
   });
 
@@ -66,27 +72,64 @@ describe('AppModule => SearchComponent', () => {
     expect(await search.labelText()).toBe('Products');
   });
 
+  it('should render input field with reset btn when searchType is Input', async () => {
+    expect(await harness.getSelector()).toBeFalsy();
+    expect(await harness.getInput()).toBeTruthy();
+    expect(await harness.getClearBtn()).toBeTruthy();
+  });
+
+  it('should render selector when searchType is Selector', async () => {
+    component.searchType = SearchTypes.SELECTOR;
+
+    expect(await harness.getInput()).toBeFalsy();
+    expect(await harness.getClearBtn()).toBeFalsy();
+    expect(await harness.getSelector()).toBeTruthy();
+  });
+
   it('should propagate search input field value on change event', async () => {
     const inputText = 'text';
     // prettier-ignore
     const search = fixture.debugElement.query(By.css('tk-search')).componentInstance;
-    const input = await loader.getHarness(MatInputHarness);
     spyOn(search.valueChange, 'emit');
 
-    await input.setValue(inputText);
+    await harness.setInputValue(inputText);
 
     expect(search.valueChange.emit).toHaveBeenCalledWith('text');
   });
 
-  it('should set search input value from props onChanges', async () => {
-    const testSearch = 'test-search';
-    const input = await loader.getHarness(MatInputHarness);
+  it('should propagate search selector field value on change event', async () => {
+    // prettier-ignore
+    const search = fixture.debugElement.query(By.css('tk-search')).componentInstance;
+    component.searchType = SearchTypes.SELECTOR;
+    component.options = options;
+    spyOn(search.valueChange, 'emit');
 
-    expect(await input.getValue()).toBe('');
+    await harness.setSelectorValue(options[1]);
+
+    expect(search.valueChange.emit).toHaveBeenCalledWith(options[1]);
+  });
+
+  it('should set search input value from props by default', async () => {
+    const testSearch = 'test-search';
+
+    expect(await harness.getInputValue()).toBe('');
 
     component.search = 'test-search';
 
-    expect(await input.getValue()).toBe(testSearch);
+    expect(await harness.getInputValue()).toBe(testSearch);
+  });
+
+  it('should set search selector value from props by default', async () => {
+    component.options = options;
+    component.searchType = SearchTypes.SELECTOR;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(await harness.getSelectorValue()).toBe('');
+
+    component.search = options[1];
+
+    expect(await harness.getSelectorValue()).toBe(options[1]);
   });
 
   // tslint:disable-next-line:max-line-length
@@ -108,14 +151,24 @@ describe('AppModule => SearchComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const autocomplete = await loader.getHarness(MatAutocompleteHarness);
-    const input = await loader.getHarness(MatInputHarness);
-    await input.focus();
-    const optionArr = await autocomplete.getOptions();
+    const inputOptionsList = await harness.getInputOptions();
 
-    expect(optionArr.length).toBe(options.length);
-    expect(await optionArr[0].getText()).toBe(options[0]);
-    expect(await optionArr[1].getText()).toBe(options[1]);
+    expect(inputOptionsList.length).toBe(options.length);
+    expect(await inputOptionsList[0].getText()).toBe(options[0]);
+    expect(await inputOptionsList[1].getText()).toBe(options[1]);
+  });
+
+  it('should show selector options list of provided options', async () => {
+    component.options = options;
+    component.searchType = SearchTypes.SELECTOR;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const selectorOptionsList = await harness.getSelectorOptions();
+
+    expect(selectorOptionsList.length).toBe(options.length);
+    expect(await selectorOptionsList[0].getText()).toBe(options[0]);
+    expect(await selectorOptionsList[1].getText()).toBe(options[1]);
   });
 
   it('should preselect first autocomplete option when autocomplete drop down opens', async () => {
@@ -132,21 +185,19 @@ describe('AppModule => SearchComponent', () => {
     expect(await firstOption.isActive()).toBeTrue();
   });
 
-  it('should clear search input on clear button click', async () => {
+  it('should clear search input on clear btn click', async () => {
     const inputText = 'text';
     // prettier-ignore
     const search = fixture.debugElement.query(By.css('tk-search')).componentInstance;
-    const input = await loader.getHarness(MatInputHarness);
     spyOn(search.valueChange, 'emit');
-    await input.setValue(inputText);
+    await harness.setInputValue(inputText);
 
     expect(search.valueChange.emit).toHaveBeenCalledWith(inputText);
 
-    const clear = await loader.getHarness(MatButtonHarness);
-    await clear.click();
+    await harness.clearSearch();
 
     expect(search.valueChange.emit).toHaveBeenCalledWith('');
-    expect(await input.getValue()).toBe('');
+    expect(await harness.getInputValue()).toBe('');
   });
 
   // tslint:disable-next-line:max-line-length
