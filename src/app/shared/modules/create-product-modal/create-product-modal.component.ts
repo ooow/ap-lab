@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -56,6 +56,14 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
       .subscribe(({ key }) => key === 'Escape' && this.closeDialog());
 
     this.dialogRef.backdropClick().subscribe(() => this.closeDialog());
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onWindowClose(event: Event): boolean {
+    if (this.form.dirty) {
+      event.preventDefault();
+      return false;
+    }
   }
 
   getErrorMessage(inputName: string): string {
