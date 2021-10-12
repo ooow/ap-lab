@@ -1,11 +1,9 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { take } from 'rxjs/operators';
 
-import { ImageUrlValidator } from './image-url.validator';
+import { imageUrlValidator, isValidImage } from './image-url.validator';
 
 describe('ImageUrlValidator', () => {
-  let imageUrlValidator: ImageUrlValidator;
-
   const expectedError = {
     url: true
   };
@@ -13,18 +11,14 @@ describe('ImageUrlValidator', () => {
   const validationResult = (value: string) => {
     const mockControl = { value } as AbstractControl;
     let result: ValidationErrors | null;
-    imageUrlValidator
-      .validate(mockControl)
+
+    imageUrlValidator(mockControl)
       .pipe(take(1))
       .subscribe((res) => {
         result = res;
       });
     return result;
   };
-
-  beforeEach(() => {
-    imageUrlValidator = new ImageUrlValidator();
-  });
 
   it('should return observable null if value is empty', () => {
     expect(validationResult('')).toBeNull();
@@ -44,7 +38,6 @@ describe('ImageUrlValidator', () => {
   });
 
   it('should return call isImageUrl method when url match pattern', async () => {
-    spyOn(imageUrlValidator, 'isImage').and.callThrough();
     const imageUrlOne =
       'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg';
     const imageUrlTwo =
@@ -52,12 +45,12 @@ describe('ImageUrlValidator', () => {
     const imageUrlThree =
       'https://www.snopes.com/tachyon/2020/03/ss_corona_beer.png?resize=865,452';
 
-    expect(imageUrlValidator.isImage).toHaveBeenCalledTimes(0);
-    imageUrlValidator.validate({ value: imageUrlOne } as AbstractControl);
-    expect(imageUrlValidator.isImage).toHaveBeenCalledTimes(1);
-    imageUrlValidator.validate({ value: imageUrlTwo } as AbstractControl);
-    expect(imageUrlValidator.isImage).toHaveBeenCalledTimes(2);
-    imageUrlValidator.validate({ value: imageUrlThree } as AbstractControl);
-    expect(imageUrlValidator.isImage).toHaveBeenCalledTimes(3);
+    expect(isValidImage).toHaveBeenCalledTimes(0);
+    imageUrlValidator({ value: imageUrlOne } as AbstractControl);
+    expect(isValidImage).toHaveBeenCalledTimes(1);
+    imageUrlValidator({ value: imageUrlTwo } as AbstractControl);
+    expect(isValidImage).toHaveBeenCalledTimes(2);
+    imageUrlValidator({ value: imageUrlThree } as AbstractControl);
+    expect(isValidImage).toHaveBeenCalledTimes(3);
   });
 });

@@ -18,7 +18,6 @@ export class PersistenceService {
     try {
       return JSON.parse(localStorage.getItem(key) as string);
     } catch (e) {
-      console.error('Error getting data from localStorage', e);
       return null;
     }
   }
@@ -36,8 +35,7 @@ export class PersistenceService {
       }
       return {
         success: false,
-        /* tslint:disable */
-        error: "Data can't be added to the existing data type"
+        error: 'Data cannot be added to the existing data type'
       };
     } catch (e) {
       return { success: false, error: e };

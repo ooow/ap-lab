@@ -7,8 +7,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-import { ImageUrlValidator } from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
 import { CreateProductModalComponent } from './create-product-modal.component';
 
 @NgModule({
@@ -23,7 +21,6 @@ import { CreateProductModalComponent } from './create-product-modal.component';
     ReactiveFormsModule
   ],
   declarations: [CreateProductModalComponent],
-  exports: [CreateProductModalComponent],
-  providers: [ImageUrlValidator]
+  exports: [CreateProductModalComponent]
 })
 export class CreateProductModalModule {}

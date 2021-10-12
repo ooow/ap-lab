@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Create new product</h1>
 <div mat-dialog-content>
-  <form [formGroup]="form">
+  <form class="create-product-form" [formGroup]="form">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
@@ -17,7 +17,11 @@
     </mat-form-field>
     <div class="image-preview" *ngIf="formValues?.picture">
       <mat-divider></mat-divider>
-      <img [src]="formValues.picture" alt="Provided product image" />
+      <img
+        [src]="formValues.picture"
+        class="product-image"
+        alt="Provided product image"
+      />
       <mat-divider></mat-divider>
     </div>
     <mat-form-field appearance="fill">

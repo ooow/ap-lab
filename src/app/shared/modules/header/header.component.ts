@@ -2,8 +2,14 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take
+} from 'rxjs/operators';
 
 import { Lang } from 'src/app/shared/models/lang';
 import { Product } from 'src/app/shared/models/product';
@@ -79,18 +85,15 @@ export class HeaderComponent {
 
     combineLatest([formValues$, this.lang$])
       .pipe(
-        take(1),
+        distinctUntilChanged(([_, lang]) => lang === lang),
+        filter(([formValues]) => Boolean(formValues)),
         switchMap(([formValues, lang]) =>
-          formValues
-            ? this.productService.createProduct(formValues, lang)
-            : of(formValues)
+          this.productService.createProduct(formValues, lang)
         )
       )
-      .subscribe((result: CreateProductResponseType | null) => {
-        if (result) {
-          this.openSnackBar(result.message);
-          this.updateProducts();
-        }
+      .subscribe((result: CreateProductResponseType) => {
+        this.openSnackBar(result.message);
+        this.updateProducts();
       });
   }
 

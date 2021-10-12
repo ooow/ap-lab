@@ -7,30 +7,21 @@
   justify-content: flex-end;
 }
 
-.mat-dialog-content {
-  background: linear-gradient(white 15px, hsla(0, 0%, 100%, 0)) 0 0 / 100% 50px,
-    radial-gradient(at top, rgba(0, 0, 0, 0.3), transparent 70%) 0 0 / 100% 15px,
-    linear-gradient(to top, white 15px, hsla(0, 0%, 100%, 0)) bottom / 100% 50px,
-    radial-gradient(at bottom, rgba(0, 0, 0, 0.3), transparent 70%) bottom /
-      100% 15px;
-  background-attachment: local, scroll, local, scroll;
-  background-repeat: no-repeat;
-}
-
-.mat-dialog-content form {
+.create-product-form {
   display: flex;
   flex-direction: column;
 
   mat-form-field {
     margin-bottom: 5px;
   }
+}
 
-  .image-preview {
-    margin-bottom: 10px;
-    img {
-      height: auto;
-      margin: 10px 0;
-      width: 100%;
-    }
-  }
+.image-preview {
+  margin-bottom: 10px;
+}
+
+.product-image {
+  height: auto;
+  margin: 10px 0;
+  width: 100%;
 }

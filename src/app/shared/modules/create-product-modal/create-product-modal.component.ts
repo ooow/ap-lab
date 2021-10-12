@@ -1,41 +1,68 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { delay, map, takeUntil } from 'rxjs/operators';
-
-import { ImageUrlValidator } from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
+import { imageUrlValidator } from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
 import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
+
+const TEXT_REGEX_PATTERN = /^[\w\n\sЁёА-я.…,:;!?()"'\/&+-]*$/;
 
 @Component({
   selector: 'tk-create-product-modal',
   templateUrl: './create-product-modal.component.html',
   styleUrls: ['./create-product-modal.component.scss']
 })
-export class CreateProductModalComponent implements OnInit, OnDestroy {
-  form: FormGroup;
+export class CreateProductModalComponent implements OnDestroy {
+  form: FormGroup = this.fb.group(
+    {
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(30),
+          Validators.pattern(TEXT_REGEX_PATTERN)
+        ]
+      ],
+      picture: ['', [Validators.required], [imageUrlValidator]],
+      description: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(500),
+          Validators.pattern(TEXT_REGEX_PATTERN)
+        ]
+      ]
+    },
+    { updateOn: 'blur' }
+  );
+
   formValues: CreateProductFormType;
   private destroy$ = new Subject<void>();
 
   constructor(
     private dialogRef: MatDialogRef<CreateProductModalComponent>,
-    private fb: FormBuilder,
-    private imageUrlValidator: ImageUrlValidator
-  ) {}
-
-  static removeWhiteSpaces(value: string): string {
-    return value.trim().replace(/(\r\n|\n|\r|\s\s+)/gm, ' ');
-  }
-
-  ngOnInit(): void {
-    this.initializeForm();
+    private fb: FormBuilder
+  ) {
     this.cleanFormValues();
     this.bindDialogEvents();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
-    this.destroy$.complete();
+  }
+
+  bindDialogEvents(): void {
+    this.dialogRef
+      .keydownEvents()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ key }) => key === 'Escape' && this.closeDialog());
+
+    this.dialogRef
+      .backdropClick()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.closeDialog());
   }
 
   closeDialog(): void {
@@ -48,14 +75,6 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
     ) {
       this.dialogRef.close();
     }
-  }
-
-  bindDialogEvents(): void {
-    this.dialogRef
-      .keydownEvents()
-      .subscribe(({ key }) => key === 'Escape' && this.closeDialog());
-
-    this.dialogRef.backdropClick().subscribe(() => this.closeDialog());
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -100,14 +119,16 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  removeWhiteSpaces(value: string): string {
+    return value.trim().replace(/(\r\n|\n|\r|\s\s+)/gm, ' ');
+  }
+
   private cleanFormValues(): void {
     this.form.valueChanges
       .pipe(
         map((control) => ({
-          name: CreateProductModalComponent.removeWhiteSpaces(control.name),
-          description: CreateProductModalComponent.removeWhiteSpaces(
-            control.description
-          )
+          name: this.removeWhiteSpaces(control.name),
+          description: this.removeWhiteSpaces(control.description)
         })),
         takeUntil(this.destroy$)
       )
@@ -134,37 +155,5 @@ export class CreateProductModalComponent implements OnInit, OnDestroy {
           ...checkedPicUrl
         };
       });
-  }
-
-  private initializeForm(): void {
-    const textRegEx = /^[\w\n\sЁёА-я.…,:;!?()"'\/&+-]*$/;
-
-    this.form = this.fb.group(
-      {
-        name: [
-          '',
-          [
-            Validators.required,
-            Validators.maxLength(30),
-            Validators.pattern(textRegEx)
-          ]
-        ],
-        picture: [
-          '',
-          [Validators.required],
-          [this.imageUrlValidator.validate.bind(this.imageUrlValidator)]
-        ],
-        description: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(10),
-            Validators.maxLength(500),
-            Validators.pattern(textRegEx)
-          ]
-        ]
-      },
-      { updateOn: 'blur' }
-    );
   }
 }

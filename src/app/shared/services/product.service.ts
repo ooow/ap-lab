@@ -44,7 +44,6 @@ export class ProductService {
           return { message: `${product.name} was successfully created` };
         }
         if (res.error) {
-          console.log(res.error);
           return { message: `Creating ${product.name} failed` };
         }
       })
