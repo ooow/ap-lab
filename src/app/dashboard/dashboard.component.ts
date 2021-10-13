@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 
 import {
   ChartConfigsType,
@@ -43,9 +43,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
   };
   readonly ChartType = ChartType;
 
-  private products$: Observable<Product[]> = this.store.select(
-    ProductSelectors.products
+  private products$: Observable<Product[]> = this.store.pipe(
+    select(ProductSelectors.products),
+    map((products) => products.filter((product) => product.counts))
   );
+
   readonly product$: Observable<Product | null> = combineLatest([
     this.search$,
     this.products$
