@@ -184,7 +184,7 @@ describe('Header', () => {
       expect(await harness.createProductModal()).toBeTruthy();
     });
 
-    it('should not call product service createProduct method on dialog close', async () => {
+    it('should not call product service create-product method on dialog close', async () => {
       await harness.clickCreateProductBtn();
       const createProductModal = await harness.createProductModal();
       await createProductModal.setFormValues(validInputs);
@@ -193,7 +193,7 @@ describe('Header', () => {
       expect(mockProductService.createProduct).toHaveBeenCalledTimes(0);
     });
 
-    it('should call product service createProduct method on create product with expected params', async () => {
+    it('should call product service create-product method on create product with expected params', async () => {
       await harness.clickCreateProductBtn();
       spyOn(component, 'openSnackBar').and.callFake(() => {});
       const createProductModal = await harness.createProductModal();

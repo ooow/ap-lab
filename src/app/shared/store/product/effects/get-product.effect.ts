@@ -22,9 +22,7 @@ export class GetProductEffect {
             return getProductsSuccessAction(resp);
           }),
           catchError((errorResponse: HttpErrorResponse) => {
-            return of(
-              getProductsFailureAction({ errors: errorResponse.error.errors })
-            );
+            return of(getProductsFailureAction({ error: errorResponse.error }));
           })
         );
       })

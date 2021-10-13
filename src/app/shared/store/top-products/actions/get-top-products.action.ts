@@ -14,5 +14,5 @@ export const getTopProductsSuccessAction = createAction(
 
 export const getTopProductsFailureAction = createAction(
   '[Products API] Get top products failure',
-  props<{ errors: BackendErrorsInterface }>()
+  props<{ error: BackendErrorsInterface }>()
 );

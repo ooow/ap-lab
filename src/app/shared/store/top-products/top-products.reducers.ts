@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { TopProductsState } from 'src/app/shared/models/top-products-state';
+import { createProductSuccessAction } from 'src/app/shared/store/create-product/actions/create-product.actions';
 import {
   getTopProductsAction,
   getTopProductsFailureAction,
@@ -23,10 +24,14 @@ const topProductReducer = createReducer(
     isLoading: false,
     topProducts: products
   })),
-  on(getTopProductsFailureAction, (state: TopProductsState, { errors }) => ({
+  on(getTopProductsFailureAction, (state: TopProductsState, { error }) => ({
     ...state,
     isLoading: false,
-    error: errors
+    error
+  })),
+  on(createProductSuccessAction, (state: TopProductsState, { product }) => ({
+    ...state,
+    topProducts: [product, ...state.topProducts]
   }))
 );
 

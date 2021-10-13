@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { getProducts } from 'src/app/products/mocks/products';
 import { Lang } from 'src/app/shared/models/lang';
 import { Product } from 'src/app/shared/models/product';
 import { ProductsResp } from 'src/app/shared/models/products-resp';
-import { PersistenceService } from 'src/app/shared/services/persistence/persistence.service';
+import { PersistenceService } from 'src/app/shared/services/persistence.service';
 import { CreateProductResponseType } from 'src/app/shared/types/create-product-response.type';
 
 @Injectable({
@@ -21,32 +21,28 @@ export class ProductService {
     size = 10
   ): Observable<ProductsResp> {
     const productKey = `product-${lang}`;
-    const locallyStoredProducts = this.persistenceService.get(productKey) || [];
     const fetchedProducts = getProducts(lang);
-    const allProducts = [...locallyStoredProducts, ...fetchedProducts];
-    const start = pageIndex * size;
-
-    return of({
-      products: allProducts.slice(start, start + size),
-      totalNumber: allProducts.length
-    }).pipe(delay(1000));
+    return this.persistenceService.get<Product[]>(productKey).pipe(
+      delay(1000),
+      map(({ data: localStorageProducts }) => {
+        const allProducts = [
+          ...(localStorageProducts || []),
+          ...fetchedProducts
+        ];
+        const start = pageIndex * size;
+        return {
+          products: allProducts.slice(start, start + size),
+          totalNumber: allProducts.length
+        };
+      })
+    );
   }
 
   createProduct(
-    product: Partial<Product>,
+    product: Product,
     lang: Lang
   ): Observable<CreateProductResponseType> {
     const key = `product-${lang}`;
-    return of(this.persistenceService.add(key, product)).pipe(
-      delay(1000),
-      map((res) => {
-        if (res.success) {
-          return { message: `${product.name} was successfully created` };
-        }
-        if (res.error) {
-          return { message: `Creating ${product.name} failed` };
-        }
-      })
-    );
+    return this.persistenceService.add(key, product).pipe(delay(1000));
   }
 }

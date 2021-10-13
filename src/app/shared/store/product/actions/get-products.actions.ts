@@ -15,5 +15,5 @@ export const getProductsSuccessAction = createAction(
 
 export const getProductsFailureAction = createAction(
   '[Products API] Get products failure',
-  props<{ errors: BackendErrorsInterface }>()
+  props<{ error: BackendErrorsInterface }>()
 );

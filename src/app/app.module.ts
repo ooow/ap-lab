@@ -11,6 +11,8 @@ import { DashboardModule } from 'src/app/dashboard/dashboard.module';
 import { ProductsModule } from 'src/app/products/products.module';
 import { Lang } from 'src/app/shared/models/lang';
 import { HeaderModule } from 'src/app/shared/modules/header/header.module';
+import { reducer as CreateProductReducer } from 'src/app/shared/store/create-product/create-product.reducers';
+import { CreateProductEffect } from 'src/app/shared/store/create-product/effects/create-product.effect';
 import { reducer as LangReducer } from 'src/app/shared/store/lang/lang.reducers';
 import { GetProductEffect } from 'src/app/shared/store/product/effects/get-product.effect';
 import { reducer as ProductReducer } from 'src/app/shared/store/product/product.reducers';
@@ -35,9 +37,14 @@ const routes: Routes = [
     StoreModule.forRoot({
       lang: LangReducer,
       product: ProductReducer,
-      topProducts: TopProductsReducer
+      topProducts: TopProductsReducer,
+      createProduct: CreateProductReducer
     }),
-    EffectsModule.forRoot([GetProductEffect, GetTopProductsEffect])
+    EffectsModule.forRoot([
+      GetProductEffect,
+      GetTopProductsEffect,
+      CreateProductEffect
+    ])
   ],
   providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
   bootstrap: [AppComponent]

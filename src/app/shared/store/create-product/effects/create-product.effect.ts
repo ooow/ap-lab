@@ -6,26 +6,24 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ProductService } from 'src/app/shared/services/product.service';
 import {
-  getTopProductsAction,
-  getTopProductsFailureAction,
-  getTopProductsSuccessAction
-} from 'src/app/shared/store/top-products/actions/get-top-products.action';
+  createProductAction,
+  createProductFailureAction,
+  createProductSuccessAction
+} from 'src/app/shared/store/create-product/actions/create-product.actions';
 
 @Injectable()
-export class GetTopProductsEffect {
-  getTopProduct$ = createEffect(() =>
+export class CreateProductEffect {
+  createProduct$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getTopProductsAction),
-      switchMap(({ lang }) => {
-        return this.productService.getProducts(lang, 0, 5).pipe(
-          map((resp) => {
-            return getTopProductsSuccessAction(resp);
+      ofType(createProductAction),
+      switchMap(({ productData, lang }) => {
+        return this.productService.createProduct(productData, lang).pipe(
+          map(({ data }) => {
+            return createProductSuccessAction({ product: data });
           }),
           catchError((errorResponse: HttpErrorResponse) => {
             return of(
-              getTopProductsFailureAction({
-                error: errorResponse.error
-              })
+              createProductFailureAction({ error: errorResponse.error })
             );
           })
         );

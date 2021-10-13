@@ -1,29 +1,21 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take
-} from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 import { Lang } from 'src/app/shared/models/lang';
 import { Product } from 'src/app/shared/models/product';
 import { CreateProductModalComponent } from 'src/app/shared/modules/create-product-modal/create-product-modal.component';
-import { ProductService } from 'src/app/shared/services/product.service';
+import { createProductAction } from 'src/app/shared/store/create-product/actions/create-product.actions';
+import * as CreateProductSelectors from 'src/app/shared/store/create-product/create-product.selectors';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
-import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
 import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
-import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import * as TopProductsSelector from 'src/app/shared/store/top-products/top-products.selectors';
 import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
-import { CreateProductResponseType } from 'src/app/shared/types/create-product-response.type';
 
 @Component({
   selector: 'tk-header',
@@ -59,7 +51,6 @@ export class HeaderComponent {
 
   constructor(
     readonly store: Store,
-    private productService: ProductService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -85,29 +76,33 @@ export class HeaderComponent {
 
     combineLatest([formValues$, this.lang$])
       .pipe(
-        distinctUntilChanged(([_, lang]) => lang === lang),
+        take(1),
         filter(([formValues]) => Boolean(formValues)),
-        switchMap(([formValues, lang]) =>
-          this.productService.createProduct(formValues, lang)
+        tap(([formValues, lang]) =>
+          this.store.dispatch(
+            createProductAction({ productData: formValues, lang })
+          )
+        ),
+        switchMap(() =>
+          combineLatest([
+            this.store.pipe(select(CreateProductSelectors.isLoading)),
+            this.store.pipe(select(CreateProductSelectors.message))
+          ])
         )
       )
-      .subscribe((result: CreateProductResponseType) => {
-        this.openSnackBar(result.message);
-        this.updateProducts();
+      .subscribe(([isLoading, message]) => {
+        if (isLoading) {
+          this.openSnackBar(message);
+        } else if (!isLoading) {
+          this.openSnackBar(message, 5000);
+        }
       });
   }
 
-  openSnackBar(message: string): void {
+  openSnackBar(message: string, duration?: number): void {
     this.snackBar.open(message, 'Close', {
-      duration: 5000,
+      duration,
       horizontalPosition: 'right'
-    });
-  }
-
-  private updateProducts(): void {
-    this.lang$.pipe(take(1)).subscribe((lang) => {
-      this.store.dispatch(getProductsAction({ lang, pageIndex: 0 }));
-      this.store.dispatch(getTopProductsAction({ lang }));
     });
   }
 }
