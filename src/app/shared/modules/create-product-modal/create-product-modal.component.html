@@ -35,7 +35,11 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="closeDialog()">Cancel</button>
-  <button mat-button [disabled]="form.invalid" [mat-dialog-close]="formValues">
+  <button
+    mat-button
+    [disabled]="isButtonDisabled()"
+    [mat-dialog-close]="formValues"
+  >
     Create
   </button>
 </div>

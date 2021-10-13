@@ -28,7 +28,7 @@ export class CreateProductModalHarness extends ComponentHarness {
   getDescriptionInput = this.locatorFor(
     MatInputHarness.with({ selector: '[formcontrolname="description"]' })
   );
-  getPicture = this.locatorFor('.image-preview img');
+  getPicture = this.locatorFor('.product-image');
 
   async titleText(): Promise<string> {
     const title = await this.getTitle();

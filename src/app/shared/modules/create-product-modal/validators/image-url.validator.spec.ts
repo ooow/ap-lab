@@ -1,7 +1,8 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { imageUrlValidator, isValidImage } from './image-url.validator';
+import * as validator from './image-url.validator';
 
 describe('ImageUrlValidator', () => {
   const expectedError = {
@@ -12,7 +13,8 @@ describe('ImageUrlValidator', () => {
     const mockControl = { value } as AbstractControl;
     let result: ValidationErrors | null;
 
-    imageUrlValidator(mockControl)
+    validator
+      .imageUrlValidator(mockControl)
       .pipe(take(1))
       .subscribe((res) => {
         result = res;
@@ -20,8 +22,8 @@ describe('ImageUrlValidator', () => {
     return result;
   };
 
-  it('should return observable null if value is empty', () => {
-    expect(validationResult('')).toBeNull();
+  it('should return observable error if value is empty', () => {
+    expect(validationResult('')).toEqual(expectedError);
   });
 
   it('should return observable error when url is a non image url', () => {
@@ -37,7 +39,9 @@ describe('ImageUrlValidator', () => {
     expect(validationResult(testRandomString)).toEqual(expectedError);
   });
 
-  it('should return call isImageUrl method when url match pattern', async () => {
+  it('should call isImageUrl method when url match pattern', async () => {
+    spyOn(validator, 'isValidImage').and.returnValue(of(true));
+    const { isValidImage, imageUrlValidator } = validator;
     const imageUrlOne =
       'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg';
     const imageUrlTwo =

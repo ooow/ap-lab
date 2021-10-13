@@ -14,7 +14,7 @@ const TEXT_REGEX_PATTERN = /^[\w\n\sЁёА-я.…,:;!?()"'\/&+-]*$/;
   styleUrls: ['./create-product-modal.component.scss']
 })
 export class CreateProductModalComponent implements OnDestroy {
-  form: FormGroup = this.fb.group(
+  readonly form: FormGroup = this.fb.group(
     {
       name: [
         '',
@@ -121,6 +121,15 @@ export class CreateProductModalComponent implements OnDestroy {
 
   removeWhiteSpaces(value: string): string {
     return value.trim().replace(/(\r\n|\n|\r|\s\s+)/gm, ' ');
+  }
+
+  isButtonDisabled(): boolean {
+    return (
+      this.form.invalid ||
+      !this.formValues ||
+      Object.values(this.formValues).filter(Boolean).length !==
+        Object.values(this.form.value).length
+    );
   }
 
   private cleanFormValues(): void {

@@ -7,11 +7,14 @@ import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { MatFormFieldHarness } from '@angular/material/form-field/testing';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { take } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 import { CreateProductModalComponent } from 'src/app/shared/modules/create-product-modal/create-product-modal.component';
 import { CreateProductModalHarness } from 'src/app/shared/modules/create-product-modal/create-product-modal.harness';
 import { CreateProductModalModule } from 'src/app/shared/modules/create-product-modal/create-product-modal.module';
+import * as imageUrlValidator from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
+import Spy = jasmine.Spy;
 
 describe('CreateProductModalComponent', () => {
   @Component({
@@ -31,6 +34,7 @@ describe('CreateProductModalComponent', () => {
   let component: TestComponent;
   let harness: CreateProductModalHarness;
   let loader: HarnessLoader;
+  let imageUrlValidatorSpy: Spy<typeof imageUrlValidator.isValidImage>;
 
   const validInputs = {
     name: 'test-name',
@@ -53,6 +57,12 @@ describe('CreateProductModalComponent', () => {
 
     loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     harness = await loader.getHarness(CreateProductModalHarness);
+
+    spyOn(component.dialogRef.componentInstance, 'onWindowClose');
+    imageUrlValidatorSpy = spyOn(
+      imageUrlValidator,
+      'isValidImage'
+    ).and.returnValue(of(true));
   });
 
   it('should be created', () => {
@@ -68,7 +78,7 @@ describe('CreateProductModalComponent', () => {
     expect(await harness.getCancelBtn()).toBeTruthy();
   });
 
-  fdescribe('Cancel Button', () => {
+  describe('Cancel Button', () => {
     async function isDialogOpen(): Promise<boolean> {
       return Boolean((await loader.getAllHarnesses(MatDialogHarness)).length);
     }
@@ -121,25 +131,23 @@ describe('CreateProductModalComponent', () => {
     it('should have create btn active when provided valid input', async () => {
       const createBtn = await harness.getCreateBtn();
       await harness.setFormValues(validInputs);
-      fixture.detectChanges();
-      await fixture.whenStable();
 
       expect(await createBtn.isDisabled()).toBeFalse();
     });
 
-    it('should close dialog and emit valid form values on create btn click', async () => {
-      await harness.setFormValues(validInputs);
-      await harness.createBtnClick();
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect((await loader.getAllHarnesses(MatDialogHarness)).length).toBe(0);
+    it('should close dialog and emit valid form values on create btn click', async (done) => {
       component.dialogRef
         .afterClosed()
         .pipe(take(1))
         .subscribe((formVals) => {
           expect(formVals).toEqual(validInputs);
+          console.log(formVals, validInputs);
+          done();
         });
+      await harness.setFormValues(validInputs);
+      await harness.createBtnClick();
+
+      expect((await loader.getAllHarnesses(MatDialogHarness)).length).toBe(0);
     });
   });
 
@@ -235,15 +243,21 @@ describe('CreateProductModalComponent', () => {
 
       it('should show image from provided url when provided valid image url', async (done) => {
         const testValue = validInputs.picture;
+        const form = component.dialogRef.componentInstance.form;
+        form.statusChanges
+          .pipe(
+            filter((status) => status !== 'Pending'),
+            take(1)
+          )
+          .subscribe(async () => {
+            const picture = await harness.picture();
+            expect(picture).toBeTruthy();
+            expect(await picture.getAttribute('src')).toEqual(testValue);
+            done();
+          });
+
         await pictureUrlInput.setValue(testValue);
         await pictureUrlInput.blur();
-
-        setTimeout(async () => {
-          const picture = await harness.picture();
-          expect(picture).toBeTruthy();
-          expect(await picture.getAttribute('src')).toEqual(testValue);
-          done();
-        }, 500);
       });
     });
 

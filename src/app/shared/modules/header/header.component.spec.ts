@@ -11,18 +11,19 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
+
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { Lang } from 'src/app/shared/models/lang';
 import { CreateProductModalModule } from 'src/app/shared/modules/create-product-modal/create-product-modal.module';
+import * as imageUrlValidator from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
 import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
 import { HeaderComponent } from 'src/app/shared/modules/header/header.component';
 import { HeaderHarness } from 'src/app/shared/modules/header/header.harness';
-import { ProductService } from 'src/app/shared/services/product.service';
+import { createProductAction } from 'src/app/shared/store/create-product/actions/create-product.actions';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
 import * as ProductSelector from 'src/app/shared/store/product/product.selectors';
-
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
 
 @Component({
@@ -35,16 +36,6 @@ describe('Header', () => {
   let component: HeaderComponent;
   let harness: HeaderHarness;
   let store: MockStore;
-
-  const mockProductService = {
-    createProduct: jasmine
-      .createSpy('createProduct')
-      .and.returnValue(of({ message: 'test-message' }))
-  };
-
-  afterEach(() => {
-    mockProductService.createProduct.calls.reset();
-  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -68,8 +59,7 @@ describe('Header', () => {
       ],
       providers: [
         provideMockStore({ initialState }),
-        MockProvider(LANGUAGES_TOKEN),
-        MockProvider(ProductService, mockProductService)
+        MockProvider(LANGUAGES_TOKEN)
       ]
     }).compileComponents();
 
@@ -83,6 +73,10 @@ describe('Header', () => {
     store = TestBed.inject(MockStore);
     fixture.detectChanges();
     await fixture.whenStable();
+
+    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(window, 'onbeforeunload');
+    spyOn(imageUrlValidator, 'imageUrlValidator').and.returnValue(of(null));
   });
 
   it('should be created', () => {
@@ -184,36 +178,59 @@ describe('Header', () => {
       expect(await harness.createProductModal()).toBeTruthy();
     });
 
-    it('should not call product service create-product method on dialog close', async () => {
+    it('should not create product on dialog close', async () => {
+      spyOn(store, 'dispatch').and.callThrough();
       await harness.clickCreateProductBtn();
       const createProductModal = await harness.createProductModal();
       await createProductModal.setFormValues(validInputs);
       await createProductModal.cancelBtnClick();
 
-      expect(mockProductService.createProduct).toHaveBeenCalledTimes(0);
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        createProductAction({
+          productData: validInputs,
+          lang: initialState.lang
+        })
+      );
     });
 
     it('should call product service create-product method on create product with expected params', async () => {
+      spyOn(component, 'openSnackBar');
+      spyOn(store, 'dispatch');
       await harness.clickCreateProductBtn();
-      spyOn(component, 'openSnackBar').and.callFake(() => {});
       const createProductModal = await harness.createProductModal();
       await createProductModal.setFormValues(validInputs);
 
       await createProductModal.createBtnClick();
-      expect(mockProductService.createProduct).toHaveBeenCalledOnceWith(
-        validInputs,
-        initialState.lang
+      expect(store.dispatch).toHaveBeenCalledOnceWith(
+        createProductAction({
+          productData: validInputs,
+          lang: initialState.lang
+        })
       );
     });
 
     it('should call openSnackbar with expected params on create product', async () => {
+      spyOn(component, 'openSnackBar');
+      const testMessage = 'test-message';
+      store.setState({
+        ...initialState,
+        createProduct: { isLoading: true, message: testMessage, error: null }
+      });
+
       await harness.clickCreateProductBtn();
-      spyOn(component, 'openSnackBar').and.callFake(() => {});
       const createProductModal = await harness.createProductModal();
       await createProductModal.setFormValues(validInputs);
-
       await createProductModal.createBtnClick();
-      expect(component.openSnackBar).toHaveBeenCalledOnceWith('test-message');
+
+      expect(component.openSnackBar).toHaveBeenCalledOnceWith(testMessage);
+
+      store.setState({
+        ...initialState,
+        createProduct: { isLoading: false, message: testMessage, error: null }
+      });
+
+      expect(component.openSnackBar).toHaveBeenCalledTimes(2);
+      expect(component.openSnackBar).toHaveBeenCalledWith(testMessage, 5000);
     });
   });
 });

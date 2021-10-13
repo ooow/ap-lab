@@ -1,5 +1,5 @@
-import { Lang } from 'src/app/shared/models/lang';
 import { AppState } from 'src/app/shared/models/app-state';
+import { Lang } from 'src/app/shared/models/lang';
 import { ProductsResp } from 'src/app/shared/models/products-resp';
 
 export const mockProductsData = [
@@ -33,6 +33,11 @@ export const initialState: AppState = {
   topProducts: {
     topProducts: [...mockProductsData],
     isLoading: false,
+    error: null
+  },
+  createProduct: {
+    isLoading: false,
+    message: null,
     error: null
   },
   lang: Lang.ru
