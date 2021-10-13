@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { delay, map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { imageUrlValidator } from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
 import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
 
@@ -141,7 +141,7 @@ export class CreateProductModalComponent implements OnDestroy {
 
     this.form.statusChanges
       .pipe(
-        delay(500),
+        filter((status) => status !== 'PENDING'),
         map(() => ({
           picture: !this.form.get('picture').errors
             ? this.form.value.picture

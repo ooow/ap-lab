@@ -62,7 +62,6 @@ export class ProductsComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.destroy$.next();
-    this.destroy$.complete();
   }
 
   updateProducts(): void {
