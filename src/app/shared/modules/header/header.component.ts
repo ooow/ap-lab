@@ -8,12 +8,12 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Lang } from 'src/app/shared/models/lang';
 import { Product } from 'src/app/shared/models/product';
 import { CreateProductModalComponent } from 'src/app/shared/modules/create-product-modal/create-product-modal.component';
-import { createProductAction } from 'src/app/shared/store/create-product/actions/create-product.actions';
-import * as CreateProductSelectors from 'src/app/shared/store/create-product/create-product.selectors';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
 import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
+import { createProductAction } from 'src/app/shared/store/stored-product/actions/create-product.actions';
+import * as CreateProductSelectors from 'src/app/shared/store/stored-product/stored-product.selectors';
 import * as TopProductsSelector from 'src/app/shared/store/top-products/top-products.selectors';
 import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
 
@@ -87,7 +87,7 @@ export class HeaderComponent {
           combineLatest([
             this.store.pipe(select(CreateProductSelectors.isLoading)),
             this.store.pipe(select(CreateProductSelectors.message))
-          ])
+          ]).pipe(take(3))
         )
       )
       .subscribe(([isLoading, message]) => {

@@ -1,5 +1,5 @@
-import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
+import { Product } from 'src/app/shared/models/product';
 
 export type CreateProductResponseType = {
-  data: CreateProductFormType;
+  product: Product;
 };

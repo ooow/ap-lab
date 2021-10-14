@@ -1,7 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { ProductState } from 'src/app/shared/models/product-state';
-import { createProductSuccessAction } from 'src/app/shared/store/create-product/actions/create-product.actions';
 import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
 import {
   getProductsAction,
@@ -9,6 +8,7 @@ import {
   getProductsSuccessAction
 } from 'src/app/shared/store/product/actions/get-products.actions';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
+import { createProductSuccessAction } from 'src/app/shared/store/stored-product/actions/create-product.actions';
 
 export const initialState: ProductState = {
   products: [],
@@ -52,7 +52,7 @@ const productReducer = createReducer(
 
   on(createProductSuccessAction, (state: ProductState, { product }) => ({
     ...state,
-    products: [product, ...state.products]
+    products: [product, ...state.products.slice(0, -1)]
   }))
 );
 

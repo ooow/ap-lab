@@ -22,8 +22,9 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
   @Input() pageIndex: number;
   @Input() loading: boolean;
   @Output() pageChange = new EventEmitter<number>();
+  @Output() deleteProduct = new EventEmitter<Product>();
   @ViewChild(MatSort) sort: MatSort;
-  readonly displayedColumns = ['name', 'picture', 'description'];
+  readonly displayedColumns = ['delete', 'name', 'picture', 'description'];
   dataSource: MatTableDataSource<Product>;
   private searchValue: string;
 
@@ -45,14 +46,6 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
     this.searchValue = value;
   }
 
-  openSnackBar(name: string): void {
-    const message = `${name} picture link copied to clipboard`;
-    this.snackBar.open(message, 'Close', {
-      duration: 5000,
-      horizontalPosition: 'right'
-    });
-  }
-
   ngOnInit(): void {
     this.dataSource.filterPredicate = (value: Product, filter: string) =>
       value.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
@@ -60,5 +53,13 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  openSnackBar(name: string): void {
+    const message = `${name} picture link copied to clipboard`;
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'right'
+    });
   }
 }
