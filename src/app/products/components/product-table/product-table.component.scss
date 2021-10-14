@@ -36,20 +36,11 @@ td.mat-cell {
 
 .description {
   p {
-    height: 40px;
-    margin: unset;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    padding-right: 0.7rem;
-    position: relative;
-    white-space: normal;
-    word-break: break-all;
-  }
-
-  p::before {
-    content: '...';
-    inset-block-end: 0;
-    inset-inline-end: 0;
-    position: absolute;
+    text-overflow: ellipsis;
   }
 }
 
