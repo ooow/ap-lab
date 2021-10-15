@@ -1,24 +1,25 @@
-import { By } from '@angular/platform-browser';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HarnessLoader } from '@angular/cdk/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorHarness } from '@angular/material/paginator/testing';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatRowHarness } from '@angular/material/table/testing/row-harness';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSortHarness } from '@angular/material/sort/testing';
 import { MatTableModule } from '@angular/material/table';
 import { MatTableHarness } from '@angular/material/table/testing';
+import { MatRowHarness } from '@angular/material/table/testing/row-harness';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { ProductTableComponent } from './product-table.component';
 import { ProductTableHarness } from './product-table.harness';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'tk-test',
@@ -40,6 +41,7 @@ describe('AppModule => ProductTable', () => {
       ]
     },
     {
+      id: 666,
       name: 'second',
       picture: 'picUrl',
       description: 'secondDesc',
@@ -244,6 +246,35 @@ describe('AppModule => ProductTable', () => {
       expect((await first.getCellTextByIndex({ columnName: 'name' }))[0]).toBe(
         products[1].name
       );
+    });
+
+    describe('delete product button', () => {
+      let harness: ProductTableHarness;
+
+      beforeEach(async () => {
+        harness = await loader.getHarness(ProductTableHarness);
+      });
+
+      it('should render delete btn only for products with id field', async () => {
+        const deleteBtn = (await harness.deleteProductBtns()) as MatButtonHarness[];
+
+        expect(deleteBtn.length).toBe(1);
+      });
+
+      it('should propagate delete product event', async () => {
+        spyOn(component.deleteProduct, 'emit');
+        const expectedParams = products[1];
+        const deleteBtn = (await harness.deleteProductBtns(
+          0
+        )) as MatButtonHarness | null;
+        console.log(deleteBtn);
+        if (deleteBtn) {
+          await deleteBtn.click();
+        }
+        expect(component.deleteProduct.emit).toHaveBeenCalledOnceWith(
+          expectedParams
+        );
+      });
     });
   });
 });
