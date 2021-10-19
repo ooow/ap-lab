@@ -19,6 +19,7 @@ import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
 import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
+import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import { isLoading } from 'src/app/shared/store/top-products/top-products.selectors';
 
@@ -159,6 +160,16 @@ describe('Products', () => {
         productTable.pageChange.emit(pageIndex);
         expect(store.dispatch).toHaveBeenCalledOnceWith(
           changePageAction({ pageIndex })
+        );
+      });
+
+      it('should listen to delete product events', () => {
+        spyOn(store, 'dispatch').and.callFake(() => {});
+        expect(store.dispatch).toHaveBeenCalledTimes(0);
+        const productItem = initialState.product[0];
+        productTable.deleteProduct.emit(productItem);
+        expect(store.dispatch).toHaveBeenCalledOnceWith(
+          deleteProductAction({ lang: initialState.lang, product: productItem })
         );
       });
     });

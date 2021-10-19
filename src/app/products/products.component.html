@@ -13,6 +13,7 @@
   <div>
     <tk-product-table
       (pageChange)="onPageChange($event)"
+      (deleteProduct)="onDeleteProduct($event)"
       [loading]="isLoading$ | async"
       [pageIndex]="pageIndex$ | async"
       [products]="products$ | async"

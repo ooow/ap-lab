@@ -1,4 +1,5 @@
 import { ComponentHarness } from '@angular/cdk/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatProgressSpinnerHarness } from '@angular/material/progress-spinner/testing';
 import { MatTooltipHarness } from '@angular/material/tooltip/testing';
 
@@ -11,6 +12,9 @@ export class ProductTableHarness extends ComponentHarness {
   );
   getPictureUrl = this.locatorFor('.picture-url-container p');
   getCopyPictureUrlBtn = this.locatorFor('.picture-url-container button');
+  getAllDeleteProductBtns = this.locatorForAll(
+    MatButtonHarness.with({ selector: '[aria-label="Delete Product"]' })
+  );
 
   async isLoading(): Promise<boolean> {
     const spinner = await this.getLoadingSpinner();
@@ -37,5 +41,18 @@ export class ProductTableHarness extends ComponentHarness {
   async clickCopyPicUrlBtn(): Promise<void> {
     const copyPictureUrlBtn = await this.getCopyPictureUrlBtn();
     return copyPictureUrlBtn.click();
+  }
+
+  async deleteProductBtns(
+    id?: number
+  ): Promise<MatButtonHarness | MatButtonHarness[] | null> {
+    const buttons = await this.getAllDeleteProductBtns();
+    if ((id === 0 || id) && buttons[id]) {
+      return buttons[id];
+    }
+    if (!id && buttons.length) {
+      return buttons;
+    }
+    return null;
   }
 }
