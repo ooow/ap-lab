@@ -267,7 +267,6 @@ describe('AppModule => ProductTable', () => {
         const deleteBtn = (await harness.deleteProductBtns(
           0
         )) as MatButtonHarness | null;
-        console.log(deleteBtn);
         if (deleteBtn) {
           await deleteBtn.click();
         }
