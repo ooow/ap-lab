@@ -1,20 +1,20 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from 'src/app/shared/models/app-state';
-import { CreateProductState } from 'src/app/shared/models/create-product-state';
+import { StoredProductState } from 'src/app/shared/models/stored-product-state';
 
-export const createProductFeature = (state: AppState) => state.createProduct;
+export const createProductFeature = (state: AppState) => state.storedProduct;
 
 export const isLoading = createSelector(
   createProductFeature,
-  (state: CreateProductState) => state.isLoading
+  (state: StoredProductState) => state.isLoading
 );
 
 export const error = createSelector(
   createProductFeature,
-  (state: CreateProductState) => state.error
+  (state: StoredProductState) => state.error
 );
 
 export const message = createSelector(
   createProductFeature,
-  (state: CreateProductState) => state.message
+  (state: StoredProductState) => state.message
 );

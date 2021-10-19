@@ -10,3 +10,8 @@
   <img [alt]="data.product.name" [src]="data.product.picture" />
   <p>{{ data.product.description }}</p>
 </div>
+<div *ngIf="data.product.id" mat-dialog-actions class="dialog-actions">
+  <button mat-raised-button color="primary" [mat-dialog-close]="data.product">
+    Delete Product
+  </button>
+</div>

@@ -35,7 +35,7 @@ export const initialState: AppState = {
     isLoading: false,
     error: null
   },
-  createProduct: {
+  storedProduct: {
     isLoading: false,
     message: null,
     error: null

@@ -20,10 +20,10 @@ import * as imageUrlValidator from 'src/app/shared/modules/create-product-modal/
 import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
 import { HeaderComponent } from 'src/app/shared/modules/header/header.component';
 import { HeaderHarness } from 'src/app/shared/modules/header/header.harness';
-import { createProductAction } from 'src/app/shared/store/create-product/actions/create-product.actions';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
 import * as ProductSelector from 'src/app/shared/store/product/product.selectors';
+import { createProductAction } from 'src/app/shared/store/stored-product/actions/create-product.actions';
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
 
 @Component({
@@ -193,7 +193,7 @@ describe('Header', () => {
       );
     });
 
-    it('should call product service create-product method on create product with expected params', async () => {
+    it('should call product service stored-product method on create product with expected params', async () => {
       spyOn(component, 'openSnackBar');
       spyOn(store, 'dispatch');
       await harness.clickCreateProductBtn();

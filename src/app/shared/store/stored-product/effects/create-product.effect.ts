@@ -18,9 +18,9 @@ export class CreateProductEffect {
       ofType(createProductAction),
       switchMap(({ productData, lang }) => {
         return this.productService.createProduct(productData, lang).pipe(
-          map(({ data }) => createProductSuccessAction({ product: data })),
+          map(({ product }) => createProductSuccessAction({ product })),
           catchError((errorResponse: HttpErrorResponse) =>
-            of(createProductFailureAction({ error: errorResponse.error }))
+             of(createProductFailureAction({ error: errorResponse.error }))
           )
         );
       })

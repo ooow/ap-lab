@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { Lang } from 'src/app/shared/models/lang';
 
 import { Product } from 'src/app/shared/models/product';
@@ -12,6 +12,7 @@ import { changePageAction } from 'src/app/shared/store/product/actions/change-pa
 import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
 import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
+import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import * as TopProductsSelectors from 'src/app/shared/store/top-products/top-products.selectors';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
@@ -83,13 +84,29 @@ export class ProductsComponent implements OnDestroy, OnInit {
   }
 
   showProductDetails(product: Product): void {
-    this.dialog.open(ProductDetailsModalComponent, {
-      width: '600px',
-      data: { product }
-    });
+    const showProductDetailsRef = this.dialog.open(
+      ProductDetailsModalComponent,
+      {
+        width: '600px',
+        data: { product }
+      }
+    );
+
+    showProductDetailsRef
+      .afterClosed()
+      .pipe(take(1), filter(Boolean))
+      .subscribe(() => this.onDeleteProduct(product));
   }
 
   onPageChange(pageIndex: number): void {
     this.store.dispatch(changePageAction({ pageIndex }));
+  }
+
+  onDeleteProduct(product: Product): void {
+    let lang: Lang;
+    this.lang$.pipe(take(1)).subscribe((currentLang) => {
+      lang = currentLang;
+    });
+    this.store.dispatch(deleteProductAction({ product, lang }));
   }
 }
