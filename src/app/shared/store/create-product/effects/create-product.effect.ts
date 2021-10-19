@@ -17,16 +17,11 @@ export class CreateProductEffect {
     this.actions$.pipe(
       ofType(createProductAction),
       switchMap(({ productData, lang }) => {
-        console.log('effect called');
         return this.productService.createProduct(productData, lang).pipe(
-          map(({ data }) => {
-            return createProductSuccessAction({ product: data });
-          }),
-          catchError((errorResponse: HttpErrorResponse) => {
-            return of(
-              createProductFailureAction({ error: errorResponse.error })
-            );
-          })
+          map(({ data }) => createProductSuccessAction({ product: data })),
+          catchError((errorResponse: HttpErrorResponse) =>
+            of(createProductFailureAction({ error: errorResponse.error }))
+          )
         );
       })
     )

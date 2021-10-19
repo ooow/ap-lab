@@ -141,7 +141,6 @@ describe('CreateProductModalComponent', () => {
         .pipe(take(1))
         .subscribe((formVals) => {
           expect(formVals).toEqual(validInputs);
-          console.log(formVals, validInputs);
           done();
         });
       await harness.setFormValues(validInputs);
