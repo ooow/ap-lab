@@ -1,6 +1,12 @@
-import { Component, HostListener, OnDestroy } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  SecurityContext
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { imageUrlValidator } from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
@@ -43,7 +49,8 @@ export class CreateProductModalComponent implements OnDestroy {
 
   constructor(
     private dialogRef: MatDialogRef<CreateProductModalComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer
   ) {
     this.cleanFormValues();
     this.bindDialogEvents();
@@ -119,10 +126,6 @@ export class CreateProductModalComponent implements OnDestroy {
     }
   }
 
-  removeWhiteSpaces(value: string): string {
-    return value.trim().replace(/(\r\n|\n|\r|\s\s+)/gm, ' ');
-  }
-
   isButtonDisabled(): boolean {
     return (
       this.form.invalid ||
@@ -132,12 +135,17 @@ export class CreateProductModalComponent implements OnDestroy {
     );
   }
 
+  sanitizeText(value: string): string {
+    const trimmedVal = value.trim().replace(/(\r\n|\n|\r|\s\s+)/gm, ' ');
+    return this.sanitizer.sanitize(SecurityContext.HTML, trimmedVal);
+  }
+
   private cleanFormValues(): void {
     this.form.valueChanges
       .pipe(
         map((control) => ({
-          name: this.removeWhiteSpaces(control.name),
-          description: this.removeWhiteSpaces(control.description)
+          name: this.sanitizeText(control.name),
+          description: this.sanitizeText(control.description)
         })),
         takeUntil(this.destroy$)
       )
@@ -153,7 +161,10 @@ export class CreateProductModalComponent implements OnDestroy {
         filter((status) => status !== 'PENDING'),
         map(() => ({
           picture: !this.form.get('picture').errors
-            ? this.form.value.picture
+            ? this.sanitizer.sanitize(
+                SecurityContext.URL,
+                this.form.value.picture
+              )
             : ''
         })),
         takeUntil(this.destroy$)
