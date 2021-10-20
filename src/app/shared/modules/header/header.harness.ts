@@ -12,7 +12,7 @@ export class HeaderHarness extends ComponentHarness {
   );
   private getProductSearch = this.locatorFor(SearchHarness);
   private getCreateProductBtn = this.locatorFor(
-    MatButtonHarness.with({ selector: '.stored-product-btn' })
+    MatButtonHarness.with({ selector: '.create-product-btn' })
   );
   private getCreateProductModal = this.rootLocatorFactory.locatorFor(
     CreateProductModalHarness

@@ -157,11 +157,11 @@ describe('AppModule => ProductTable', () => {
     it('should have appropriate column names', async () => {
       const table = await loader.getHarness(MatTableHarness);
       const [headerRow] = await table.getHeaderRows();
-      const [first, second, third] = await headerRow.getCells();
+      const [_, second, third, fourth] = await headerRow.getCells();
 
-      expect(await first.getText()).toBe('Name');
-      expect(await second.getText()).toBe('Picture Url');
-      expect(await third.getText()).toBe('Description');
+      expect(await second.getText()).toBe('Name');
+      expect(await third.getText()).toBe('Picture Url');
+      expect(await fourth.getText()).toBe('Description');
     });
 
     it('should be rendered appropriately to provided products', async () => {
@@ -170,13 +170,14 @@ describe('AppModule => ProductTable', () => {
       const table = await loader.getHarness(MatTableHarness);
       const rows = await table.getRows();
       const firstRowCells = await rows[0].getCells();
-      const [firstCell, _, thirdCell] = firstRowCells;
+      const secondCell = firstRowCells[1];
+      const fourthCell = firstRowCells[3];
 
       expect(rows.length).toBe(products.length);
-      expect(firstRowCells.length).toBe(3);
-      expect(await firstCell.getText()).toBe(firstProduct.name);
+      expect(firstRowCells.length).toBe(4);
+      expect(await secondCell.getText()).toBe(firstProduct.name);
       expect(await productTableHarness.pictureUrl()).toBe(firstProduct.picture);
-      expect(await thirdCell.getText()).toBe(firstProduct.description);
+      expect(await fourthCell.getText()).toBe(firstProduct.description);
       // render copy button icon
       const copyUrlBtn = await productTableHarness.getCopyPictureUrlBtn();
       expect(await copyUrlBtn.text()).toBe('file_copy');

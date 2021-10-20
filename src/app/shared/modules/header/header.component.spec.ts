@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -44,6 +45,7 @@ describe('Header', () => {
       ],
       imports: [
         HeaderModule,
+        MatSnackBarModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'products', component: TestComponent },
@@ -260,7 +262,7 @@ describe('Header', () => {
       const testMessage = 'test-message';
       store.setState({
         ...initialState,
-        createProduct: { isLoading: true, message: testMessage, error: null }
+        storedProduct: { isLoading: true, message: testMessage, error: null }
       });
 
       await harness.clickCreateProductBtn();
@@ -272,7 +274,7 @@ describe('Header', () => {
 
       store.setState({
         ...initialState,
-        createProduct: { isLoading: false, message: testMessage, error: null }
+        storedProduct: { isLoading: false, message: testMessage, error: null }
       });
 
       expect(component.openSnackBar).toHaveBeenCalledTimes(2);

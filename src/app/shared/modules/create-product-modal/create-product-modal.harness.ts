@@ -5,7 +5,7 @@ import { MatInputHarness } from '@angular/material/input/testing';
 import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
 
 export class CreateProductModalHarness extends ComponentHarness {
-  static hostSelector = 'tk-stored-product-modal';
+  static hostSelector = 'tk-create-product-modal';
 
   getTitle = this.locatorFor('[mat-dialog-title]');
   getCancelBtn = this.locatorFor(MatButtonHarness.with({ text: 'Cancel' }));
