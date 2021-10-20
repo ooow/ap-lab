@@ -1,6 +1,6 @@
+import { By } from '@angular/platform-browser';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { HarnessLoader } from '@angular/cdk/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -8,15 +8,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginatorHarness } from '@angular/material/paginator/testing';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRowHarness } from '@angular/material/table/testing/row-harness';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSortHarness } from '@angular/material/sort/testing';
 import { MatTableModule } from '@angular/material/table';
 import { MatTableHarness } from '@angular/material/table/testing';
-import { MatRowHarness } from '@angular/material/table/testing/row-harness';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { ProductTableComponent } from './product-table.component';
 import { ProductTableHarness } from './product-table.harness';

@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 
 import { Lang } from 'src/app/shared/models/lang';
 import { Product } from 'src/app/shared/models/product';
 import { CreateProductModalComponent } from 'src/app/shared/modules/create-product-modal/create-product-modal.component';
+import { SearchTypes } from 'src/app/shared/modules/header/components/search/search.types';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
@@ -22,7 +24,7 @@ import { CreateProductFormType } from 'src/app/shared/types/create-product-form.
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   readonly lang$: Observable<Lang> = this.store.select(
     LangSelectors.langSelector
   );
@@ -35,6 +37,8 @@ export class HeaderComponent {
   readonly search$: Observable<string> = this.store.select(
     ProductSelectors.search
   );
+  searchType: SearchTypes = SearchTypes.INPUT;
+
   readonly searchOptions$: Observable<Array<string>> = combineLatest([
     this.products$,
     this.topProducts$
@@ -48,12 +52,40 @@ export class HeaderComponent {
       );
     })
   );
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     readonly store: Store,
+    readonly router: Router,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
+
+  ngOnInit(): void {
+    this.router.events
+      .pipe(
+        filter((event: RouterEvent) => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((event: RouterEvent) => {
+        this.searchType = this.getSearchType(event.url);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
+  getSearchType(path): SearchTypes {
+    switch (path) {
+      case '/dashboard':
+        return SearchTypes.SELECTOR;
+      case '/products':
+        return SearchTypes.INPUT;
+      default:
+        return SearchTypes.INPUT;
+    }
+  }
 
   onSearchChange(search: string): void {
     this.store.dispatch(searchProductAction({ search }));

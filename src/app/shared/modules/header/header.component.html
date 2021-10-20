@@ -28,6 +28,7 @@
     <tk-search
       (valueChange)="onSearchChange($event)"
       [options]="searchOptions$ | async"
+      [searchType]="searchType"
       [search]="search$ | async"
     ></tk-search>
     <tk-lang-selector

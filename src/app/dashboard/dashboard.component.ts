@@ -54,11 +54,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   ]).pipe(
     switchMap(([search, products]: [string, Product[]]) => {
       const searchResult =
-        search &&
-        products.find(
-          (product) =>
-            product.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
-        );
+        search && products.find((product) => product.name === search);
       return of(searchResult || null);
     })
   );

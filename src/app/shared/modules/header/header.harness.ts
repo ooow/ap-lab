@@ -1,6 +1,7 @@
 import { ComponentHarness } from '@angular/cdk/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { CreateProductModalHarness } from 'src/app/shared/modules/create-product-modal/create-product-modal.harness';
+import { SearchHarness } from 'src/app/shared/modules/header/components/search/search.harness';
 
 export class HeaderHarness extends ComponentHarness {
   static hostSelector = 'tk-header';
@@ -9,6 +10,7 @@ export class HeaderHarness extends ComponentHarness {
   private getNavButtons = this.locatorForAll(
     MatButtonHarness.with({ selector: 'a' })
   );
+  private getProductSearch = this.locatorFor(SearchHarness);
   private getCreateProductBtn = this.locatorFor(
     MatButtonHarness.with({ selector: '.stored-product-btn' })
   );
@@ -36,14 +38,14 @@ export class HeaderHarness extends ComponentHarness {
     return this.getCreateProductModal();
   }
 
-  private async findNavButton(
-    buttonName: string
-  ): Promise<MatButtonHarness | undefined> {
-    const navBtns = await this.getNavButtons();
-    const navButtonNames = await this.findAllNavButtons();
-    const targetNavBtnIndex = navButtonNames.findIndex(
-      (navBtnName) => buttonName === navBtnName
+  async findNavButton(buttonName: string): Promise<MatButtonHarness> {
+    const getNavBtn = this.locatorFor(
+      MatButtonHarness.with({ text: buttonName })
     );
-    return navBtns[targetNavBtnIndex];
+    return getNavBtn();
+  }
+
+  async productSearch(): Promise<SearchHarness> {
+    return await this.getProductSearch();
   }
 }

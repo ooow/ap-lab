@@ -1,10 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -12,19 +8,20 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
 
-import { SearchComponent } from 'src/app/shared/components/search/search.component';
 import { initialState } from 'src/app/shared/mocks/test-mocks';
-import { Lang } from 'src/app/shared/models/lang';
-import { CreateProductModalModule } from 'src/app/shared/modules/create-product-modal/create-product-modal.module';
-import * as imageUrlValidator from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
+import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
+import { SearchComponent } from 'src/app/shared/modules/header/components/search/search.component';
 import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
+import { Lang } from 'src/app/shared/models/lang';
+import { SearchHarness } from 'src/app/shared/modules/header/components/search/search.harness';
+import { HeaderModule } from 'src/app/shared/modules/header/header.module';
+import * as imageUrlValidator from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
 import { HeaderComponent } from 'src/app/shared/modules/header/header.component';
 import { HeaderHarness } from 'src/app/shared/modules/header/header.harness';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
 import * as ProductSelector from 'src/app/shared/store/product/product.selectors';
 import { createProductAction } from 'src/app/shared/store/stored-product/actions/create-product.actions';
-import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
 
 @Component({
   template: '<tk-header></tk-header>'
@@ -41,16 +38,12 @@ describe('Header', () => {
     await TestBed.configureTestingModule({
       declarations: [
         HeaderComponent,
-        MockComponent(SearchComponent),
         MockComponent(LangSelectorComponent),
+        SearchComponent,
         TestComponent
       ],
       imports: [
-        CreateProductModalModule,
-        MatButtonModule,
-        MatIconModule,
-        MatSnackBarModule,
-        MatToolbarModule,
+        HeaderModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'products', component: TestComponent },
@@ -109,13 +102,12 @@ describe('Header', () => {
   });
 
   describe('Toolbar', () => {
-    let search: SearchComponent;
+    let search: SearchHarness;
     let langSelector: LangSelectorComponent;
 
     beforeEach(async () => {
       await harness.clickNavButton('Products');
-      search = fixture.debugElement.query(By.directive(SearchComponent))
-        .componentInstance;
+      search = await harness.productSearch();
       langSelector = fixture.debugElement.query(
         By.directive(LangSelectorComponent)
       ).componentInstance;
@@ -126,24 +118,78 @@ describe('Header', () => {
       expect(toolbar).toBeTruthy();
     });
 
-    it('should pass correct props to search component', async () => {
-      expect(search.search).toEqual('');
-      expect(search.options).toEqual(['product1', 'product2']);
+    it('should render product search input on products page', async () => {
+      expect(await search.getInput()).toBeTruthy();
+      expect(await search.getClearBtn()).toBeTruthy();
+    });
 
-      const testSearch = 'test-search';
+    it('should render product search select on dashboard page', async () => {
+      await harness.clickNavButton('Dashboard');
+
+      expect(await search.getSelector()).toBeTruthy();
+    });
+
+    it('should pass correct props to search input', async () => {
+      const inputOptions = await search.getInputOptions();
+      await fixture.whenStable();
+
+      expect(await search.getInputValue()).toEqual('');
+      expect(await inputOptions[0].getText()).toEqual('product1');
+      expect(await inputOptions[1].getText()).toEqual('product2');
+
+      const testSearch = 'product1';
       store.overrideSelector(ProductSelector.search, testSearch);
       store.refreshState();
       fixture.detectChanges();
 
-      expect(search.search).toEqual(testSearch);
+      expect(await search.getInputValue()).toEqual(testSearch);
     });
 
-    it('should listen for value changes on search component', async () => {
+    it('should pass correct props to search select', async () => {
+      await harness.clickNavButton('Dashboard');
+      const selectOptions = await search.getSelectorOptions();
+      await fixture.whenStable();
+
+      expect(await search.getSelectorValue()).toEqual('');
+      expect(await selectOptions[0].getText()).toEqual('product1');
+      expect(await selectOptions[1].getText()).toEqual('product2');
+
+      const testSearch = 'product2';
+      store.overrideSelector(ProductSelector.search, testSearch);
+      store.refreshState();
+      fixture.detectChanges();
+
+      expect(await search.getSelectorValue()).toEqual(testSearch);
+    });
+
+    it('should update product store search value on search input change', async () => {
       spyOn(store, 'dispatch').and.callFake(() => {});
       const testVal = 'product1';
-      search.valueChange.emit(testVal);
+
+      await search.setInputValue(testVal);
       expect(store.dispatch).toHaveBeenCalledWith(
         searchProductAction({ search: testVal })
+      );
+    });
+
+    it('should update product store search value on search select change', async () => {
+      await harness.clickNavButton('Dashboard');
+      spyOn(store, 'dispatch').and.callFake(() => {});
+      const testVal = 'product2';
+
+      await search.setSelectorValue(testVal);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        searchProductAction({ search: testVal })
+      );
+    });
+
+    it('should reset product store search field on clear search input', async () => {
+      spyOn(store, 'dispatch').and.callFake(() => {});
+
+      await search.clearSearch();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        searchProductAction({ search: '' })
       );
     });
 
