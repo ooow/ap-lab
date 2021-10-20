@@ -9,7 +9,7 @@ import {
   createProductAction,
   createProductFailureAction,
   createProductSuccessAction
-} from 'src/app/shared/store/create-product/actions/create-product.actions';
+} from 'src/app/shared/store/stored-product/actions/create-product.actions';
 
 @Injectable()
 export class CreateProductEffect {
@@ -20,7 +20,7 @@ export class CreateProductEffect {
         return this.productService.createProduct(productData, lang).pipe(
           map(({ product }) => createProductSuccessAction({ product })),
           catchError((errorResponse: HttpErrorResponse) =>
-             of(createProductFailureAction({ error: errorResponse.error }))
+            of(createProductFailureAction({ error: errorResponse.error }))
           )
         );
       })
