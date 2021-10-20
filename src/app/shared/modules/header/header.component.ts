@@ -46,8 +46,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     map(([products, topProducts]: [Product[], Product[]]) => {
       return Array.from(
         new Set([
-          ...products.map((cv) => cv.name),
-          ...topProducts.map((cv) => cv.name)
+          ...products
+            .filter(
+              (product) =>
+                this.searchType === SearchTypes.INPUT || product.counts
+            )
+            .map((cv) => cv.name),
+          ...topProducts
+            .filter(
+              (product) =>
+                this.searchType === SearchTypes.INPUT || product.counts
+            )
+            .map((cv) => cv.name)
         ])
       );
     })

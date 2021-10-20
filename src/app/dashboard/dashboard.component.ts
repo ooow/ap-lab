@@ -81,7 +81,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   updateSearchOnProductsEmit(): void {
     this.products$.pipe(takeUntil(this.destroy$)).subscribe((products) => {
-      this.store.dispatch(searchProductAction({ search: products[0].name }));
+      this.store.dispatch(searchProductAction({ search: products[0]?.name }));
     });
   }
 
