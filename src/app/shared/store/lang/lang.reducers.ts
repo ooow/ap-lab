@@ -6,7 +6,7 @@ export const initialState: Lang = 'en' as Lang;
 
 const langReducer = createReducer(
   initialState,
-  on(LangActions.change, (state: string, { lang }: { lang: string }) => lang)
+  on(LangActions.change, (state: string, { lang }) => lang)
 );
 
 export function reducer(state: Lang, action: Action): string {

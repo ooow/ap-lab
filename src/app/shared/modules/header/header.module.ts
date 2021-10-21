@@ -16,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { SearchComponent } from 'src/app/shared/modules/header/components/search/search.component';
 import { SearchOptionsPipe } from 'src/app/products/pipes/search-options.pipe';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CreateProductModalModule } from 'src/app/shared/modules/create-product-modal/create-product-modal.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   ],
   imports: [
     CommonModule,
+    CreateProductModalModule,
     MatDividerModule,
     MatOptionModule,
     MatSelectModule,
@@ -35,6 +38,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatIconModule,
     MatInputModule,
     MatToolbarModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     RouterModule
   ],

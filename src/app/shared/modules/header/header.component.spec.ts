@@ -1,25 +1,28 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { By } from '@angular/platform-browser';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HeaderComponent } from 'src/app/shared/modules/header/header.component';
-import { HeaderHarness } from 'src/app/shared/modules/header/header.harness';
-import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { MockComponent, MockProvider } from 'ng-mocks';
+import { of } from 'rxjs';
 
+import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
-import * as ProductSelector from 'src/app/products/store/product/product.selectors';
-import { products } from 'src/app/products/store/product/product.selectors';
-import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import { SearchComponent } from 'src/app/shared/modules/header/components/search/search.component';
 import { LangSelectorComponent } from 'src/app/shared/modules/header/components/lang-selector/lang-selector.component';
 import { Lang } from 'src/app/shared/models/lang';
 import { SearchHarness } from 'src/app/shared/modules/header/components/search/search.harness';
 import { HeaderModule } from 'src/app/shared/modules/header/header.module';
+import * as imageUrlValidator from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
+import { HeaderComponent } from 'src/app/shared/modules/header/header.component';
+import { HeaderHarness } from 'src/app/shared/modules/header/header.harness';
+import * as LangActions from 'src/app/shared/store/lang/lang.actions';
+import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
+import * as ProductSelector from 'src/app/shared/store/product/product.selectors';
+import { createProductAction } from 'src/app/shared/store/stored-product/actions/create-product.actions';
 
 @Component({
   template: '<tk-header></tk-header>'
@@ -35,13 +38,14 @@ describe('Header', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        TestComponent,
         HeaderComponent,
+        MockComponent(LangSelectorComponent),
         SearchComponent,
-        MockComponent(LangSelectorComponent)
+        TestComponent
       ],
       imports: [
         HeaderModule,
+        MatSnackBarModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'products', component: TestComponent },
@@ -64,6 +68,10 @@ describe('Header', () => {
     store = TestBed.inject(MockStore);
     fixture.detectChanges();
     await fixture.whenStable();
+
+    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(window, 'onbeforeunload');
+    spyOn(imageUrlValidator, 'imageUrlValidator').and.returnValue(of(null));
   });
 
   it('should be created', () => {
@@ -80,7 +88,6 @@ describe('Header', () => {
 
     it('should render all the nav buttons', async () => {
       const navButtons = await harness.findAllNavButtons();
-      console.log(navButtons);
       expect(navButtons.length).toEqual(2);
       expect(navButtons[0]).toEqual('Products');
     });
@@ -163,7 +170,7 @@ describe('Header', () => {
 
       await search.setInputValue(testVal);
       expect(store.dispatch).toHaveBeenCalledWith(
-        ProductActions.search({ search: testVal })
+        searchProductAction({ search: testVal })
       );
     });
 
@@ -174,7 +181,7 @@ describe('Header', () => {
 
       await search.setSelectorValue(testVal);
       expect(store.dispatch).toHaveBeenCalledWith(
-        ProductActions.search({ search: testVal })
+        searchProductAction({ search: testVal })
       );
     });
 
@@ -184,7 +191,7 @@ describe('Header', () => {
       await search.clearSearch();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        ProductActions.search({ search: '' })
+        searchProductAction({ search: '' })
       );
     });
 
@@ -202,6 +209,76 @@ describe('Header', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         LangActions.change({ lang: Lang.en })
       );
+    });
+  });
+
+  describe('Create Product Modal', () => {
+    const validInputs = {
+      name: 'test-name',
+      picture:
+        'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg',
+      description: 'test-description-test-description'
+    };
+
+    it('should open create product modal on create product btn click', async () => {
+      await harness.clickCreateProductBtn();
+
+      expect(await harness.createProductModal()).toBeTruthy();
+    });
+
+    it('should not create product on dialog close', async () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      await harness.clickCreateProductBtn();
+      const createProductModal = await harness.createProductModal();
+      await createProductModal.setFormValues(validInputs);
+      await createProductModal.cancelBtnClick();
+
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        createProductAction({
+          productData: validInputs,
+          lang: initialState.lang
+        })
+      );
+    });
+
+    it('should call product service stored-product method on create product with expected params', async () => {
+      spyOn(component, 'openSnackBar');
+      spyOn(store, 'dispatch');
+      await harness.clickCreateProductBtn();
+      const createProductModal = await harness.createProductModal();
+      await createProductModal.setFormValues(validInputs);
+
+      await createProductModal.createBtnClick();
+      expect(store.dispatch).toHaveBeenCalledOnceWith(
+        createProductAction({
+          productData: validInputs,
+          lang: initialState.lang
+        })
+      );
+    });
+
+    it('should call openSnackbar with expected params on create product', async () => {
+      spyOn(component, 'openSnackBar');
+      const testMessage = 'test-message';
+      store.setState({
+        ...initialState,
+        storedProduct: { isLoading: true, message: testMessage, error: null }
+      });
+
+      await harness.clickCreateProductBtn();
+      const createProductModal = await harness.createProductModal();
+      await createProductModal.setFormValues(validInputs);
+      await createProductModal.createBtnClick();
+
+      expect(component.openSnackBar).toHaveBeenCalledOnceWith(testMessage);
+
+      store.setState({
+        ...initialState,
+        storedProduct: { isLoading: false, message: testMessage, error: null }
+      });
+
+      expect(component.openSnackBar).toHaveBeenCalledTimes(2);
+      expect(component.openSnackBar).toHaveBeenCalledWith(testMessage, 5000);
     });
   });
 });

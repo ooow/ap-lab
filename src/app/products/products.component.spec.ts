@@ -1,23 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockPipe, MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
 
+import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
+import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
+import { ProductComponent } from 'src/app/products/components/product/product.component';
+import { ProductSearchPipe } from 'src/app/products/pipes/product-search.pipe';
 import { ProductsComponent } from 'src/app/products/products.component';
 import { ProductsHarness } from 'src/app/products/products.harness';
-import { ProductSearchPipe } from 'src/app/products/pipes/product-search.pipe';
-import { ProductComponent } from 'src/app/products/components/product/product.component';
-import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
-import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
-import { ProductService } from 'src/app/products/services/product.service';
 import { initialState } from 'src/app/shared/mocks/test-mocks';
+import { ProductService } from 'src/app/shared/services/product.service';
+import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
+import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
+import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
+import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
+import { isLoading } from 'src/app/shared/store/top-products/top-products.selectors';
 
 describe('Products', () => {
   @Component({
@@ -33,10 +37,6 @@ describe('Products', () => {
   const mockProductService = {
     getProducts: jasmine.createSpy('getProducts').and.returnValue(of({}))
   };
-
-  afterEach(() => {
-    mockProductService.getProducts.calls.reset();
-  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -73,22 +73,28 @@ describe('Products', () => {
   });
 
   it('should display loader when globalLoading is true', async () => {
-    harness.setLoading(component, false);
     expect(await harness.isLoading()).toBeFalse();
-    harness.setLoading(component, true);
+
+    store.overrideSelector(isLoading, true);
+    store.refreshState();
+    fixture.detectChanges();
+
     expect(await harness.isLoading()).toBeTrue();
   });
 
-  it('should call productService.getProducts twice on creation with correct params', () => {
-    expect(mockProductService.getProducts).toHaveBeenCalledTimes(2);
-    expect(mockProductService.getProducts).toHaveBeenCalledWith(
-      initialState.lang,
-      initialState.product.pageIndex
+  it('should get products and top product OnInit', () => {
+    spyOn(store, 'dispatch').and.callFake(() => {});
+    component.ngOnInit();
+
+    expect(store.dispatch).toHaveBeenCalledTimes(3);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      getProductsAction({
+        lang: initialState.lang,
+        pageIndex: initialState.product.pageIndex
+      })
     );
-    expect(mockProductService.getProducts).toHaveBeenCalledWith(
-      initialState.lang,
-      0,
-      5
+    expect(store.dispatch).toHaveBeenCalledWith(
+      getTopProductsAction({ lang: initialState.lang })
     );
   });
 
@@ -107,12 +113,12 @@ describe('Products', () => {
 
     it('should pass product prop', () => {
       const firstCard = productCards[0].componentInstance;
-      const expectedVal = initialState.product.topProducts[0];
+      const expectedVal = initialState.topProducts.topProducts[0];
       expect(firstCard.product).toEqual(expectedVal);
     });
 
     it('should open open product details modal on click', () => {
-      const spy = spyOn(component, 'productDetails');
+      const spy = spyOn(component, 'showProductDetails');
       expect(spy).toHaveBeenCalledTimes(0);
       const [firstCard] = productCards;
       firstCard.triggerEventHandler('click', null);
@@ -134,7 +140,6 @@ describe('Products', () => {
       });
 
       it('should pass correct props to product table', () => {
-        component.loading$.next(false);
         const {
           products,
           pageIndex,
@@ -154,7 +159,17 @@ describe('Products', () => {
         const pageIndex = 666;
         productTable.pageChange.emit(pageIndex);
         expect(store.dispatch).toHaveBeenCalledOnceWith(
-          ProductActions.changePage({ pageIndex })
+          changePageAction({ pageIndex })
+        );
+      });
+
+      it('should listen to delete product events', () => {
+        spyOn(store, 'dispatch').and.callFake(() => {});
+        expect(store.dispatch).toHaveBeenCalledTimes(0);
+        const productItem = initialState.product[0];
+        productTable.deleteProduct.emit(productItem);
+        expect(store.dispatch).toHaveBeenCalledOnceWith(
+          deleteProductAction({ lang: initialState.lang, product: productItem })
         );
       });
     });

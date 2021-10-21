@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Product } from '../models/product';
+import { Product } from 'src/app/shared/models/product';
 import { ProductSearchPipe } from './product-search.pipe';
 
 @Component({

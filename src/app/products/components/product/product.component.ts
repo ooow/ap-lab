@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Product } from '../../models/product';
+import { Product } from 'src/app/shared/models/product';
 
 @Component({
   selector: 'tk-product',

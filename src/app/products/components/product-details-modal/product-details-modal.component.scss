@@ -3,6 +3,10 @@
   justify-content: space-between;
 }
 
+.dialog-actions {
+  justify-content: end;
+}
+
 img {
   margin: 0 -24px 15px;
   width: calc(100% + 48px);

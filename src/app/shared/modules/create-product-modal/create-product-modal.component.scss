@@ -1,0 +1,27 @@
+.mat-dialog-title {
+  text-align: center;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.create-product-form {
+  display: flex;
+  flex-direction: column;
+
+  mat-form-field {
+    margin-bottom: 5px;
+  }
+}
+
+.image-preview {
+  margin-bottom: 10px;
+}
+
+.product-image {
+  height: auto;
+  margin: 10px 0;
+  width: 100%;
+}

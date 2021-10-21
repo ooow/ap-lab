@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Product } from '../../models/product';
+import { Product } from 'src/app/shared/models/product';
 
 @Component({
   selector: 'tk-product-details-modal',

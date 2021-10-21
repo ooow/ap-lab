@@ -4,11 +4,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
-import { getProducts } from '../../mocks/products';
-import { Lang } from 'src/app/shared/models/lang';
-import { Product } from '../../models/product';
 import { ProductComponent } from 'src/app/products/components/product/product.component';
 import { ProductHarness } from 'src/app/products/components/product/product.harness';
+import { Lang } from 'src/app/shared/models/lang';
+import { Product } from 'src/app/shared/models/product';
+
+import { getProducts } from '../../mocks/products';
 
 @Component({
   selector: 'tk-test',

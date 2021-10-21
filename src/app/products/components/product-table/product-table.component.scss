@@ -8,8 +8,8 @@ table {
   width: 100%;
 }
 
-td,
-th {
+td:not(:first-child),
+th:not(:first-child) {
   width: 33%;
 }
 
@@ -18,6 +18,10 @@ td.mat-cell {
 
   &:not(:last-child) {
     padding-right: 25px;
+  }
+
+  &:first-child {
+    padding-right: 15px;
   }
 }
 
@@ -36,20 +40,11 @@ td.mat-cell {
 
 .description {
   p {
-    height: 40px;
-    margin: unset;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    padding-right: 0.7rem;
-    position: relative;
-    white-space: normal;
-    word-break: break-all;
-  }
-
-  p::before {
-    content: '...';
-    inset-block-end: 0;
-    inset-inline-end: 0;
-    position: absolute;
+    text-overflow: ellipsis;
   }
 }
 

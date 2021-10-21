@@ -15,15 +15,24 @@
       Dashboard
     </a>
   </nav>
+  <button
+    mat-mini-fab
+    class="create-product-btn"
+    aria-label="create product"
+    matTooltip="Create Product"
+    (click)="createProductDialog()"
+  >
+    <mat-icon>create</mat-icon>
+  </button>
   <div class="toolbar">
     <tk-search
-      (valueChange)="store.dispatch(ProductActions.search({ search: $event }))"
+      (valueChange)="onSearchChange($event)"
       [options]="searchOptions$ | async"
       [searchType]="searchType"
       [search]="search$ | async"
     ></tk-search>
     <tk-lang-selector
-      (langChanged)="store.dispatch(LangActions.change({ lang: $event }))"
+      (langChanged)="onLangChange($event)"
       [lang]="lang$ | async"
     ></tk-lang-selector>
   </div>

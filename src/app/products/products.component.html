@@ -1,7 +1,7 @@
-<ng-container *ngIf="!(globalLoading$ | async); else loading">
+<ng-container *ngIf="!(isGlobalLoading$ | async); else loading">
   <div class="product-list">
     <tk-product
-      (click)="productDetails(product)"
+      (click)="showProductDetails(product)"
       *ngFor="
         let product of topProducts$ | async | productSearch: (search$ | async)
       "
@@ -12,10 +12,9 @@
 
   <div>
     <tk-product-table
-      (pageChange)="
-        store.dispatch(ProductActions.changePage({ pageIndex: $event }))
-      "
-      [loading]="loading$ | async"
+      (pageChange)="onPageChange($event)"
+      (deleteProduct)="onDeleteProduct($event)"
+      [loading]="isLoading$ | async"
       [pageIndex]="pageIndex$ | async"
       [products]="products$ | async"
       [search]="search$ | async"

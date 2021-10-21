@@ -1,33 +1,34 @@
-import { Component, OnDestroy } from '@angular/core';
-import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { Lang } from 'src/app/shared/models/lang';
-import { ProductsResp } from 'src/app/products/models/products-resp';
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 
-import { ProductService } from 'src/app/products/services/product.service';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
-import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
-import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
-import { Product } from 'src/app/products/models/product';
 import {
   ChartConfigsType,
   ChartType
 } from 'src/app/dashboard/components/chart/chart.types';
+import { Lang } from 'src/app/shared/models/lang';
+import { Product } from 'src/app/shared/models/product';
+import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
+import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
+import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
+import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
 
 @Component({
   selector: 'tk-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnDestroy {
+export class DashboardComponent implements OnDestroy, OnInit {
   readonly lang$: Observable<Lang> = this.store.select(
     LangSelectors.langSelector
   );
   readonly search$: Observable<string> = this.store.select(
     ProductSelectors.search
   );
-  readonly loading$ = new BehaviorSubject<boolean>(true);
+  readonly isLoading$: Observable<boolean> = this.store.select(
+    ProductSelectors.isLoading
+  );
 
   readonly pieChartConfigs: ChartConfigsType = {
     title: '',
@@ -42,9 +43,11 @@ export class DashboardComponent implements OnDestroy {
   };
   readonly ChartType = ChartType;
 
-  private products$: Observable<Product[]> = this.store.select(
-    ProductSelectors.products
+  private products$: Observable<Product[]> = this.store.pipe(
+    select(ProductSelectors.products),
+    map((products) => products.filter((product) => product.counts))
   );
+
   readonly product$: Observable<Product | null> = combineLatest([
     this.search$,
     this.products$
@@ -58,22 +61,31 @@ export class DashboardComponent implements OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private store: Store, productService: ProductService) {
-    this.lang$
-      .pipe(
-        tap(() => this.loading$.next(true)),
-        switchMap((lang: Lang) => productService.getProducts(lang, 0, -1)),
-        finalize(() => this.loading$.next(false)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((resp: ProductsResp) => {
-        this.store.dispatch(ProductActions.retrieveProducts(resp));
-        this.store.dispatch(
-          ProductActions.search({ search: resp.products[0].name })
-        );
-        this.loading$.next(false);
-      });
+  constructor(private store: Store) {}
 
+  ngOnInit(): void {
+    this.updateProductsOnLangEmit();
+    this.updateSearchOnProductsEmit();
+    this.updateChartConfigsTitle();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
+  updateProductsOnLangEmit(): void {
+    this.lang$.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
+      this.store.dispatch(getProductsAction({ lang, pageIndex: 0 }));
+    });
+  }
+
+  updateSearchOnProductsEmit(): void {
+    this.products$.pipe(takeUntil(this.destroy$)).subscribe((products) => {
+      this.store.dispatch(searchProductAction({ search: products[0]?.name }));
+    });
+  }
+
+  updateChartConfigsTitle(): void {
     combineLatest([this.product$, this.lang$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([product, lang]: [Product, Lang]) => {
@@ -93,9 +105,5 @@ export class DashboardComponent implements OnDestroy {
           }
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
   }
 }

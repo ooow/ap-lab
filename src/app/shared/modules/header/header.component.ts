@@ -1,16 +1,23 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
-import { Product } from 'src/app/products/models/product';
-import * as ProductActions from 'src/app/products/store/product/product.actions';
-import * as ProductSelectors from 'src/app/products/store/product/product.selectors';
+import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 
 import { Lang } from 'src/app/shared/models/lang';
+import { Product } from 'src/app/shared/models/product';
+import { CreateProductModalComponent } from 'src/app/shared/modules/create-product-modal/create-product-modal.component';
 import { SearchTypes } from 'src/app/shared/modules/header/components/search/search.types';
 import * as LangActions from 'src/app/shared/store/lang/lang.actions';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
+import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
+import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
+import { createProductAction } from 'src/app/shared/store/stored-product/actions/create-product.actions';
+import * as CreateProductSelectors from 'src/app/shared/store/stored-product/stored-product.selectors';
+import * as TopProductsSelector from 'src/app/shared/store/top-products/top-products.selectors';
+import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
 
 @Component({
   selector: 'tk-header',
@@ -25,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ProductSelectors.products
   );
   readonly topProducts$: Observable<Array<Product>> = this.store.select(
-    ProductSelectors.topProducts
+    TopProductsSelector.topProducts
   );
   readonly search$: Observable<string> = this.store.select(
     ProductSelectors.search
@@ -39,17 +46,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
     map(([products, topProducts]: [Product[], Product[]]) => {
       return Array.from(
         new Set([
-          ...products.map((cv) => cv.name),
-          ...topProducts.map((cv) => cv.name)
+          ...products
+            .filter(
+              (product) =>
+                this.searchType === SearchTypes.INPUT || product.counts
+            )
+            .map((cv) => cv.name),
+          ...topProducts
+            .filter(
+              (product) =>
+                this.searchType === SearchTypes.INPUT || product.counts
+            )
+            .map((cv) => cv.name)
         ])
       );
     })
   );
-  readonly LangActions = LangActions;
-  readonly ProductActions = ProductActions;
   private readonly destroy$ = new Subject<void>();
 
-  constructor(readonly store: Store, readonly router: Router) {}
+  constructor(
+    readonly store: Store,
+    readonly router: Router,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.router.events
@@ -75,5 +95,56 @@ export class HeaderComponent implements OnInit, OnDestroy {
       default:
         return SearchTypes.INPUT;
     }
+  }
+
+  onSearchChange(search: string): void {
+    this.store.dispatch(searchProductAction({ search }));
+  }
+
+  onLangChange(lang: Lang): void {
+    this.store.dispatch(LangActions.change({ lang }));
+  }
+
+  createProductDialog(): void {
+    const createProductDialogRef: MatDialogRef<
+      CreateProductModalComponent,
+      CreateProductFormType | null
+    > = this.dialog.open(CreateProductModalComponent, {
+      width: '500px',
+      disableClose: true
+    });
+
+    const formValues$ = createProductDialogRef.afterClosed();
+
+    combineLatest([formValues$, this.lang$])
+      .pipe(
+        take(1),
+        filter(([formValues]) => Boolean(formValues)),
+        tap(([formValues, lang]) =>
+          this.store.dispatch(
+            createProductAction({ productData: formValues, lang })
+          )
+        ),
+        switchMap(() =>
+          combineLatest([
+            this.store.pipe(select(CreateProductSelectors.isLoading)),
+            this.store.pipe(select(CreateProductSelectors.message))
+          ]).pipe(take(3))
+        )
+      )
+      .subscribe(([isLoading, message]) => {
+        if (isLoading) {
+          this.openSnackBar(message);
+        } else if (!isLoading) {
+          this.openSnackBar(message, 5000);
+        }
+      });
+  }
+
+  openSnackBar(message: string, duration?: number): void {
+    this.snackBar.open(message, 'Close', {
+      duration,
+      horizontalPosition: 'right'
+    });
   }
 }
