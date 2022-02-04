@@ -172,7 +172,7 @@ const PRODUCTS_MOCK_EN: ReadonlyArray<Product> = [
     picture: 'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg',
     counts: [
       { location: 'USA', quantityAvailable: 54, price: 1200 },
-      { location: 'Canada', quantityAvailable: 112, price: 1100 },
+      { location: 'Canada', quantityAvailable: 112, price: 1200 },
       { location: 'France', quantityAvailable: 99, price: 900 },
       { location: 'United Kingdom', quantityAvailable: 12, price: 1500 },
       { location: 'Australia', quantityAvailable: 22, price: 800 }

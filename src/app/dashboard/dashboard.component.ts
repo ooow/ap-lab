@@ -48,13 +48,23 @@ export class DashboardComponent implements OnDestroy, OnInit {
     map((products) => products.filter((product) => product.counts))
   );
 
-  readonly product$: Observable<Product | null> = combineLatest([
+  // readonly product$: Observable<Product | null> = combineLatest([
+  //   this.search$,
+  //   this.products$
+  // ]).pipe(
+  //   switchMap(([search, products]: [string, Product[]]) => {
+  //     const searchResult =
+  //       search && products.find((product) => product.name === search);
+  //     return of(searchResult || null);
+  //   })
+  // );
+  readonly product$: Observable<Product[] | null> = combineLatest([
     this.search$,
     this.products$
   ]).pipe(
     switchMap(([search, products]: [string, Product[]]) => {
       const searchResult =
-        search && products.find((product) => product.name === search);
+        search && products.filter((product) => product.name === search);
       return of(searchResult || null);
     })
   );
@@ -92,9 +102,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
   updateChartConfigsTitle(): void {
     combineLatest([this.product$, this.lang$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([product, lang]: [Product, Lang]) => {
+      .subscribe(([product, lang]: [Product[], Lang]) => {
         if (product) {
-          const { name } = product;
+          const { name } = product[0];
           switch (lang) {
             case Lang.en:
               this.pieChartConfigs.title = `${name} available by location`;

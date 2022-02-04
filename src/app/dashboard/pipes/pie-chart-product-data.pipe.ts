@@ -6,9 +6,22 @@ import { Product } from 'src/app/shared/models/product';
   name: 'pieChartProductData'
 })
 export class PieChartProductDataPipe implements PipeTransform {
-  transform(product: Product): ChartDataType {
+  transform(products: Product[]): ChartDataType {
     const fieldNames = ['Location', 'Quantity'];
-    const data = product.counts.map(({ location, quantityAvailable }) => [
+
+    const productsCounts = products.map((product) => [...product.counts]);
+    const concatedCounts = [].concat.apply([], productsCounts);
+
+    const reducedByLoction = Array.from(
+      concatedCounts.reduce(
+        (m, { location, quantityAvailable }) =>
+          m.set(location, (m.get(location) || 0) + quantityAvailable),
+        new Map()
+      ),
+      ([location, quantityAvailable]) => ({ location, quantityAvailable })
+    );
+
+    const data = reducedByLoction.map(({ location, quantityAvailable }) => [
       location,
       quantityAvailable
     ]);
