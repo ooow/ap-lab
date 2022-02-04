@@ -14,9 +14,12 @@ export class BarChartProductDataPipe implements PipeTransform {
 
     const countsNoDuplicates = concatedCounts.filter((value, index) => {
       const _value = JSON.stringify(value);
-      return index === concatedCounts.findIndex(obj => {
-        return JSON.stringify(obj) === _value;
-      });
+      return (
+        index ===
+        concatedCounts.findIndex((obj) => {
+          return JSON.stringify(obj) === _value;
+        })
+      );
     });
 
     const data = countsNoDuplicates

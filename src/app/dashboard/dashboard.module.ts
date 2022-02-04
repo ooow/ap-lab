@@ -8,6 +8,7 @@ import { ChartComponent } from 'src/app/dashboard/components/chart/chart.compone
 import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
 import { LoaderModule } from 'src/app/shared/modules/loader/loader.module';
 import { PieChartProductDataPipe } from 'src/app/dashboard/pipes/pie-chart-product-data.pipe';
+import { ProductsModule } from '../products/products.module';
 
 const routes = [{ path: 'dashboard', component: DashboardComponent }];
 
@@ -22,6 +23,7 @@ const routes = [{ path: 'dashboard', component: DashboardComponent }];
     CommonModule,
     MatDividerModule,
     LoaderModule,
+    ProductsModule,
     RouterModule.forChild(routes)
   ]
 })

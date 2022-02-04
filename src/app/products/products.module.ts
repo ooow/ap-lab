@@ -45,6 +45,7 @@ const routes = [{ path: 'products', component: ProductsComponent }];
     MatTooltipModule,
     RouterModule.forChild(routes)
   ],
+  exports:[ProductTableComponent],
   providers: [MatSnackBar]
 })
 export class ProductsModule {}

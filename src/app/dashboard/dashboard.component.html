@@ -2,12 +2,19 @@
   <h1>Product Info Dashboard</h1>
   <mat-divider></mat-divider>
   <ng-container *ngIf="product$ | async; else productNotSelected">
-    <tk-chart
-      [chartConfigs]="pieChartConfigs"
-      [chartData]="product$ | async | pieChartProductData"
-      [chartType]="ChartType.PIE_CHART"
-      (selected)="showEmittedData($event)"
-    ></tk-chart>
+    <div class="flex-row">
+      <tk-chart
+        [chartConfigs]="pieChartConfigs"
+        [chartData]="product$ | async | pieChartProductData"
+        [chartType]="ChartType.PIE_CHART"
+        (selected)="showEmittedData($event)"
+      ></tk-chart>
+      <tk-product-table
+        [loading]="isLoading$ | async"
+        [products]="products$ | async"
+        [search]="search$ | async"
+      ></tk-product-table>
+    </div>
     <mat-divider></mat-divider>
     <tk-chart
       [chartConfigs]="barChartConfigs"
