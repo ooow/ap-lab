@@ -1,7 +1,9 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
+  Output,
   OnChanges,
   ViewChild
 } from '@angular/core';
@@ -22,6 +24,8 @@ export class ChartComponent implements OnChanges {
   @Input() chartData: ChartDataType;
   @Input() chartConfigs: ChartConfigsType;
   @Input() chartType: ChartType;
+  @Output() selected:EventEmitter<any> = new EventEmitter<any>();
+
 
   drawChart(chartData: ChartDataType): void {
     const data = google.visualization.arrayToDataTable([
@@ -33,7 +37,14 @@ export class ChartComponent implements OnChanges {
       this.chart.nativeElement
     );
 
+    const selectHandler = () =>{
+      const selectedSectionIndex = chart.getSelection()[0].row;
+      const selectedCountry = chartData.data[selectedSectionIndex][0]
+      this.selected.emit({'location':selectedCountry})
+    }
+
     chart.draw(data, this.chartConfigs);
+    google.visualization.events.addListener(chart,'select',selectHandler)
   }
 
   ngOnChanges(): void {

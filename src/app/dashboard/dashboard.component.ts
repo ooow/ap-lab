@@ -73,6 +73,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.destroy$.next();
   }
 
+  showEmittedData(value:{'location':string}){
+    console.log(value)
+  }
+
   updateProductsOnLangEmit(): void {
     this.lang$.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.store.dispatch(getProductsAction({ lang, pageIndex: 0 }));

@@ -6,6 +6,7 @@
       [chartConfigs]="pieChartConfigs"
       [chartData]="product$ | async | pieChartProductData"
       [chartType]="ChartType.PIE_CHART"
+      (selected)="showEmittedData($event)"
     ></tk-chart>
     <mat-divider></mat-divider>
     <tk-chart
