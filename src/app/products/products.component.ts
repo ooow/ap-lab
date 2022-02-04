@@ -7,6 +7,7 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 import { Lang } from 'src/app/shared/models/lang';
 
 import { Product } from 'src/app/shared/models/product';
+import { ProductsView } from 'src/app/shared/models/products-view';
 import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
 import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
@@ -15,7 +16,11 @@ import * as ProductSelectors from 'src/app/shared/store/product/product.selector
 import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import * as TopProductsSelectors from 'src/app/shared/store/top-products/top-products.selectors';
+import { changeViewAction } from 'src/app/shared/store/products-view/products-view.actions';
+import * as ProductsViewSelectors from "src/app/shared/store/products-view/products-view.selectors";
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { viewModes } from './mocks/view-modes';
 
 @Component({
   selector: 'tk-products',
@@ -48,6 +53,12 @@ export class ProductsComponent implements OnDestroy, OnInit {
     TopProductsSelectors.isLoading
   );
   private readonly destroy$ = new Subject<void>();
+
+  readonly viewMode$: Observable<ProductsView> = this.store.select(
+    ProductsViewSelectors.productsViewSelector
+  )
+
+  readonly viewModes = viewModes;
 
   constructor(
     readonly store: Store,
@@ -108,5 +119,9 @@ export class ProductsComponent implements OnDestroy, OnInit {
       lang = currentLang;
     });
     this.store.dispatch(deleteProductAction({ product, lang }));
+  }
+
+  onViewModeChange(event: MatButtonToggleChange): void {
+    this.store.dispatch(changeViewAction({ mode: event.value }))
   }
 }

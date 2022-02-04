@@ -2,6 +2,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { LoaderModule } from 'src/app/shared/modules/loader/loader.module';
+import { IfViewModeDirective } from '../shared/directives/if-view-mode.directive';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 import { ProductTableComponent } from './components/product-table/product-table.component';
 import { ProductComponent } from './components/product/product.component';
@@ -28,13 +30,15 @@ const routes = [{ path: 'products', component: ProductsComponent }];
     ProductComponent,
     ProductDetailsModalComponent,
     ProductSearchPipe,
-    ProductTableComponent
+    ProductTableComponent,
+    IfViewModeDirective,
   ],
   imports: [
     ClipboardModule,
     CommonModule,
     LoaderModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatCardModule,
     MatDialogModule,
     MatIconModule,

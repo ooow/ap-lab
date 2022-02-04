@@ -1,16 +1,23 @@
 <ng-container *ngIf="!(isGlobalLoading$ | async); else loading">
-  <div class="product-list">
+
+  <mat-button-toggle-group (change)="onViewModeChange($event)">
+    <mat-button-toggle *ngFor="let mode of viewModes" [value]="mode.mode" [checked]="mode.mode === (viewMode$ | async)">
+      <mat-icon>{{ mode.icon }}</mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  
+  <div class="product-list" *tkIfViewMode="'cards'">
     <tk-product
       (click)="showProductDetails(product)"
       *ngFor="
-        let product of topProducts$ | async | productSearch: (search$ | async)
+        let product of products$ | async | productSearch: (search$ | async)
       "
       [product]="product"
       class="product-list__item"
     ></tk-product>
   </div>
 
-  <div>
+  <div *tkIfViewMode="'list'">
     <tk-product-table
       (pageChange)="onPageChange($event)"
       (deleteProduct)="onDeleteProduct($event)"

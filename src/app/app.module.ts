@@ -19,7 +19,9 @@ import { DeleteProductEffect } from 'src/app/shared/store/stored-product/effects
 import { reducer as StoredProductReducer } from 'src/app/shared/store/stored-product/stored-product.reducers';
 import { GetTopProductsEffect } from 'src/app/shared/store/top-products/effects/get-top-products.effect';
 import { reducer as TopProductsReducer } from 'src/app/shared/store/top-products/top-products.reducers';
+import { reducer as ProductsViewReducer } from 'src/app/shared/store/products-view/products-view.reducers';
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
+import { ProductsViewEffect } from './shared/store/products-view/products-view.effect';
 
 const routes: Routes = [
   { path: '', redirectTo: 'products', pathMatch: 'full' }
@@ -39,13 +41,15 @@ const routes: Routes = [
       lang: LangReducer,
       product: ProductReducer,
       topProducts: TopProductsReducer,
-      storedProduct: StoredProductReducer
+      storedProduct: StoredProductReducer,
+      productsView: ProductsViewReducer
     }),
     EffectsModule.forRoot([
       GetProductEffect,
       GetTopProductsEffect,
       CreateProductEffect,
-      DeleteProductEffect
+      DeleteProductEffect,
+      ProductsViewEffect
     ])
   ],
   providers: [{ provide: LANGUAGES_TOKEN, useValue: [Lang.en, Lang.ru] }],
