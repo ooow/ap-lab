@@ -7,11 +7,11 @@
         [chartConfigs]="pieChartConfigs"
         [chartData]="product$ | async | pieChartProductData"
         [chartType]="ChartType.PIE_CHART"
-        (selected)="showEmittedData($event)"
+        (selected)="updateSelectedLocation($event)"
       ></tk-chart>
       <tk-product-table
         [loading]="isLoading$ | async"
-        [products]="products$ | async"
+        [products]="selectedDataProducts$ | async"
         [search]="search$ | async"
       ></tk-product-table>
     </div>

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subject, BehaviorSubject } from 'rxjs';
+import { map, switchMap, takeUntil, tap, filter } from 'rxjs/operators';
 
 import {
   ChartConfigsType,
@@ -43,21 +43,13 @@ export class DashboardComponent implements OnDestroy, OnInit {
   };
   readonly ChartType = ChartType;
 
+  private selectedLocation$ = new BehaviorSubject(null);
+
   private products$: Observable<Product[]> = this.store.pipe(
     select(ProductSelectors.products),
     map((products) => products.filter((product) => product.counts))
   );
 
-  // readonly product$: Observable<Product | null> = combineLatest([
-  //   this.search$,
-  //   this.products$
-  // ]).pipe(
-  //   switchMap(([search, products]: [string, Product[]]) => {
-  //     const searchResult =
-  //       search && products.find((product) => product.name === search);
-  //     return of(searchResult || null);
-  //   })
-  // );
   readonly product$: Observable<Product[] | null> = combineLatest([
     this.search$,
     this.products$
@@ -66,7 +58,52 @@ export class DashboardComponent implements OnDestroy, OnInit {
       const searchResult =
         search && products.filter((product) => product.name === search);
       return of(searchResult || null);
+    }),
+    tap((products) => {
+      if (products) {
+        const productsCounts = products.map((product) => [...product.counts]);
+        const concatedCounts = [].concat.apply([], productsCounts);
+
+        const reducedByLoction = Array.from(
+          concatedCounts.reduce(
+            (m, { location, quantityAvailable }) =>
+              m.set(location, (m.get(location) || 0) + quantityAvailable),
+            new Map()
+          ),
+          ([location, quantityAvailable]) => ({ location, quantityAvailable })
+        );
+
+        const location = reducedByLoction.reduce((acc, curr) => {
+          return acc.quantityAvailable > curr.quantityAvailable ? acc : curr;
+        }).location;
+
+        this.selectedLocation$.next({ location: location });
+      }
     })
+  );
+
+  private selectedDataProducts$: Observable<Product[]> = combineLatest([
+    this.selectedLocation$,
+    this.product$
+  ]).pipe(
+    switchMap(
+      ([selectedLocation, products]: [{ location: string }, Product[]]) => {
+        const productsCounts = products.map((product) => [...product.counts]);
+        const concatedCounts = [].concat.apply([], productsCounts);
+        const filteredCounts = concatedCounts.filter(
+          (el) => el.location === selectedLocation.location
+        );
+        const finalProducts = filteredCounts.map((productCounts) => {
+          return {
+            name: products[0].name,
+            description: products[0].description,
+            picture: products[0].picture,
+            counts: [productCounts]
+          };
+        });
+        return of(finalProducts);
+      }
+    )
   );
 
   private readonly destroy$ = new Subject<void>();
@@ -83,8 +120,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.destroy$.next();
   }
 
-  showEmittedData(value:{'location':string}){
-    console.log(value)
+  updateSelectedLocation(location: { location: string }) {
+    this.selectedLocation$.next(location);
   }
 
   updateProductsOnLangEmit(): void {
