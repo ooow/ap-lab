@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { LoaderModule } from 'src/app/shared/modules/loader/loader.module';
-import { IfViewModeDirective } from '../shared/directives/if-view-mode.directive';
+import { IfViewModeDirective } from 'src/app/shared/directives/if-view-mode.directive';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 import { ProductTableComponent } from './components/product-table/product-table.component';
 import { ProductComponent } from './components/product/product.component';

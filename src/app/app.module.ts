@@ -21,7 +21,7 @@ import { GetTopProductsEffect } from 'src/app/shared/store/top-products/effects/
 import { reducer as TopProductsReducer } from 'src/app/shared/store/top-products/top-products.reducers';
 import { reducer as ProductsViewReducer } from 'src/app/shared/store/products-view/products-view.reducers';
 import { LANGUAGES_TOKEN } from 'src/app/shared/tokens/languages.token';
-import { ProductsViewEffect } from './shared/store/products-view/products-view.effect';
+import { ProductsViewEffect } from 'src/app/shared/store/products-view/products-view.effect';
 
 const routes: Routes = [
   { path: '', redirectTo: 'products', pathMatch: 'full' }

@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from "@ngrx/store";
-import { ProductsView } from "../../models/products-view";
-import * as ProductsViewActions from "./products-view.actions";
+
+import { ProductsView } from "src/app/shared/models/products-view";
+import * as ProductsViewActions from "src/app/shared/store/products-view/products-view.actions";
 
 export const initialState: ProductsView = JSON.parse(localStorage.getItem("view-mode")) as ProductsView || "list" as ProductsView;
 

@@ -1,5 +1,6 @@
 import { createAction, props } from "@ngrx/store";
-import { ProductsView } from "../../models/products-view";
+
+import { ProductsView } from "src/app/shared/models/products-view";
 
 export const changeViewAction = createAction(
     '[Products component] Change view mode',

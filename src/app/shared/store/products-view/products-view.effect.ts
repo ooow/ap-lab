@@ -2,9 +2,14 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { of } from "rxjs";
 import { catchError, map, switchMap } from "rxjs/operators";
-import { ProductsView } from "../../models/products-view";
-import { PersistenceService } from "../../services/persistence.service";
-import { changeViewAction, setViewFromStorageAction, setViewFromComponentAction } from "./products-view.actions";
+
+import { ProductsView } from "src/app/shared/models/products-view";
+import { PersistenceService } from "src/app/shared/services/persistence.service";
+import { 
+    changeViewAction,
+    setViewFromStorageAction,
+    setViewFromComponentAction
+} from "src/app/shared/store/products-view/products-view.actions";
 
 @Injectable()
 

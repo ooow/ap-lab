@@ -2,8 +2,8 @@ import { Directive, Input, OnDestroy, TemplateRef, ViewContainerRef } from '@ang
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ProductsView } from '../models/products-view';
-import * as ProductsViewSelectors from '../store/products-view/products-view.selectors';
+import { ProductsView } from 'src/app/shared/models/products-view';
+import * as ProductsViewSelectors from 'src/app/shared/store/products-view/products-view.selectors';
 
 @Directive({
   selector: '[tkIfViewMode]'
