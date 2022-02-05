@@ -26,7 +26,6 @@ export class IfViewModeDirective implements OnDestroy {
     )
     .subscribe(viewMode => {
       if (mode === viewMode && !this.hasView) {
-        console.log("false")
         this.viewContainer.createEmbeddedView(this.templateRef);
         this.hasView = true;
       } else if (mode !== viewMode && this.hasView) {
