@@ -5,10 +5,12 @@ import { ViewModeIcon } from "src/app/shared/models/view-mode-icon";
 export const viewModes: ViewMode[] = [
     {
         mode: ProductsView.list,
-        icon: ViewModeIcon.list
+        icon: ViewModeIcon.list,
+        label: "List"
     },
     {
         mode: ProductsView.cards,
-        icon: ViewModeIcon.cards
+        icon: ViewModeIcon.cards,
+        label: "Cards"
     }
 ]

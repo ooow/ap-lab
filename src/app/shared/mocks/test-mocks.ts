@@ -1,6 +1,7 @@
 import { AppState } from 'src/app/shared/models/app-state';
 import { Lang } from 'src/app/shared/models/lang';
 import { ProductsResp } from 'src/app/shared/models/products-resp';
+import { ProductsView } from 'src/app/shared/models/products-view';
 
 export const mockProductsData = [
   {
@@ -40,7 +41,8 @@ export const initialState: AppState = {
     message: null,
     error: null
   },
-  lang: Lang.ru
+  lang: Lang.ru,
+  productsView: "list" as ProductsView
 };
 
 export const mockProductResponse: ProductsResp = {

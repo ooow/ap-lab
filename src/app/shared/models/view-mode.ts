@@ -3,5 +3,6 @@ import { ViewModeIcon } from "src/app/shared/models/view-mode-icon";
 
 export interface ViewMode {
     mode: ProductsView,
-    icon: ViewModeIcon
+    icon: ViewModeIcon,
+    label: string;
 }
