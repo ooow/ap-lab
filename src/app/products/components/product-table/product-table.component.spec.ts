@@ -27,7 +27,7 @@ import { ProductTableHarness } from './product-table.harness';
 })
 class TestComponent {}
 
-describe('AppModule => ProductTable', () => {
+fdescribe('AppModule => ProductTable', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: ProductTableComponent;
   let loader: HarnessLoader;
@@ -118,6 +118,7 @@ describe('AppModule => ProductTable', () => {
   describe('paginator', () => {
     const totalNumber = 20;
     const pageIndex = 0;
+    const pageSize = 10;
     let paginator: MatPaginatorHarness;
 
     beforeEach(async () => {
@@ -129,6 +130,7 @@ describe('AppModule => ProductTable', () => {
 
       component.pageIndex = pageIndex;
       component.totalNumber = totalNumber;
+      component.pageSize = pageSize;
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -145,6 +147,7 @@ describe('AppModule => ProductTable', () => {
 
       component.pageIndex = pageIndex;
       component.totalNumber = totalNumber;
+      component.pageSize = pageSize;
       fixture.detectChanges();
       await fixture.whenStable();
       await paginator.goToNextPage();
