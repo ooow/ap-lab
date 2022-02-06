@@ -21,6 +21,17 @@ export const mockProductsData = [
   }
 ];
 
+export const mockSameProductData = [
+  {
+    name: 'product1',
+    description: 'description1',
+    picture: 'picture1',
+    counts: [
+      { location: 'product1-location', quantityAvailable: 666, price: 999 }
+    ]
+  },
+];
+
 export const initialState: AppState = {
   product: {
     products: [...mockProductsData],

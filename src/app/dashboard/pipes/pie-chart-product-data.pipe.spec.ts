@@ -3,18 +3,19 @@ import { ChartDataType } from 'src/app/dashboard/components/chart/chart.types';
 import { mockProductsData } from 'src/app/shared/mocks/test-mocks';
 
 describe('PieChartProductDataPipe', () => {
-  const mockProduct = mockProductsData[0];
+  const mockProducts = mockProductsData;
 
   const expectedReturn: ChartDataType = {
     fieldNames: ['Location', 'Quantity'],
     data: [
-      [mockProduct.counts[0].location, mockProduct.counts[0].quantityAvailable]
+      [mockProducts[0].counts[0].location, mockProducts[0].counts[0].quantityAvailable],
+      [mockProducts[1].counts[0].location, mockProducts[1].counts[0].quantityAvailable],
     ]
   };
 
   const pipe = new PieChartProductDataPipe();
 
   it('should return with expected args on correct search', () => {
-    expect(pipe.transform(mockProduct)).toEqual(expectedReturn);
+    expect(pipe.transform(mockProducts)).toEqual(expectedReturn);
   });
 });
