@@ -11,15 +11,17 @@
     </mat-button-toggle>
   </mat-button-toggle-group>
   
-  <div class="product-list" *tkIfViewMode="'cards'">
-    <tk-product
-      (click)="showProductDetails(product)"
-      *ngFor="
-        let product of products$ | async | productSearch: (search$ | async)
-      "
-      [product]="product"
-      class="product-list__item"
-    ></tk-product>
+  <div *tkIfViewMode="'cards'">
+    <tk-product-cards
+      (pageChange)="onPageChange($event)"
+      (productDetails)="showProductDetails($event)"
+      [loading]="isLoading$ | async"
+      [pageIndex]="pageIndex$ | async"
+      [totalNumber]="totalNumber$ | async"
+      [products$]="products$"
+      [search$]="search$"
+    >
+    </tk-product-cards>
   </div>
 
   <div *tkIfViewMode="'list'">

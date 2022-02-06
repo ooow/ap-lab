@@ -1,0 +1,19 @@
+<div class="product-list" *tkIfViewMode="'cards'">
+    <div *ngIf="loading" class="loading-shade">
+        <mat-spinner></mat-spinner>
+    </div>
+    <tk-product
+      *ngFor="
+        let product of products$ | async | productSearch: (search$ | async)
+      "
+      [product]="product"
+      class="product-list__item"
+      (click)="productDetails.emit(product)"
+    ></tk-product>
+  </div>
+  <mat-paginator
+    [length]="totalNumber"
+    [pageIndex]="pageIndex"
+    [pageSize]="10"
+    (page)="pageChange.emit($event.pageIndex)"
+  ></mat-paginator>

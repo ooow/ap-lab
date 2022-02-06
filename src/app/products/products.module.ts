@@ -21,6 +21,7 @@ import { ProductTableComponent } from './components/product-table/product-table.
 import { ProductComponent } from './components/product/product.component';
 import { ProductSearchPipe } from './pipes/product-search.pipe';
 import { ProductsComponent } from './products.component';
+import { ProductCardsComponent } from './components/product-cards/product-cards.component';
 
 const routes = [{ path: 'products', component: ProductsComponent }];
 
@@ -32,6 +33,7 @@ const routes = [{ path: 'products', component: ProductsComponent }];
     ProductSearchPipe,
     ProductTableComponent,
     IfViewModeDirective,
+    ProductCardsComponent,
   ],
   imports: [
     ClipboardModule,
