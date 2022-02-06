@@ -1,11 +1,9 @@
-<div class="product-list" *tkIfViewMode="'cards'">
+<div class="product-list">
     <div *ngIf="loading" class="loading-shade">
         <mat-spinner></mat-spinner>
     </div>
     <tk-product
-      *ngFor="
-        let product of products$ | async | productSearch: (search$ | async)
-      "
+      *ngFor="let product of products"
       [product]="product"
       class="product-list__item"
       (click)="productDetails.emit(product)"

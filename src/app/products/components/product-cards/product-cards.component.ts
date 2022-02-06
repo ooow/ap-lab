@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Product } from 'src/app/shared/models/product';
 
 @Component({
@@ -12,8 +11,7 @@ export class ProductCardsComponent implements OnInit {
   @Input() totalNumber: number;
   @Input() pageIndex: number;
   @Input() loading: boolean;
-  @Input() products$: Observable<Product[]>;
-  @Input() search$: Observable<string>;
+  @Input() products: Array<Product>;
   @Output() pageChange = new EventEmitter<number>();
   @Output() productDetails = new EventEmitter<Product>();
 

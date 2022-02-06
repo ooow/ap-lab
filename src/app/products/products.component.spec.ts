@@ -13,7 +13,6 @@ import { MatButtonToggleGroupHarness, MatButtonToggleHarness } from '@angular/ma
 
 import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
 import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
-import { ProductComponent } from 'src/app/products/components/product/product.component';
 import { ProductSearchPipe } from 'src/app/products/pipes/product-search.pipe';
 import { ProductsComponent } from 'src/app/products/products.component';
 import { ProductsHarness } from 'src/app/products/products.harness';
@@ -28,6 +27,7 @@ import { IfViewModeDirective } from '../shared/directives/if-view-mode.directive
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { viewModes } from './mocks/view-modes';
 import { changeViewAction } from '../shared/store/products-view/products-view.actions';
+import { ProductCardsComponent } from './components/product-cards/product-cards.component';
 
 
 describe('Products', () => {
@@ -51,10 +51,10 @@ describe('Products', () => {
       declarations: [
         TestComponent,
         ProductsComponent,
-        MockPipe(ProductSearchPipe, (products) => products),
-        MockComponent(ProductComponent),
         MockComponent(ProductTableComponent),
+        MockComponent(ProductCardsComponent),
         MockComponent(ProductDetailsModalComponent),
+        MockPipe(ProductSearchPipe, (products) => products),
         IfViewModeDirective
       ],
       providers: [
@@ -147,36 +147,30 @@ describe('Products', () => {
     });
   });
 
-  describe('Product Components', () => {
-    let productCards: DebugElement[];
+  describe('Product Cards Component', () => {
+    let productCards: ProductCardsComponent;
 
     beforeEach(() => {
       store.setState({...initialState, productsView: 'cards'});
       fixture.detectChanges();
 
-      productCards = fixture.debugElement.queryAll(
-        By.directive(ProductComponent)
-      );
+      productCards = fixture.debugElement.query(
+        By.directive(ProductCardsComponent)
+      ).componentInstance;
     });
 
-    it('should render all the product cards', () => {
-      expect(productCards.length).toEqual(2);
+    it('should pass products prop', () => {
+      expect(productCards.products).toEqual(initialState.product.products);
     });
 
-    it('should pass product prop', () => {
-      const firstCard = productCards[0].componentInstance;
-      const expectedVal = initialState.topProducts.topProducts[0];
-      expect(firstCard.product).toEqual(expectedVal);
-    });
-
-    it('should open open product details modal on click', () => {
+    it("should open product details modal", () => {
       const spy = spyOn(component, 'showProductDetails');
-      expect(spy).toHaveBeenCalledTimes(0);
-      const [firstCard] = productCards;
-      firstCard.triggerEventHandler('click', null);
-      const expectedArgs = initialState.product.products[0];
-      expect(spy).toHaveBeenCalledOnceWith(expectedArgs);
-    });
+      const firstProduct = initialState.product.products[0];
+
+      expect(spy).not.toHaveBeenCalled();
+      productCards.productDetails.emit(firstProduct);
+      expect(spy).toHaveBeenCalledOnceWith(firstProduct);
+    })
   });
 
   describe('Product Table', () => {

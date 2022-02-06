@@ -18,8 +18,7 @@
       [loading]="isLoading$ | async"
       [pageIndex]="pageIndex$ | async"
       [totalNumber]="totalNumber$ | async"
-      [products$]="products$"
-      [search$]="search$"
+      [products]="products$ | async | productSearch: (search$ | async)"
     >
     </tk-product-cards>
   </div>
