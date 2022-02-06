@@ -13,6 +13,7 @@ import * as LangSelectors from 'src/app/shared/store/lang/lang.selectors';
 import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
 import { searchProductAction } from 'src/app/shared/store/product/actions/search-product.action';
 import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
+import { changePageAction } from '../shared/store/product/actions/change-page.action';
 
 @Component({
   selector: 'tk-dashboard',
@@ -93,7 +94,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
         const filteredCounts = concatedCounts.filter(
           (el) => el.location === selectedLocation.location
         );
-        const finalProducts = filteredCounts.map((productCounts) => {
+        const finalProducts :Product[] = filteredCounts.map((productCounts) => {
           return {
             name: products[0].name,
             description: products[0].description,
@@ -101,10 +102,15 @@ export class DashboardComponent implements OnDestroy, OnInit {
             counts: [productCounts]
           };
         });
+
         return of(finalProducts);
       }
-    )
+    ),
   );
+
+  readonly totalNumber$:Observable<number> = this.selectedDataProducts$.pipe(
+    map(products=>products.length)
+  )
 
   private readonly destroy$ = new Subject<void>();
 
@@ -156,5 +162,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
           }
         }
       });
+  }
+
+  onPageChange(pageIndex: number): void {
+    this.store.dispatch(changePageAction({ pageIndex }));
   }
 }

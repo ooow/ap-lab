@@ -10,9 +10,13 @@
         (selected)="updateSelectedLocation($event)"
       ></tk-chart>
       <tk-product-table
+        (pageChange)="onPageChange($event)"
+        [pageIndex]="pageIndex$ | async"
+        [totalNumber]="totalNumber$ | async"
         [loading]="isLoading$ | async"
         [products]="selectedDataProducts$ | async"
         [search]="search$ | async"
+        [pageSize]="5"
       ></tk-product-table>
     </div>
     <mat-divider></mat-divider>

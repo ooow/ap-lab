@@ -21,6 +21,7 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
   @Input() totalNumber: number;
   @Input() pageIndex: number;
   @Input() loading: boolean;
+  @Input() pageSize:number;
   @Output() pageChange = new EventEmitter<number>();
   @Output() deleteProduct = new EventEmitter<Product>();
   @ViewChild(MatSort) sort: MatSort;
