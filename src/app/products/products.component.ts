@@ -96,7 +96,7 @@ export class ProductsComponent implements OnDestroy, OnInit {
     showProductDetailsRef
       .afterClosed()
       .pipe(take(1), filter(Boolean))
-      .subscribe(() => this.onDeleteProduct(product));
+      .subscribe(() => this.showConfirmDeleteDialog(product));
   }
 
   showConfirmDeleteDialog(product: Product): void {
