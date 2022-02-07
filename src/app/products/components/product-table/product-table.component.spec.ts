@@ -27,7 +27,7 @@ import { ProductTableHarness } from './product-table.harness';
 })
 class TestComponent {}
 
-fdescribe('AppModule => ProductTable', () => {
+describe('AppModule => ProductTable', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: ProductTableComponent;
   let loader: HarnessLoader;

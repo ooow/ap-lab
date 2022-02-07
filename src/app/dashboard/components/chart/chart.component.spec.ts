@@ -45,7 +45,12 @@ describe('Chart', () => {
           .createSpy('arrayToDataTable')
           .and.returnValue('test-data'),
         PieChart: jasmine.createSpy().and.returnValue({ draw: drawSpy }),
-        BarChart: jasmine.createSpy().and.returnValue({ draw: drawSpy })
+        BarChart: jasmine.createSpy().and.returnValue({ draw: drawSpy }),
+        events:{
+          addListener: jasmine
+            .createSpy('addListener')
+            .and.callThrough()
+        }
       }
     };
 
