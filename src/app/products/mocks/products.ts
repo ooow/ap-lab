@@ -207,6 +207,19 @@ const PRODUCTS_MOCK_EN: ReadonlyArray<Product> = [
     ]
   },
   {
+    name: 'Australian cattle dog',
+    description:
+      'The Australian Cattle Dog breed originally originated in Australia. A herding dog who helped drive herds across the harsh lands. Medium in size and short-haired, they come in two colors - blue and red.',
+    picture:
+      'https://upload.wikimedia.org/wikipedia/commons/c/cc/ACD-blue-spud.jpg',
+    counts: [
+      { location: 'USA', quantityAvailable: 13, price: 1400 },
+      { location: 'Canada', quantityAvailable: 2, price: 1200 },
+      { location: 'France', quantityAvailable: 10, price: 2000 },
+      { location: 'Australia', quantityAvailable: 1, price: 700 }
+    ]
+  },
+  {
     name: 'Australian kelpie',
     description:
       'The Australian Kelpie is a herding dog native to Australia that is adept at handling a herd without the help of an owner. Medium in size, it can be of almost any color and is now mostly used for its intended purpose.',
