@@ -2,6 +2,7 @@
   <h1>Product Info Dashboard</h1>
   <mat-divider></mat-divider>
   <ng-container *ngIf="product$ | async; else productNotSelected">
+    <h4>Dogs by Country</h4>
     <div class="flex-row">
       <tk-chart
         [chartConfigs]="pieChartConfigs"
