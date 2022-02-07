@@ -15,6 +15,7 @@ import * as ProductSelectors from 'src/app/shared/store/product/product.selector
 import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import * as TopProductsSelectors from 'src/app/shared/store/top-products/top-products.selectors';
+import { ProductDeleteConfirmDialogComponent } from './components/product-delete-confirm-dialog/product-delete-confirm-dialog.component';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 
 @Component({
@@ -96,6 +97,23 @@ export class ProductsComponent implements OnDestroy, OnInit {
       .afterClosed()
       .pipe(take(1), filter(Boolean))
       .subscribe(() => this.onDeleteProduct(product));
+  }
+
+  showConfirmDeleteDialog(product: Product): void {
+    const confirmDeleteDialogRef = this.dialog.open(
+      ProductDeleteConfirmDialogComponent,
+      {
+        data: product
+      }
+    );
+
+    confirmDeleteDialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        filter(Boolean)
+      )
+      .subscribe(() => this.onDeleteProduct(product))
   }
 
   onPageChange(pageIndex: number): void {
