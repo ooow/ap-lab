@@ -23,13 +23,14 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
   @Input() loading: boolean;
   @Output() pageChange = new EventEmitter<number>();
   @Output() deleteProduct = new EventEmitter<Product>();
+  @Output() productDetails = new EventEmitter<Product>();
   @ViewChild(MatSort) sort: MatSort;
   readonly displayedColumns = ['delete', 'name', 'picture', 'description'];
   dataSource: MatTableDataSource<Product>;
   private searchValue: string;
 
   constructor(private snackBar: MatSnackBar) {}
-
+s
   @Input() set products(value: Array<Product>) {
     this.dataSource = new MatTableDataSource(value);
     if (this.search) {
