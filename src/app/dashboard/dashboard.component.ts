@@ -1,3 +1,4 @@
+import { DashboardProductsService } from './../shared/services/dashboard-products.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, Subject, BehaviorSubject } from 'rxjs';
@@ -65,19 +66,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
     }),
     tap((products) => {
       if (products) {
-        const productsCounts = products.map((product) => [...product.counts]);
-        const concatedCounts = [].concat.apply([], productsCounts);
-
-        const reducedByLoction = Array.from(
-          concatedCounts.reduce(
-            (m, { location, quantityAvailable }) =>
-              m.set(location, (m.get(location) || 0) + quantityAvailable),
-            new Map()
-          ),
-          ([location, quantityAvailable]) => ({ location, quantityAvailable })
+        const reducedByLocation = this.dashboardProducts.sumQunatityAvailableByLocation(
+          products
         );
-
-        const location = reducedByLoction.reduce((acc, curr) => {
+        const location = reducedByLocation.reduce((acc, curr) => {
           return acc.quantityAvailable > curr.quantityAvailable ? acc : curr;
         }).location;
 
@@ -92,12 +84,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
   ]).pipe(
     switchMap(
       ([selectedLocation, products]: [{ location: string }, Product[]]) => {
-        const productsCounts = products.map((product) => [...product.counts]);
-        const concatedCounts = [].concat.apply([], productsCounts);
+        const concatedCounts = this.dashboardProducts.concatCounts(products);
         const filteredCounts = concatedCounts.filter(
           (el) => el.location === selectedLocation.location
         );
-        const finalProducts :Product[] = filteredCounts.map((productCounts) => {
+        const finalProducts: Product[] = filteredCounts.map((productCounts) => {
           return {
             name: products[0].name,
             description: products[0].description,
@@ -108,16 +99,19 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
         return of(finalProducts);
       }
-    ),
+    )
   );
 
-  readonly totalNumber$:Observable<number> = this.selectedDataProducts$.pipe(
-    map(products=>products.length)
-  )
+  readonly totalNumber$: Observable<number> = this.selectedDataProducts$.pipe(
+    map((products) => products.length)
+  );
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private dashboardProducts: DashboardProductsService
+  ) {}
 
   ngOnInit(): void {
     this.updateProductsOnLangEmit();
