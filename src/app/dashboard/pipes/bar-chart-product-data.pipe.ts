@@ -13,11 +13,15 @@ export class BarChartProductDataPipe implements PipeTransform {
     const concatedCounts = [].concat.apply([], productsCounts);
 
     const countsNoDuplicates = concatedCounts.filter((value, index) => {
-      const _value = JSON.stringify(value);
+      const locationAndPrice = { location: value.location, price: value.price };
+      const _value = JSON.stringify(locationAndPrice);
       return (
         index ===
         concatedCounts.findIndex((obj) => {
-          return JSON.stringify(obj) === _value;
+          return (
+            JSON.stringify({ location: obj.location, price: obj.price }) ===
+            _value
+          );
         })
       );
     });

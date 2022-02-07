@@ -173,9 +173,23 @@ const PRODUCTS_MOCK_EN: ReadonlyArray<Product> = [
     counts: [
       { location: 'USA', quantityAvailable: 54, price: 1200 },
       { location: 'Canada', quantityAvailable: 112, price: 1200 },
+      { location: 'Canada', quantityAvailable: 12, price: 1200 },
+      { location: 'Canada', quantityAvailable: 5, price: 1200 },
       { location: 'France', quantityAvailable: 99, price: 900 },
       { location: 'United Kingdom', quantityAvailable: 12, price: 1500 },
       { location: 'Australia', quantityAvailable: 22, price: 800 }
+    ]
+  },
+  {
+    name: 'Australian shepherd',
+    description:
+      'The Australian Shepherd, Aussie is a medium-sized ranch bred in the western states of the United States. Despite the name, they are not related to Australia, their homeland is America.',
+    picture: 'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg',
+    counts: [
+      { location: 'USA', quantityAvailable: 5, price: 1200 },
+      { location: 'Canada', quantityAvailable: 10, price: 1200 },
+      { location: 'Canada', quantityAvailable: 2, price: 1200 },
+      { location: 'France', quantityAvailable: 9, price: 900 },
     ]
   },
   {
