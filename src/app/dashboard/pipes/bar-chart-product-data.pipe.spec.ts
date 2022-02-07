@@ -1,12 +1,22 @@
+import { TestBed } from '@angular/core/testing';
 import { ChartDataType } from 'src/app/dashboard/components/chart/chart.types';
 import { mockProductsData } from 'src/app/shared/mocks/test-mocks';
 import { mockSameProductData } from 'src/app/shared/mocks/test-mocks';
 import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
+import { DashboardProductsService } from 'src/app/shared/services/dashboard-products.service';
 
 describe('BarChartProductDataPipe', () => {
-  const pipe = new BarChartProductDataPipe();
+  beforeEach(()=>{
+    TestBed.configureTestingModule({
+      providers:[DashboardProductsService]
+    })
+  })
+
+
 
   it('should return with expected args on correct search', () => {
+    const service:DashboardProductsService = TestBed.inject(DashboardProductsService)
+    const pipe = new BarChartProductDataPipe(service);
     const mockProduct = mockProductsData;
     const expectedReturn: ChartDataType = {
       fieldNames: ['Location', 'Price USD'],
@@ -19,6 +29,8 @@ describe('BarChartProductDataPipe', () => {
   });
 
   it('should return data in ascending sort order', () => {
+    const service:DashboardProductsService = TestBed.inject(DashboardProductsService)
+    const pipe = new BarChartProductDataPipe(service);
     const mockProduct = mockSameProductData;
 
         mockSameProductData[0].counts.push(

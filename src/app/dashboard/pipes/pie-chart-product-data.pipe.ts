@@ -8,18 +8,20 @@ import { Product } from 'src/app/shared/models/product';
 })
 export class PieChartProductDataPipe implements PipeTransform {
   constructor(private dashboardProducts: DashboardProductsService) {}
-  transform(products: Product[]): ChartDataType {
+   transform(products: Product[]): ChartDataType {
     const fieldNames = ['Location', 'Quantity'];
 
-    const reducedByLocation = this.dashboardProducts.sumQunatityAvailableByLocation(
+    const reducedByLocation =  this.dashboardProducts.sumQunatityAvailableByLocation(
       products
     );
 
+   if(reducedByLocation){
     const data = reducedByLocation.map(({ location, quantityAvailable }) => [
       location,
       quantityAvailable
     ]);
 
     return { fieldNames, data };
+   }
   }
 }

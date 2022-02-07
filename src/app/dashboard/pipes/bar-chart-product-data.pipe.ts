@@ -14,10 +14,12 @@ export class BarChartProductDataPipe implements PipeTransform {
     const countsNoDuplicates = this.dashboardProducts.removeDuplicatedProductsByLocationAndPrice(
       products
     );
+   if(countsNoDuplicates){
     const data = countsNoDuplicates
-      .map(({ location, price }): [string, number] => [location, price])
-      .sort((a, b) => a[1] - b[1]);
+    .map(({ location, price }): [string, number] => [location, price])
+    .sort((a, b) => a[1] - b[1]);
 
     return { fieldNames, data };
+   }
   }
 }
