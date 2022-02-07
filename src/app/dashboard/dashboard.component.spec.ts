@@ -1,3 +1,5 @@
+import { initialStateDashboardTable } from './../shared/mocks/test-mocks';
+import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -13,6 +15,7 @@ import { DashboardHarness } from 'src/app/dashboard/dashboard.harness';
 import { BarChartProductDataPipe } from 'src/app/dashboard/pipes/bar-chart-product-data.pipe';
 import { PieChartProductDataPipe } from 'src/app/dashboard/pipes/pie-chart-product-data.pipe';
 
+
 import {
   initialState,
   mockProductResponse
@@ -22,6 +25,7 @@ import { ProductService } from 'src/app/shared/services/product.service';
 import * as ProductSelectors from 'src/app/shared/store/product/product.selectors';
 import { isLoading } from 'src/app/shared/store/product/product.selectors';
 import { getProductsAction } from '../shared/store/product/actions/get-products.actions';
+
 
 describe('Dashboard', () => {
   @Component({
@@ -59,7 +63,8 @@ describe('Dashboard', () => {
         DashboardComponent,
         MockPipe(PieChartProductDataPipe, () => mockChartProductData),
         MockPipe(BarChartProductDataPipe, () => mockChartProductData),
-        MockComponent(ChartComponent)
+        MockComponent(ChartComponent),
+        MockComponent(ProductTableComponent),
       ],
       providers: [
         provideMockStore({ initialState }),
@@ -181,4 +186,41 @@ describe('Dashboard', () => {
       );
     });
   });
+
+  describe('Product Table', () => {
+    const targetProduct = initialState.product.products[0];
+    let productTable: ProductTableComponent;
+
+    beforeEach(() => {
+      store.overrideSelector(ProductSelectors.search, targetProduct.name);
+      store.refreshState();
+      fixture.detectChanges();
+
+      productTable = fixture.debugElement.query(
+        By.directive(ProductTableComponent)
+      ).componentInstance;
+
+    });
+
+    it('should render product table', () => {
+      expect(productTable).toBeTruthy();
+    });
+
+    it('should pass correct props to product table', () => {
+      const {
+        products,
+        pageIndex,
+        search,
+        totalNumber,
+        pageSize
+      } = initialStateDashboardTable;
+      expect(productTable.loading).toEqual(false);
+      expect(productTable.products).toEqual(products);
+      expect(productTable.pageSize).toEqual(pageSize);
+      expect(productTable.pageIndex).toEqual(pageIndex);
+      expect(productTable.search).toEqual(search);
+      expect(productTable.totalNumber).toEqual(totalNumber);
+    });
+  })
+
 });

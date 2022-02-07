@@ -32,6 +32,16 @@ export const mockSameProductData = [
   },
 ];
 
+export const initialStateDashboardTable = {
+  products: mockSameProductData,
+  isLoading: false,
+  error: null,
+  search: 'product1',
+  pageIndex: 1,
+  pageSize:5,
+  totalNumber: mockSameProductData.length
+}
+
 export const initialState: AppState = {
   product: {
     products: [...mockProductsData],

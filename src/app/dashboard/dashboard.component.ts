@@ -30,6 +30,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
   readonly isLoading$: Observable<boolean> = this.store.select(
     ProductSelectors.isLoading
   );
+  readonly pageIndex$: Observable<number> = this.store.select(
+    ProductSelectors.pageIndex
+  );
 
   readonly pieChartConfigs: ChartConfigsType = {
     title: '',
