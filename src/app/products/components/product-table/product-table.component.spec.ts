@@ -276,5 +276,31 @@ describe('AppModule => ProductTable', () => {
         );
       });
     });
+
+    describe('product details link', () => {
+      let harness: ProductTableHarness;
+
+      beforeEach(async () => {
+        harness = await loader.getHarness(ProductTableHarness);
+      })
+
+      it('should render details link for all products', async () => {
+        const detailsLinks = (await harness.getAllDetailsLinks()) as MatButtonHarness[]
+        const expectedNumber = products.length;
+
+        expect(detailsLinks).toHaveSize(expectedNumber);
+      });
+
+      it('should propagate product details event', async () => {
+        spyOn(component.productDetails, 'emit')
+        expect(component.productDetails.emit).not.toHaveBeenCalled()
+        const expectedParams = products[0];
+        const detailsLink = (await harness.productDetailsLinks(0)) as MatButtonHarness | null;
+        if (detailsLink) {
+          await detailsLink.click();
+        }
+        expect(component.productDetails.emit).toHaveBeenCalledOnceWith(expectedParams);
+      });
+    });
   });
 });
