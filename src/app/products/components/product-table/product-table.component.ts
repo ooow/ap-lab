@@ -24,7 +24,15 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
   @Output() pageChange = new EventEmitter<number>();
   @Output() deleteProduct = new EventEmitter<Product>();
   @ViewChild(MatSort) sort: MatSort;
-  readonly displayedColumns = ['delete', 'name', 'picture', 'description'];
+  readonly displayedColumns = [
+    'delete',
+    'name',
+    'picture',
+    'description',
+    'location',
+    'quantityAvailable',
+    'price'
+  ];
   dataSource: MatTableDataSource<Product>;
   private searchValue: string;
 

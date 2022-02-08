@@ -60,6 +60,29 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="location">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Location</th>
+      <td *matCellDef="let row" mat-cell>
+        <p *ngFor="let count of row.counts">{{ count.location }}</p>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantityAvailable">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header
+        >Available Quantity</th
+      >
+      <td *matCellDef="let row" mat-cell>
+        <p *ngFor="let count of row.counts">{{ count.quantityAvailable }}</p>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Price USD</th>
+      <td *matCellDef="let row" mat-cell>
+        <p *ngFor="let count of row.counts">{{ count.price }}</p>
+      </td>
+    </ng-container>
+
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
     <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
 

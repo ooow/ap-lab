@@ -4,13 +4,20 @@
   position: relative;
 }
 
+.mat-header-cell {
+  white-space: nowrap;
+  @media screen and (max-width: 768px) {
+    white-space: normal;
+  }
+}
+
 table {
   width: 100%;
 }
 
 td:not(:first-child),
 th:not(:first-child) {
-  width: 33%;
+  width: 20%;
 }
 
 td.mat-cell {
@@ -51,7 +58,7 @@ td.mat-cell {
 .picture-url-container {
   align-items: center;
   display: flex;
-  max-width: 300px;
+  max-width: 150px;
 
   p {
     display: inline-block;
@@ -78,13 +85,13 @@ td.mat-cell {
 
 @media screen and (max-width: 768px) {
   .picture-url-container {
-    max-width: 250px;
+    max-width: 100px;
   }
 }
 
 @media screen and (max-width: 600px) {
   .picture-url-container {
-    max-width: 200px;
+    max-width: 80px;
   }
 }
 
