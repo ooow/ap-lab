@@ -16,6 +16,29 @@
   }
 }
 
+.form-array {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  &-row {
+    display: flex;
+
+    mat-form-field:first-child {
+      margin-right: 5px;
+    }
+  }
+}
+
+.add-more-btn {
+  align-self: flex-start;
+}
+
 .image-preview {
   margin-bottom: 10px;
 }
@@ -24,4 +47,11 @@
   height: auto;
   margin: 10px 0;
   width: 100%;
+}
+
+.flex-row-between {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

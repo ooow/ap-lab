@@ -4,7 +4,7 @@ import {
   OnDestroy,
   SecurityContext
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
@@ -39,10 +39,37 @@ export class CreateProductModalComponent implements OnDestroy {
           Validators.maxLength(500),
           Validators.pattern(TEXT_REGEX_PATTERN)
         ]
-      ]
+      ],
+      counts: this.fb.array([
+        this.fb.group({
+          location: [''],
+          quantityAvailable: [],
+          price: ['']
+        })
+      ])
     },
     { updateOn: 'blur' }
   );
+
+  counts(): FormArray {
+    return this.form.get('counts') as FormArray;
+  }
+
+  newCountsRecord(): FormGroup {
+    return this.fb.group({
+      location: [''],
+      quantityAvailable: [''],
+      price: ['']
+    });
+  }
+
+  addCountsRecord() {
+    this.counts().push(this.newCountsRecord());
+  }
+
+  removeCountsRecord(index: number) {
+    this.counts().removeAt(index);
+  }
 
   formValues: CreateProductFormType;
   private destroy$ = new Subject<void>();

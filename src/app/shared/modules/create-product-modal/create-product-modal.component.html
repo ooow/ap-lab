@@ -31,6 +31,42 @@
         {{ getErrorMessage("description") }}
       </mat-error>
     </mat-form-field>
+
+    <div formArrayName="counts">
+      <div
+        class="form-array"
+        *ngFor="let count of counts().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Location</mat-label>
+            <input matInput type="text" formControlName="location" />
+          </mat-form-field>
+          <div class="form-array-row">
+            <mat-form-field appearance="fill">
+              <mat-label>Availabale Quantity</mat-label>
+              <input matInput type="text" formControlName="quantityAvailable" />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Price</mat-label>
+              <input matInput type="text" formControlName="price" />
+            </mat-form-field>
+          </div>
+        </div>
+        <button (click)="removeCountsRecord(i)" mat-icon-button
+          ><mat-icon>remove_circle_outline</mat-icon></button
+        >
+      </div>
+    </div>
+    <button
+      class="add-more-btn"
+      mat-stroked-button
+      type="button"
+      (click)="addCountsRecord()"
+    >
+      Add more locations
+    </button>
   </form>
 </div>
 <div mat-dialog-actions>
