@@ -11,7 +11,7 @@ export class HeaderHarness extends ComponentHarness {
     MatButtonHarness.with({ selector: 'a' })
   );
   private getProductSearch = this.locatorFor(SearchHarness);
-  private getCreateProductBtn = this.locatorFor(
+  private getCreateProductBtn = this.locatorForOptional(
     MatButtonHarness.with({ selector: '.create-product-btn' })
   );
   private getCreateProductModal = this.rootLocatorFactory.locatorFor(
@@ -27,6 +27,10 @@ export class HeaderHarness extends ComponentHarness {
   async clickNavButton(buttonName: string): Promise<void> {
     const button = await this.findNavButton(buttonName);
     await button.click();
+  }
+
+  async createProductButton(): Promise<MatButtonHarness | null> {
+    return this.getCreateProductBtn()
   }
 
   async clickCreateProductBtn(): Promise<void> {
