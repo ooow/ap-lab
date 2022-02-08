@@ -1,6 +1,6 @@
 import { By } from '@angular/platform-browser';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { HarnessLoader } from '@angular/cdk/testing';
+import { HarnessLoader, ComponentHarness } from '@angular/cdk/testing';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -153,15 +153,26 @@ describe('AppModule => ProductTable', () => {
     });
   });
 
-  describe('table', () => {
+  fdescribe('table', () => {
     it('should have appropriate column names', async () => {
       const table = await loader.getHarness(MatTableHarness);
       const [headerRow] = await table.getHeaderRows();
-      const [_, second, third, fourth] = await headerRow.getCells();
+      const [
+        _,
+        second,
+        third,
+        fourth,
+        fifth,
+        sixth,
+        seventh
+      ] = await headerRow.getCells();
 
       expect(await second.getText()).toBe('Name');
       expect(await third.getText()).toBe('Picture Url');
       expect(await fourth.getText()).toBe('Description');
+      expect(await fifth.getText()).toBe('Location');
+      expect(await sixth.getText()).toBe('Available Quantity');
+      expect(await seventh.getText()).toBe('Price USD');
     });
 
     it('should be rendered appropriately to provided products', async () => {
@@ -172,12 +183,25 @@ describe('AppModule => ProductTable', () => {
       const firstRowCells = await rows[0].getCells();
       const secondCell = firstRowCells[1];
       const fourthCell = firstRowCells[3];
+      const fifthCell = firstRowCells[4];
+      const sixthCell = firstRowCells[5];
+      const seventhCell = firstRowCells[6];
 
       expect(rows.length).toBe(products.length);
-      expect(firstRowCells.length).toBe(4);
+      expect(firstRowCells.length).toBe(7);
       expect(await secondCell.getText()).toBe(firstProduct.name);
       expect(await productTableHarness.pictureUrl()).toBe(firstProduct.picture);
       expect(await fourthCell.getText()).toBe(firstProduct.description);
+      expect(await fifthCell.getText()).toContain(
+        firstProduct.counts[0].location
+      );
+      expect(await sixthCell.getText()).toContain(
+        String(firstProduct.counts[0].quantityAvailable)
+      );
+      expect(await seventhCell.getText()).toContain(
+        String(firstProduct.counts[0].price)
+      );
+
       // render copy button icon
       const copyUrlBtn = await productTableHarness.getCopyPictureUrlBtn();
       expect(await copyUrlBtn.text()).toBe('file_copy');
