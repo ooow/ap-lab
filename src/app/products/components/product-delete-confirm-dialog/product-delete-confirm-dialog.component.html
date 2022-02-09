@@ -3,6 +3,12 @@
     <p>Are you sure you want to delete {{ product.name }}?</p> 
 </div>
 <div mat-dialog-actions class="dialog-actions">
-    <button mat-button (click)="onCancelClick()">Cancel</button>
-    <button mat-button [mat-dialog-close]="product" cdkFocusInitial>Delete</button>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button 
+      mat-button 
+      cdkFocusInitial 
+      [mat-dialog-close]="product"
+    >
+      Delete
+    </button>
 </div>

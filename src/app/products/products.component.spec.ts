@@ -19,12 +19,9 @@ import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
 import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
-import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import { isLoading } from 'src/app/shared/store/top-products/top-products.selectors';
-import { Product } from '../shared/models/product';
 import { ProductDeleteConfirmDialogComponent } from './components/product-delete-confirm-dialog/product-delete-confirm-dialog.component';
-import { ProductDeleteConfirmDialogHarness } from './components/product-delete-confirm-dialog/product-delete-confirm-dialog.harness';
 
 describe('Products', () => {
   @Component({

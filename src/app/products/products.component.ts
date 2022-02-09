@@ -95,7 +95,10 @@ export class ProductsComponent implements OnDestroy, OnInit {
 
     showProductDetailsRef
       .afterClosed()
-      .pipe(take(1), filter(Boolean))
+      .pipe(
+        takeUntil(this.destroy$),
+        take(1)
+        )
       .subscribe(() => this.showConfirmDeleteDialog(product));
   }
 
@@ -110,8 +113,8 @@ export class ProductsComponent implements OnDestroy, OnInit {
     confirmDeleteDialogRef
       .afterClosed()
       .pipe(
+        takeUntil(this.destroy$),
         take(1),
-        filter(Boolean)
       )
       .subscribe(() => this.onDeleteProduct(product))
   }

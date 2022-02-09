@@ -74,33 +74,37 @@ describe("AppModule => ProductDeleteConfirmDialogComponent", () => {
   });
 
   it("should be rendered appropriately", async () => {
-    expect(await dialogHarness.titleText()).toBe("Please confirm");
-    expect(await dialogHarness.dialogBodyText()).toContain(product.name);
-    expect(await dialogHarness.cancelButton()).not.toBeNull();
-    expect(await dialogHarness.deleteButton()).not.toBeNull();
+    expect(await (await dialogHarness.getTitle()).text()).toBe("Please confirm");
+    expect(await (await dialogHarness.getBody()).text()).toContain(product.name);
+    expect(await dialogHarness.getCancelButton()).not.toBeNull();
+    expect(await dialogHarness.getDeleteButton()).not.toBeNull();
   })
 
   describe("cancel button", () => {
       it("should not emit data on click", async () => {
-          await dialogHarness.clickCancelButton();
-          expect(component.receivedData).toBeUndefined();
+        const cancelButton = await dialogHarness.getCancelButton();
+        await cancelButton.click();
+        expect(component.receivedData).toBeUndefined();
       });
 
       it("should close dialog", async () => {
-          await dialogHarness.clickCancelButton();
-          expect(await rootLoader.getAllHarnesses(MatDialogHarness)).toHaveSize(0);
+        const cancelButton = await dialogHarness.getCancelButton();
+        await cancelButton.click();
+        expect(await rootLoader.getAllHarnesses(MatDialogHarness)).toHaveSize(0);
       });
   });
 
   describe("delete button", () => {
       it("should emit data on click", async () => {
-          await dialogHarness.clickDeleteButton();
-          expect(component.receivedData).toEqual(product)
+        const deleteButton = await dialogHarness.getDeleteButton();
+        await deleteButton.click();
+        expect(component.receivedData).toEqual(product)
       });
 
       it("should close dialog", async () => {
-          await dialogHarness.clickDeleteButton();
-          expect(await rootLoader.getAllHarnesses(MatDialogHarness)).toHaveSize(0);
+        const deleteButton = await dialogHarness.getDeleteButton();
+        await deleteButton.click();
+        expect(await rootLoader.getAllHarnesses(MatDialogHarness)).toHaveSize(0);
       })
   })
 });

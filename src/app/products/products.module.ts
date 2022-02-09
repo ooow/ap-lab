@@ -27,10 +27,10 @@ const routes = [{ path: 'products', component: ProductsComponent }];
   declarations: [
     ProductsComponent,
     ProductComponent,
+    ProductDeleteConfirmDialogComponent,
     ProductDetailsModalComponent,
     ProductSearchPipe,
     ProductTableComponent,
-    ProductDeleteConfirmDialogComponent
   ],
   imports: [
     ClipboardModule,
