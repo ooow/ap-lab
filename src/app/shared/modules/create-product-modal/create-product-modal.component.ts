@@ -13,6 +13,7 @@ import { imageUrlValidator } from 'src/app/shared/modules/create-product-modal/v
 import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
 
 const TEXT_REGEX_PATTERN = /^[\w\n\sЁёА-я.…,:;!?()"'\/&+-]*$/;
+const NUMERIC_REGEX_PATTERN = /^[0-9]*$/;
 
 @Component({
   selector: 'tk-create-product-modal',
@@ -43,8 +44,8 @@ export class CreateProductModalComponent implements OnDestroy {
       counts: this.fb.array([
         this.fb.group({
           location: [''],
-          quantityAvailable: [],
-          price: ['']
+          quantityAvailable: ['', Validators.pattern(NUMERIC_REGEX_PATTERN)],
+          price: ['', Validators.pattern(NUMERIC_REGEX_PATTERN)]
         })
       ])
     },
@@ -58,8 +59,8 @@ export class CreateProductModalComponent implements OnDestroy {
   newCountsRecord(): FormGroup {
     return this.fb.group({
       location: [''],
-      quantityAvailable: [''],
-      price: ['']
+      quantityAvailable: ['', Validators.pattern(NUMERIC_REGEX_PATTERN)],
+      price: ['', Validators.pattern(NUMERIC_REGEX_PATTERN)]
     });
   }
 
@@ -157,8 +158,9 @@ export class CreateProductModalComponent implements OnDestroy {
     return (
       this.form.invalid ||
       !this.formValues ||
-      Object.values(this.formValues).filter(Boolean).length !==
-        Object.values(this.form.value).length
+      Object.values(this.form.controls).some((field) =>
+        field.hasError('required')
+      )
     );
   }
 
