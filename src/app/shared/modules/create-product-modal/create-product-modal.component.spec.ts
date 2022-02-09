@@ -39,8 +39,15 @@ describe('CreateProductModalComponent', () => {
   const validInputs = {
     name: 'test-name',
     picture: 'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg',
-    description: 'test-description-test-description'
+    description: 'test-description-test-description',
+    counts:[{
+      location:'test-location1',
+      quantityAvailable:24,
+      price:900
+    }]
   };
+
+  const requiredInputsKeys = ['name','description','picture'];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -74,8 +81,13 @@ describe('CreateProductModalComponent', () => {
     expect(await harness.nameFormField()).toBeTruthy();
     expect(await harness.pictureUrlFormField()).toBeTruthy();
     expect(await harness.descriptionFormField()).toBeTruthy();
+    expect(await harness.locationFormField()).toBeTruthy();
+    expect(await harness.quantityAvailableFormField).toBeTruthy();
+    expect(await harness.priceFormField).toBeTruthy();
     expect(await harness.getCreateBtn()).toBeTruthy();
     expect(await harness.getCancelBtn()).toBeTruthy();
+    expect(await harness.getAddNewCountsRecordBtn).toBeTruthy();
+    expect(await harness.getRemoveCountsRecordBtn).toBeTruthy();
   });
 
   describe('Cancel Button', () => {
@@ -140,7 +152,7 @@ describe('CreateProductModalComponent', () => {
         .afterClosed()
         .pipe(take(1))
         .subscribe((formVals) => {
-          expect(formVals).toEqual(validInputs);
+          expect(Object.keys(formVals)).toEqual(requiredInputsKeys);
           done();
         });
       await harness.setFormValues(validInputs);

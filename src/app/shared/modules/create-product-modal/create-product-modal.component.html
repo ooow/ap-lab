@@ -3,14 +3,14 @@
   <form class="create-product-form" [formGroup]="form">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" required />
+      <input matInput formControlName="name"/>
       <mat-error *ngIf="form.get('name').errors">
         {{ getErrorMessage("name") }}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Picture Url</mat-label>
-      <input matInput formControlName="picture" required />
+      <input matInput formControlName="picture" />
       <mat-error *ngIf="form.get('picture').errors">
         {{ getErrorMessage("picture") }}
       </mat-error>
@@ -26,7 +26,7 @@
     </div>
     <mat-form-field appearance="fill">
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" required></textarea>
+      <textarea matInput formControlName="description"></textarea>
       <mat-error *ngIf="form.get('description').errors">
         {{ getErrorMessage("description") }}
       </mat-error>
@@ -69,7 +69,7 @@
       type="button"
       (click)="addCountsRecord()"
     >
-      Add more locations
+      Add new Location
     </button>
   </form>
 </div>

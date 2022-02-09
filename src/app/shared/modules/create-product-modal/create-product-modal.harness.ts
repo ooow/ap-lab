@@ -10,6 +10,8 @@ export class CreateProductModalHarness extends ComponentHarness {
   getTitle = this.locatorFor('[mat-dialog-title]');
   getCancelBtn = this.locatorFor(MatButtonHarness.with({ text: 'Cancel' }));
   getCreateBtn = this.locatorFor(MatButtonHarness.with({ text: 'Create' }));
+  getAddNewCountsRecordBtn = this.locatorFor(MatButtonHarness.with({ text: 'Add new Location' }));
+  getRemoveCountsRecordBtn = this.locatorFor(MatButtonHarness.with({ text: 'remove_circle_outline' }));
   getNameFormField = this.locatorFor(
     MatFormFieldHarness.with({ floatingLabelText: 'Name' })
   );
@@ -28,6 +30,24 @@ export class CreateProductModalHarness extends ComponentHarness {
   getDescriptionInput = this.locatorFor(
     MatInputHarness.with({ selector: '[formcontrolname="description"]' })
   );
+  getLocationFormField = this.locatorFor(
+    MatFormFieldHarness.with({ floatingLabelText: 'Location' })
+  );
+  getLocationInput = this.locatorFor(
+    MatInputHarness.with({ selector: '[formcontrolname="location"]' })
+  );
+  getQuantityAvailableFormField = this.locatorFor(
+    MatFormFieldHarness.with({ floatingLabelText: 'Available Quantity' })
+  );
+  getQuantityAvailableInput = this.locatorFor(
+    MatInputHarness.with({ selector: '[formcontrolname="quantityAvailable"]' })
+  );
+  getPriceFormField = this.locatorFor(
+    MatFormFieldHarness.with({ floatingLabelText: 'Price' })
+  );
+  getPriceInput = this.locatorFor(
+    MatInputHarness.with({ selector: '[formcontrolname="price"]' })
+  );
   getPicture = this.locatorFor('.product-image');
 
   async titleText(): Promise<string> {
@@ -42,6 +62,16 @@ export class CreateProductModalHarness extends ComponentHarness {
 
   async createBtnClick(): Promise<void> {
     const create = await this.getCreateBtn();
+    await create.click();
+  }
+
+  async addNewCountsRecordBtnClick(): Promise<void> {
+    const create = await this.getAddNewCountsRecordBtn();
+    await create.click();
+  }
+
+  async removeCountsRecordBtnClick(): Promise<void> {
+    const create = await this.getRemoveCountsRecordBtn();
     await create.click();
   }
 
@@ -68,15 +98,43 @@ export class CreateProductModalHarness extends ComponentHarness {
   async descriptionInput(): Promise<MatInputHarness> {
     return this.getDescriptionInput();
   }
+  async locationFormField(): Promise<MatFormFieldHarness> {
+    return this.getLocationFormField();
+  }
+
+  async locationInput(): Promise<MatInputHarness> {
+    return this.getLocationInput();
+  }
+
+  async quantityAvailableInput(): Promise<MatInputHarness> {
+    return this.getQuantityAvailableInput();
+  }
+  async quantityAvailableFormField(): Promise<MatFormFieldHarness> {
+    return this.getDescriptionFormField();
+  }
+
+  async priceInput(): Promise<MatInputHarness> {
+    return this.getPriceInput();
+  }
+  async priceFormField(): Promise<MatFormFieldHarness> {
+    return this.getPriceFormField();
+  }
+
 
   async setFormValues(values: CreateProductFormType): Promise<void> {
     const nameInput = await this.nameInput();
     const pictureUrlInput = await this.pictureUrlInput();
     const descriptionInput = await this.descriptionInput();
+    // const locationInput = await this.locationInput();
+    // const quantityAvailableInput = await this.quantityAvailableInput();
+    // const priceInput = await this.priceInput();
 
     await nameInput.setValue(values.name);
     await pictureUrlInput.setValue(values.picture);
     await descriptionInput.setValue(values.description);
+    // await locationInput.setValue(values.counts[0].location);
+    // await quantityAvailableInput.setValue(values.counts[0].quantityAvailable);
+    // await priceInput.setValue(values.counts[0].price);
     await descriptionInput.blur();
   }
 
