@@ -28,12 +28,13 @@ const routes = [{ path: 'products', component: ProductsComponent }];
 @NgModule({
   declarations: [
     ProductsComponent,
+    ProductCardsComponent,
     ProductComponent,
     ProductDetailsModalComponent,
     ProductSearchPipe,
     ProductTableComponent,
     IfViewModeDirective,
-    ProductCardsComponent,
+    
   ],
   imports: [
     ClipboardModule,

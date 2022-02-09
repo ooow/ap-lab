@@ -142,7 +142,7 @@ describe('AppModule => ProductCards', () => {
         });
 
         it('should render correct number of cards', async () => {
-            expect(await harness.productCards()).toHaveSize(2);
+            expect(await harness.getAllCards()).toHaveSize(2);
         });
 
         it('should pass correct props to Product components', () => {
