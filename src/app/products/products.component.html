@@ -12,14 +12,14 @@
 
   <div>
     <tk-product-table
-      (pageChange)="onPageChange($event)"
-      (deleteProduct)="onDeleteProduct($event)"
-      (productDetails)="showProductDetails($event)"
       [loading]="isLoading$ | async"
       [pageIndex]="pageIndex$ | async"
       [products]="products$ | async"
       [search]="search$ | async"
       [totalNumber]="totalNumber$ | async"
+      (pageChange)="onPageChange($event)"
+      (deleteProduct)="onDeleteProduct($event)"
+      (productDetails)="showProductDetails($event)"
     ></tk-product-table>
   </div>
 </ng-container>
