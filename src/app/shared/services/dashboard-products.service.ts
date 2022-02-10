@@ -36,13 +36,13 @@ export class DashboardProductsService {
 
     const countsNoDuplicates = concatedCounts.filter((value, index) => {
       const locationAndPrice = { location: value.location, price: value.price };
-      const _value = JSON.stringify(locationAndPrice);
+      const locationAndPriceStringify = JSON.stringify(locationAndPrice);
       return (
         index ===
         concatedCounts.findIndex((obj) => {
           return (
             JSON.stringify({ location: obj.location, price: obj.price }) ===
-            _value
+            locationAndPriceStringify
           );
         })
       );
