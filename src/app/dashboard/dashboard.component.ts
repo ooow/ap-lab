@@ -78,7 +78,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     })
   );
 
-  private selectedDataProducts$: Observable<Product[]> = combineLatest([
+  private selectedAreaProducts$: Observable<Product[]> = combineLatest([
     this.selectedLocation$,
     this.product$
   ]).pipe(
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     )
   );
 
-  readonly totalNumber$: Observable<number> = this.selectedDataProducts$.pipe(
+  readonly totalNumber$: Observable<number> = this.selectedAreaProducts$.pipe(
     map((products) => products.length)
   );
 
