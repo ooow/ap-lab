@@ -125,17 +125,22 @@ export class CreateProductModalHarness extends ComponentHarness {
     const nameInput = await this.nameInput();
     const pictureUrlInput = await this.pictureUrlInput();
     const descriptionInput = await this.descriptionInput();
-    // const locationInput = await this.locationInput();
-    // const quantityAvailableInput = await this.quantityAvailableInput();
-    // const priceInput = await this.priceInput();
+    const locationInput = await this.locationInput();
+    const quantityAvailableInput = await this.quantityAvailableInput();
+    const priceInput = await this.priceInput();
 
     await nameInput.setValue(values.name);
     await pictureUrlInput.setValue(values.picture);
     await descriptionInput.setValue(values.description);
-    // await locationInput.setValue(values.counts[0].location);
-    // await quantityAvailableInput.setValue(values.counts[0].quantityAvailable);
-    // await priceInput.setValue(values.counts[0].price);
-    await descriptionInput.blur();
+    if(values.counts){
+    await locationInput.setValue(values.counts[0].location);
+    await quantityAvailableInput.setValue(values.counts[0].quantityAvailable);
+    await priceInput.setValue(values.counts[0].price);
+    await priceInput.blur();
+    }else{
+      await descriptionInput.blur();
+    }
+
   }
 
   async picture(): Promise<TestElement> {
