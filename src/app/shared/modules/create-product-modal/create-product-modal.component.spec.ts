@@ -1,7 +1,12 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { MatFormFieldHarness } from '@angular/material/form-field/testing';
@@ -40,19 +45,20 @@ fdescribe('CreateProductModalComponent', () => {
     name: 'test-name',
     picture: 'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg',
     description: 'test-description-test-description',
-    counts:[{
-      location:'test-location1',
-      quantityAvailable:24,
-      price:900
-    }]
+    counts: [
+      {
+        location: 'test-location1',
+        quantityAvailable: 24,
+        price: 900
+      }
+    ]
   };
 
   const requiredValidInputs = {
     name: 'test-name',
     picture: 'https://www.royal-canin.ru/upload/iblock/117/avstr.ovcharka2.jpg',
-    description: 'test-description-test-description',
-  }
-
+    description: 'test-description-test-description'
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -76,8 +82,6 @@ fdescribe('CreateProductModalComponent', () => {
       'isValidImage'
     ).and.returnValue(of(true));
   });
-
-
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -150,7 +154,9 @@ fdescribe('CreateProductModalComponent', () => {
     it('should have create btn active when provided valid input', async () => {
       const createBtn = await harness.getCreateBtn();
       await harness.setFormValues(requiredValidInputs);
-      expect( component.dialogRef.componentInstance.isButtonDisabled()).toBeFalse();
+      expect(
+        component.dialogRef.componentInstance.isButtonDisabled()
+      ).toBeFalse();
     });
 
     it('should close dialog and emit valid form values on create btn click', async (done) => {
@@ -332,30 +338,32 @@ fdescribe('CreateProductModalComponent', () => {
       });
     });
 
-    describe('Create new Location Btn',()=>{
-      it('should add new  record to counts property - form',fakeAsync(()=>{
-       fixture.detectChanges();
-       spyOn(component.dialogRef.componentInstance, 'addCountsRecord');
-       harness.addNewCountsRecordBtnClick()
-       tick();
-       fixture.detectChanges()
+    describe('Create new Location Btn', () => {
+      it('should add new  record to counts property - form', fakeAsync(() => {
+        fixture.detectChanges();
+        spyOn(component.dialogRef.componentInstance, 'addCountsRecord');
+        harness.addNewCountsRecordBtnClick();
+        tick();
+        fixture.detectChanges();
 
-       expect(component.dialogRef.componentInstance.addCountsRecord).toHaveBeenCalled()
-      }))
+        expect(
+          component.dialogRef.componentInstance.addCountsRecord
+        ).toHaveBeenCalled();
+      }));
+    });
 
-    })
+    describe('Remove location Btn', () => {
+      it('should remove record from counts property - form', fakeAsync(() => {
+        fixture.detectChanges();
+        spyOn(component.dialogRef.componentInstance, 'removeCountsRecord');
+        harness.removeCountsRecordBtnClick();
+        tick();
+        fixture.detectChanges();
 
-    describe('Remove location Btn',()=>{
-      it('should remove record from counts property - form',fakeAsync(()=>{
-       fixture.detectChanges();
-       spyOn(component.dialogRef.componentInstance, 'removeCountsRecord');
-       harness.removeCountsRecordBtnClick()
-       tick();
-       fixture.detectChanges()
-
-       expect(component.dialogRef.componentInstance.removeCountsRecord).toHaveBeenCalled()
-      }))
-
-    })
+        expect(
+          component.dialogRef.componentInstance.removeCountsRecord
+        ).toHaveBeenCalled();
+      }));
+    });
   });
 });

@@ -10,8 +10,12 @@ export class CreateProductModalHarness extends ComponentHarness {
   getTitle = this.locatorFor('[mat-dialog-title]');
   getCancelBtn = this.locatorFor(MatButtonHarness.with({ text: 'Cancel' }));
   getCreateBtn = this.locatorFor(MatButtonHarness.with({ text: 'Create' }));
-  getAddNewCountsRecordBtn = this.locatorFor(MatButtonHarness.with({ text: 'Add new Location' }));
-  getRemoveCountsRecordBtn = this.locatorFor(MatButtonHarness.with({ text: 'remove_circle_outline' }));
+  getAddNewCountsRecordBtn = this.locatorFor(
+    MatButtonHarness.with({ text: 'Add new Location' })
+  );
+  getRemoveCountsRecordBtn = this.locatorFor(
+    MatButtonHarness.with({ text: 'remove_circle_outline' })
+  );
   getNameFormField = this.locatorFor(
     MatFormFieldHarness.with({ floatingLabelText: 'Name' })
   );
@@ -120,7 +124,6 @@ export class CreateProductModalHarness extends ComponentHarness {
     return this.getPriceFormField();
   }
 
-
   async setFormValues(values: CreateProductFormType): Promise<void> {
     const nameInput = await this.nameInput();
     const pictureUrlInput = await this.pictureUrlInput();
@@ -132,15 +135,14 @@ export class CreateProductModalHarness extends ComponentHarness {
     await nameInput.setValue(values.name);
     await pictureUrlInput.setValue(values.picture);
     await descriptionInput.setValue(values.description);
-    if(values.counts){
-    await locationInput.setValue(values.counts[0].location);
-    await quantityAvailableInput.setValue(values.counts[0].quantityAvailable);
-    await priceInput.setValue(values.counts[0].price);
-    await priceInput.blur();
-    }else{
+    if (values.counts) {
+      await locationInput.setValue(values.counts[0].location);
+      await quantityAvailableInput.setValue(values.counts[0].quantityAvailable);
+      await priceInput.setValue(values.counts[0].price);
+      await priceInput.blur();
+    } else {
       await descriptionInput.blur();
     }
-
   }
 
   async picture(): Promise<TestElement> {
