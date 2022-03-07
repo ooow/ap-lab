@@ -214,7 +214,7 @@ describe('Header', () => {
 
   describe('Create Product button', () => {
     it('should be displayed by default', async () => {
-      const createProductButton = await harness.createProductButton();
+      const createProductButton = await harness.getCreateProductBtn();
       expect(createProductButton).not.toBeNull();
     });
 
@@ -222,7 +222,7 @@ describe('Header', () => {
       await harness.clickNavButton("Products");
       fixture.whenStable();
 
-      const createProductButton = await harness.createProductButton();
+      const createProductButton = await harness.getCreateProductBtn();
       expect(createProductButton).not.toBeNull();
     });
 
@@ -230,7 +230,7 @@ describe('Header', () => {
       await harness.clickNavButton("Dashboard");
       fixture.whenStable();
 
-      const createProductButton = await harness.createProductButton();
+      const createProductButton = await harness.getCreateProductBtn();
       expect(createProductButton).toBeNull();
     })
   })

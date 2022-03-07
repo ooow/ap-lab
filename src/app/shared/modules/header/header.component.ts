@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((event: RouterEvent) => {
-        this.displayCreateButton = this.createButtonShouldBeDisplayed(event.url)
+        this.displayCreateButton = event.url === '/products' || event.url === "/";
         this.searchType = this.getSearchType(event.url);
       });
   }
@@ -96,17 +96,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         return SearchTypes.INPUT;
       default:
         return SearchTypes.INPUT;
-    }
-  }
-
-  createButtonShouldBeDisplayed(path: string): boolean {
-    switch (path) {
-      case '/dashboard':
-        return false;
-      case '/products':
-        return true;
-      default:
-        return true;
     }
   }
 
