@@ -135,14 +135,11 @@ export class CreateProductModalHarness extends ComponentHarness {
     await nameInput.setValue(values.name);
     await pictureUrlInput.setValue(values.picture);
     await descriptionInput.setValue(values.description);
-    if (values.counts) {
-      await locationInput.setValue(values.counts[0].location);
-      await quantityAvailableInput.setValue(values.counts[0].quantityAvailable);
-      await priceInput.setValue(values.counts[0].price);
-      await priceInput.blur();
-    } else {
-      await descriptionInput.blur();
-    }
+    await descriptionInput.blur();
+    await locationInput.setValue(values.counts[0].location);
+    await quantityAvailableInput.setValue(values.counts[0].quantityAvailable);
+    await priceInput.setValue(values.counts[0].price);
+    await priceInput.blur();
   }
 
   async picture(): Promise<TestElement> {

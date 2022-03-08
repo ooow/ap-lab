@@ -17,9 +17,9 @@
 }
 
 .form-array {
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
 
   mat-form-field {
@@ -50,8 +50,8 @@
 }
 
 .flex-row-between {
-  width: 100%;
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  width: 100%;
 }

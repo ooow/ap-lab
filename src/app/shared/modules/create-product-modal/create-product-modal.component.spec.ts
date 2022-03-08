@@ -21,7 +21,7 @@ import { CreateProductModalModule } from 'src/app/shared/modules/create-product-
 import * as imageUrlValidator from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
 import Spy = jasmine.Spy;
 
-fdescribe('CreateProductModalComponent', () => {
+describe('CreateProductModalComponent', () => {
   @Component({
     template: '<button (click)="open()"></button>'
   })
@@ -49,7 +49,7 @@ fdescribe('CreateProductModalComponent', () => {
       {
         location: 'test-location1',
         quantityAvailable: 24,
-        price: 900
+        price: 9
       }
     ]
   };
@@ -143,6 +143,41 @@ fdescribe('CreateProductModalComponent', () => {
 
       expect(await isDialogOpen()).toBeTrue();
     });
+
+    it('should leave dialog open on cancel btn click if not confirmed', async () => {
+      spyOn(window, 'confirm').and.returnValue(false);
+      const locationUrlInput = await harness.locationInput();
+
+      await locationUrlInput.setValue(validInputs.counts[0].location);
+      await locationUrlInput.blur();
+      await harness.cancelBtnClick();
+
+      expect(await isDialogOpen()).toBeTrue();
+    });
+
+    it('should leave dialog open on cancel btn click if not confirmed', async () => {
+      spyOn(window, 'confirm').and.returnValue(false);
+      const priceUrlInput = await harness.priceInput();
+
+      await priceUrlInput.setValue(validInputs.counts[0].price);
+      await priceUrlInput.blur();
+      await harness.cancelBtnClick();
+
+      expect(await isDialogOpen()).toBeTrue();
+    });
+
+    it('should leave dialog open on cancel btn click if not confirmed', async () => {
+      spyOn(window, 'confirm').and.returnValue(false);
+      const quantityAvailableUrlInput = await harness.quantityAvailableInput();
+
+      await quantityAvailableUrlInput.setValue(
+        validInputs.counts[0].quantityAvailable
+      );
+      await quantityAvailableUrlInput.blur();
+      await harness.cancelBtnClick();
+
+      expect(await isDialogOpen()).toBeTrue();
+    });
   });
 
   describe('Create Button', () => {
@@ -153,10 +188,9 @@ fdescribe('CreateProductModalComponent', () => {
 
     it('should have create btn active when provided valid input', async () => {
       const createBtn = await harness.getCreateBtn();
-      await harness.setFormValues(requiredValidInputs);
-      expect(
-        component.dialogRef.componentInstance.isButtonDisabled()
-      ).toBeFalse();
+      await harness.setFormValues(validInputs);
+
+      expect(await createBtn.isDisabled()).toBeFalse();
     });
 
     it('should close dialog and emit valid form values on create btn click', async (done) => {
@@ -164,10 +198,10 @@ fdescribe('CreateProductModalComponent', () => {
         .afterClosed()
         .pipe(take(1))
         .subscribe((formVals) => {
-          expect(formVals).toEqual(requiredValidInputs);
+          expect(formVals).toEqual(validInputs);
           done();
         });
-      await harness.setFormValues(requiredValidInputs);
+      await harness.setFormValues(validInputs);
       await harness.createBtnClick();
 
       expect((await loader.getAllHarnesses(MatDialogHarness)).length).toBe(0);

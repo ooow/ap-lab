@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   Component,
   HostListener,
   OnDestroy,
@@ -10,10 +11,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { imageUrlValidator } from 'src/app/shared/modules/create-product-modal/validators/image-url.validator';
+import { isNumberValidator } from 'src/app/shared/modules/create-product-modal/validators/isNumber.validator';
 import { CreateProductFormType } from 'src/app/shared/types/create-product-form.type';
 
 const TEXT_REGEX_PATTERN = /^[\w\n\sЁёА-я.…,:;!?()"'\/&+-]*$/;
-const NUMERIC_REGEX_PATTERN = /^[0-9]*$/;
 
 @Component({
   selector: 'tk-create-product-modal',
@@ -44,32 +45,30 @@ export class CreateProductModalComponent implements OnDestroy {
       counts: this.fb.array([
         this.fb.group({
           location: [''],
-          quantityAvailable: ['', Validators.pattern(NUMERIC_REGEX_PATTERN)],
-          price: ['', Validators.pattern(NUMERIC_REGEX_PATTERN)]
+          quantityAvailable: [''],
+          price: ['']
         })
       ])
     },
     { updateOn: 'blur' }
   );
 
-  counts(): FormArray {
-    return this.form.get('counts') as FormArray;
-  }
-
   newCountsRecord(): FormGroup {
     return this.fb.group({
       location: [''],
-      quantityAvailable: ['', Validators.pattern(NUMERIC_REGEX_PATTERN)],
-      price: ['', Validators.pattern(NUMERIC_REGEX_PATTERN)]
+      quantityAvailable: ['', [isNumberValidator]],
+      price: ['', [isNumberValidator]]
     });
   }
 
-  addCountsRecord() {
-    this.counts().push(this.newCountsRecord());
+  addCountsRecord(): void {
+    const counts = <FormArray>this.form.get('counts');
+    counts.push(this.newCountsRecord());
   }
 
-  removeCountsRecord(index: number) {
-    this.counts().removeAt(index);
+  removeCountsRecord(index: number): void {
+    const counts = <FormArray>this.form.get('counts');
+    counts.removeAt(index);
   }
 
   formValues: CreateProductFormType;
@@ -82,6 +81,7 @@ export class CreateProductModalComponent implements OnDestroy {
   ) {
     this.cleanFormValues();
     this.bindDialogEvents();
+    this.setFormValidators();
   }
 
   ngOnDestroy(): void {
@@ -204,5 +204,20 @@ export class CreateProductModalComponent implements OnDestroy {
           ...checkedPicUrl
         };
       });
+  }
+
+  setFormValidators(): void {
+    const counts = <FormArray>this.form.controls.counts;
+    const formGroups = <FormGroup[]>counts.controls;
+    formGroups.map((fg: FormGroup) => {
+      const price = fg.get('price');
+      const quantityAvailable = fg.get('quantityAvailable');
+
+      fg.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+        if (price.value !== '') price.setValidators(null);
+        if (quantityAvailable.value !== '')
+          quantityAvailable.setValidators(null);
+      });
+    });
   }
 }

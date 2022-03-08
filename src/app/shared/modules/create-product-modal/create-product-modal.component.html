@@ -3,7 +3,7 @@
   <form class="create-product-form" [formGroup]="form">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name"/>
+      <input matInput formControlName="name" />
       <mat-error *ngIf="form.get('name').errors">
         {{ getErrorMessage("name") }}
       </mat-error>
@@ -34,8 +34,8 @@
 
     <div formArrayName="counts">
       <div
+        *ngFor="let count of this.form.get('counts')?.controls; let i = index"
         class="form-array"
-        *ngFor="let count of counts().controls; let i = index"
         [formGroupName]="i"
       >
         <div>
@@ -58,9 +58,9 @@
             </mat-form-field>
           </div>
         </div>
-        <button (click)="removeCountsRecord(i)" mat-icon-button
-          ><mat-icon>remove_circle_outline</mat-icon></button
-        >
+        <button (click)="removeCountsRecord(i)" mat-icon-button>
+          <mat-icon>remove_circle_outline</mat-icon>
+        </button>
       </div>
     </div>
     <button
