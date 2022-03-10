@@ -3,14 +3,14 @@
   <form class="create-product-form" [formGroup]="form">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput formControlName="name"/>
       <mat-error *ngIf="form.get('name').errors">
         {{ getErrorMessage("name") }}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Picture Url</mat-label>
-      <input matInput formControlName="picture" />
+      <input matInput formControlName="picture"/>
       <mat-error *ngIf="form.get('picture').errors">
         {{ getErrorMessage("picture") }}
       </mat-error>
@@ -41,7 +41,7 @@
         <div>
           <mat-form-field appearance="fill">
             <mat-label>Location</mat-label>
-            <input matInput type="text" formControlName="location" />
+            <input matInput type="text" formControlName="location"/>
           </mat-form-field>
           <div class="form-array-row">
             <mat-form-field appearance="fill">
@@ -54,7 +54,7 @@
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>Price</mat-label>
-              <input matInput type="number" formControlName="price" />
+              <input matInput type="number" formControlName="price"/>
             </mat-form-field>
           </div>
         </div>
