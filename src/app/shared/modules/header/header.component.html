@@ -16,14 +16,14 @@
     </a>
   </nav>
   <button
-    *ngIf="displayCreateButton"
-    mat-mini-fab
+    mat-icon-button
     class="create-product-btn"
+    color="accent"
     aria-label="create product"
     matTooltip="Create Product"
     (click)="createProductDialog()"
   >
-    <mat-icon>create</mat-icon>
+    <mat-icon>add_circle</mat-icon>
   </button>
   <div class="toolbar">
     <tk-search
