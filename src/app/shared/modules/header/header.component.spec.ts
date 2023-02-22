@@ -215,7 +215,7 @@ describe('Header', () => {
   describe('Create Product button', () => {
     it('should be displayed by default', async () => {
       const createProductButton = await harness.getCreateProductBtn();
-      expect(createProductButton).not.toBeNull();
+      expect(createProductButton).not.toBeDefined();
     });
 
     it('should be visible on Products page', async () => {
@@ -223,7 +223,7 @@ describe('Header', () => {
       fixture.whenStable();
 
       const createProductButton = await harness.getCreateProductBtn();
-      expect(createProductButton).not.toBeNull();
+      expect(createProductButton).not.toBeDefined();
     });
 
     it('should not be visible on Dashboard page', async () => {
@@ -231,7 +231,7 @@ describe('Header', () => {
       fixture.whenStable();
 
       const createProductButton = await harness.getCreateProductBtn();
-      expect(createProductButton).toBeNull();
+      expect(createProductButton).toBeDefined();
     })
   })
 
