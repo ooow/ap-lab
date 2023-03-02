@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -95,28 +95,29 @@ export class ProductsComponent implements OnDestroy, OnInit {
 
     showProductDetailsRef
       .afterClosed()
-      .pipe(
-        takeUntil(this.destroy$),
-        take(1)
-        )
+      .pipe(takeUntil(this.destroy$), take(1))
       .subscribe(() => this.showConfirmDeleteDialog(product));
   }
 
   showConfirmDeleteDialog(product: Product): void {
+    const confirmDeleteDialogConfig = new MatDialogConfig();
+    confirmDeleteDialogConfig.disableClose = false;
+    confirmDeleteDialogConfig.autoFocus = true;
+    confirmDeleteDialogConfig.data = {
+      initiateClose: new Subject(),
+      product
+    };
     const confirmDeleteDialogRef = this.dialog.open(
       ProductDeleteConfirmDialogComponent,
-      {
-        data: product
-      }
+      confirmDeleteDialogConfig
     );
 
-    confirmDeleteDialogRef
-      .afterClosed()
-      .pipe(
-        takeUntil(this.destroy$),
-        take(1),
-      )
-      .subscribe(() => this.onDeleteProduct(product))
+    confirmDeleteDialogConfig.data.initiateClose
+      .pipe(takeUntil(this.destroy$), take(1))
+      .subscribe(() => {
+        confirmDeleteDialogRef.close();
+        this.onDeleteProduct(product);
+      });
   }
 
   onPageChange(pageIndex: number): void {
@@ -124,10 +125,8 @@ export class ProductsComponent implements OnDestroy, OnInit {
   }
 
   onDeleteProduct(product: Product): void {
-    let lang: Lang;
-    this.lang$.pipe(take(1)).subscribe((currentLang) => {
-      lang = currentLang;
+    this.lang$.pipe(take(1)).subscribe((lang: Lang) => {
+      this.store.dispatch(deleteProductAction({ product, lang }));
     });
-    this.store.dispatch(deleteProductAction({ product, lang }));
   }
 }

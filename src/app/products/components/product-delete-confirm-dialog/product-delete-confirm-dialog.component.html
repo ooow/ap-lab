@@ -1,14 +1,12 @@
-<h1 mat-dialog-title>Please confirm</h1>
+<h1 mat-dialog-title>Confirm Deletion?</h1>
 <div mat-dialog-content>
-    <p>Are you sure you want to delete {{ product.name }}?</p>
+  <p
+    >Are you sure you want to delete <b>{{ data.product.name }}</b>?</p
+  >
 </div>
 <div mat-dialog-actions class="dialog-actions">
-    <button mat-button (click)="dialogRef.close()">Cancel</button>
-    <button
-      mat-button
-      cdkFocusInitial
-      [mat-dialog-close]="product"
-    >
-      Delete
-    </button>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-button cdkFocusInitial (click)="data.initiateClose.next(true)">
+    Delete
+  </button>
 </div>
