@@ -19,9 +19,9 @@ import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
 import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
-import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import { isLoading } from 'src/app/shared/store/top-products/top-products.selectors';
+import { ProductDeleteConfirmDialogComponent } from './components/product-delete-confirm-dialog/product-delete-confirm-dialog.component';
 
 describe('Products', () => {
   @Component({
@@ -47,7 +47,8 @@ describe('Products', () => {
         MockPipe(ProductSearchPipe, (products) => products),
         MockComponent(ProductComponent),
         MockComponent(ProductTableComponent),
-        MockComponent(ProductDetailsModalComponent)
+        MockComponent(ProductDetailsModalComponent),
+        MockComponent(ProductDeleteConfirmDialogComponent)
       ],
       providers: [
         provideMockStore({ initialState }),
@@ -164,12 +165,12 @@ describe('Products', () => {
       });
 
       it('should listen to delete product events', () => {
-        spyOn(store, 'dispatch').and.callFake(() => {});
-        expect(store.dispatch).toHaveBeenCalledTimes(0);
+        spyOn(component, 'showConfirmDeleteDialog').and.callFake(() => {});
+        expect(component.showConfirmDeleteDialog).toHaveBeenCalledTimes(0);
         const productItem = initialState.product[0];
         productTable.deleteProduct.emit(productItem);
-        expect(store.dispatch).toHaveBeenCalledOnceWith(
-          deleteProductAction({ lang: initialState.lang, product: productItem })
+        expect(component.showConfirmDeleteDialog).toHaveBeenCalledOnceWith(
+          productItem
         );
       });
     });

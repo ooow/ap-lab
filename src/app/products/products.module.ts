@@ -19,6 +19,7 @@ import { ProductTableComponent } from './components/product-table/product-table.
 import { ProductComponent } from './components/product/product.component';
 import { ProductSearchPipe } from './pipes/product-search.pipe';
 import { ProductsComponent } from './products.component';
+import { ProductDeleteConfirmDialogComponent } from './components/product-delete-confirm-dialog/product-delete-confirm-dialog.component';
 
 const routes = [{ path: 'products', component: ProductsComponent }];
 
@@ -26,9 +27,10 @@ const routes = [{ path: 'products', component: ProductsComponent }];
   declarations: [
     ProductsComponent,
     ProductComponent,
+    ProductDeleteConfirmDialogComponent,
     ProductDetailsModalComponent,
     ProductSearchPipe,
-    ProductTableComponent
+    ProductTableComponent,
   ],
   imports: [
     ClipboardModule,

@@ -212,6 +212,29 @@ describe('Header', () => {
     });
   });
 
+  describe('Create Product button', () => {
+    it('should be displayed by default', async () => {
+      const createProductButton = await harness.getCreateProductBtn();
+      expect(createProductButton).not.toBeDefined();
+    });
+
+    it('should be visible on Products page', async () => {
+      await harness.clickNavButton("Products");
+      fixture.whenStable();
+
+      const createProductButton = await harness.getCreateProductBtn();
+      expect(createProductButton).not.toBeDefined();
+    });
+
+    it('should not be visible on Dashboard page', async () => {
+      await harness.clickNavButton("Dashboard");
+      fixture.whenStable();
+
+      const createProductButton = await harness.getCreateProductBtn();
+      expect(createProductButton).toBeDefined();
+    })
+  })
+
   describe('Create Product Modal', () => {
     const validInputs = {
       name: 'test-name',

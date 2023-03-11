@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Lang } from 'src/app/shared/models/lang';
 
 import { Product } from 'src/app/shared/models/product';
@@ -15,6 +15,7 @@ import * as ProductSelectors from 'src/app/shared/store/product/product.selector
 import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import * as TopProductsSelectors from 'src/app/shared/store/top-products/top-products.selectors';
+import { ProductDeleteConfirmDialogComponent } from './components/product-delete-confirm-dialog/product-delete-confirm-dialog.component';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
 
 @Component({
@@ -94,8 +95,29 @@ export class ProductsComponent implements OnDestroy, OnInit {
 
     showProductDetailsRef
       .afterClosed()
-      .pipe(take(1), filter(Boolean))
-      .subscribe(() => this.onDeleteProduct(product));
+      .pipe(takeUntil(this.destroy$), take(1))
+      .subscribe(() => this.showConfirmDeleteDialog(product));
+  }
+
+  showConfirmDeleteDialog(product: Product): void {
+    const confirmDeleteDialogConfig = new MatDialogConfig();
+    confirmDeleteDialogConfig.disableClose = false;
+    confirmDeleteDialogConfig.autoFocus = true;
+    confirmDeleteDialogConfig.data = {
+      initiateClose: new Subject(),
+      product
+    };
+    const confirmDeleteDialogRef = this.dialog.open(
+      ProductDeleteConfirmDialogComponent,
+      confirmDeleteDialogConfig
+    );
+
+    confirmDeleteDialogConfig.data.initiateClose
+      .pipe(takeUntil(this.destroy$), take(1))
+      .subscribe(() => {
+        confirmDeleteDialogRef.close();
+        this.onDeleteProduct(product);
+      });
   }
 
   onPageChange(pageIndex: number): void {
@@ -103,10 +125,8 @@ export class ProductsComponent implements OnDestroy, OnInit {
   }
 
   onDeleteProduct(product: Product): void {
-    let lang: Lang;
-    this.lang$.pipe(take(1)).subscribe((currentLang) => {
-      lang = currentLang;
+    this.lang$.pipe(take(1)).subscribe((lang: Lang) => {
+      this.store.dispatch(deleteProductAction({ product, lang }));
     });
-    this.store.dispatch(deleteProductAction({ product, lang }));
   }
 }
