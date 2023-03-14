@@ -124,9 +124,9 @@ describe('AppModule => ProductDetailsModalComponent', () => {
   describe('close button', () => {
     it('should close product details modal window', async () => {
       await modalHarness.closeBtnClick();
-
-      // prettier-ignore
-      expect((await rootLoader.getAllHarnesses(MatDialogHarness)).length).toBe(0);
+      expect((await rootLoader.getAllHarnesses(MatDialogHarness)).length).toBe(
+        0
+      );
     });
   });
 });
