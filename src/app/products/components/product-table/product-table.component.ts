@@ -30,7 +30,7 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
   private searchValue: string;
 
   constructor(private snackBar: MatSnackBar) {}
-s
+
   @Input() set products(value: Array<Product>) {
     this.dataSource = new MatTableDataSource(value);
     if (this.search) {

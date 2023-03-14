@@ -3,6 +3,6 @@ import { Product } from './product';
 
 export interface ProductDialogInfo {
   product: Product;
-  initiateClose: Subject<boolean>;
+  initiateClose?: Subject<boolean>;
   deleteProduct?: Subject<boolean>;
 }
