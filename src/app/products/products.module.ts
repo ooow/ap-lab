@@ -13,7 +13,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-
 import { LoaderModule } from 'src/app/shared/modules/loader/loader.module';
 import { IfViewModeDirective } from 'src/app/shared/directives/if-view-mode.directive';
 import { ProductDetailsModalComponent } from './components/product-details-modal/product-details-modal.component';
@@ -22,6 +21,7 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductSearchPipe } from './pipes/product-search.pipe';
 import { ProductsComponent } from './products.component';
 import { ProductCardsComponent } from './components/product-cards/product-cards.component';
+import { ProductDeleteConfirmDialogComponent } from './components/product-delete-confirm-dialog/product-delete-confirm-dialog.component';
 
 const routes = [{ path: 'products', component: ProductsComponent }];
 
@@ -30,11 +30,11 @@ const routes = [{ path: 'products', component: ProductsComponent }];
     ProductsComponent,
     ProductCardsComponent,
     ProductComponent,
+    ProductDeleteConfirmDialogComponent,
     ProductDetailsModalComponent,
     ProductSearchPipe,
     ProductTableComponent,
-    IfViewModeDirective,
-    
+    IfViewModeDirective
   ],
   imports: [
     ClipboardModule,

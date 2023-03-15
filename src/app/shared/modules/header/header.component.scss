@@ -22,6 +22,9 @@ mat-toolbar {
 
   .create-product-btn {
     margin-right: 0.5rem;
+    .mat-icon {
+      transform: scale(1.5);
+    }
   }
 }
 

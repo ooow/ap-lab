@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 
 import { Lang } from 'src/app/shared/models/lang';
 import { Product } from 'src/app/shared/models/product';
@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ProductSelectors.search
   );
   searchType: SearchTypes = SearchTypes.INPUT;
+  displayCreateButton: boolean = true;
 
   readonly searchOptions$: Observable<Array<string>> = combineLatest([
     this.products$,
@@ -68,7 +69,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     readonly store: Store,
     readonly router: Router,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +79,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((event: RouterEvent) => {
+        this.displayCreateButton = event.url === '/products' || event.url === "/";
         this.searchType = this.getSearchType(event.url);
       });
   }

@@ -9,7 +9,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockPipe, MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
-import { MatButtonToggleGroupHarness, MatButtonToggleHarness } from '@angular/material/button-toggle/testing';
+import {
+  MatButtonToggleGroupHarness,
+  MatButtonToggleHarness
+} from '@angular/material/button-toggle/testing';
 
 import { ProductDetailsModalComponent } from 'src/app/products/components/product-details-modal/product-details-modal.component';
 import { ProductTableComponent } from 'src/app/products/components/product-table/product-table.component';
@@ -18,9 +21,9 @@ import { ProductsComponent } from 'src/app/products/products.component';
 import { ProductsHarness } from 'src/app/products/products.harness';
 import { initialState } from 'src/app/shared/mocks/test-mocks';
 import { ProductService } from 'src/app/shared/services/product.service';
+import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { changePageAction } from 'src/app/shared/store/product/actions/change-page.action';
 import { getProductsAction } from 'src/app/shared/store/product/actions/get-products.actions';
-import { deleteProductAction } from 'src/app/shared/store/stored-product/actions/delete-product.actions';
 import { getTopProductsAction } from 'src/app/shared/store/top-products/actions/get-top-products.action';
 import { isLoading } from 'src/app/shared/store/top-products/top-products.selectors';
 import { IfViewModeDirective } from '../shared/directives/if-view-mode.directive';
@@ -29,6 +32,7 @@ import { viewModes } from './mocks/view-modes';
 import { changeViewAction } from '../shared/store/products-view/products-view.actions';
 import { ProductCardsComponent } from './components/product-cards/product-cards.component';
 
+import { ProductDeleteConfirmDialogComponent } from './components/product-delete-confirm-dialog/product-delete-confirm-dialog.component';
 
 describe('Products', () => {
   @Component({
@@ -47,7 +51,12 @@ describe('Products', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, MatDialogModule, RouterTestingModule, MatButtonToggleModule],
+      imports: [
+        NoopAnimationsModule,
+        MatDialogModule,
+        RouterTestingModule,
+        MatButtonToggleModule
+      ],
       declarations: [
         TestComponent,
         ProductsComponent,
@@ -55,7 +64,9 @@ describe('Products', () => {
         MockComponent(ProductCardsComponent),
         MockComponent(ProductDetailsModalComponent),
         MockPipe(ProductSearchPipe, (products) => products),
-        IfViewModeDirective
+        IfViewModeDirective,
+        MockComponent(ProductDetailsModalComponent),
+        MockComponent(ProductDeleteConfirmDialogComponent)
       ],
       providers: [
         provideMockStore({ initialState }),
@@ -112,9 +123,9 @@ describe('Products', () => {
 
     beforeEach(async () => {
       loader = TestbedHarnessEnvironment.loader(fixture);
-      group = await loader.getHarness(MatButtonToggleGroupHarness)
-    })
-    
+      group = await loader.getHarness(MatButtonToggleGroupHarness);
+    });
+
     it('should render correct number of groups', async () => {
       const groups = await loader.getAllHarnesses(MatButtonToggleGroupHarness);
       expect(groups.length).toBe(1);
@@ -122,27 +133,37 @@ describe('Products', () => {
 
     describe('Toggles', () => {
       let toggles: MatButtonToggleHarness[];
-      
+
       beforeEach(async () => {
         toggles = await group.getToggles();
-      })
+      });
 
       it('should render correct number of toggles', () => {
-        expect(toggles.length).toBe(viewModes.length)
+        expect(toggles.length).toBe(viewModes.length);
       });
-  
+
       it('should render toggles with correct props', async () => {
         expect(await toggles[0].getText()).toBe(viewModes[0].icon);
         expect(await toggles[0].getAriaLabel()).toBe(viewModes[0].label);
       });
 
       it('should listen to view mode changes', async () => {
-        spyOn(store, "dispatch").and.callFake(() => {})
+        spyOn(store, 'dispatch').and.callFake(() => {});
         expect(store.dispatch).not.toHaveBeenCalled();
         await toggles[1].toggle();
         expect(store.dispatch).toHaveBeenCalledOnceWith(
           changeViewAction({ mode: viewModes[1].mode })
-        )
+        );
+      });
+
+      it('should listen to delete product events', () => {
+        spyOn(component, 'showConfirmDeleteDialog').and.callFake(() => {});
+        expect(component.showConfirmDeleteDialog).toHaveBeenCalledTimes(0);
+        const productItem = initialState.product[0];
+        productTable.deleteProduct.emit(productItem);
+        expect(component.showConfirmDeleteDialog).toHaveBeenCalledOnceWith(
+          productItem
+        );
       });
     });
   });
@@ -151,7 +172,7 @@ describe('Products', () => {
     let productCards: ProductCardsComponent;
 
     beforeEach(() => {
-      store.setState({...initialState, productsView: 'cards'});
+      store.setState({ ...initialState, productsView: 'cards' });
       fixture.detectChanges();
 
       productCards = fixture.debugElement.query(
@@ -163,14 +184,14 @@ describe('Products', () => {
       expect(productCards.products).toEqual(initialState.product.products);
     });
 
-    it("should open product details modal", () => {
+    it('should open product details modal', () => {
       const spy = spyOn(component, 'showProductDetails');
       const firstProduct = initialState.product.products[0];
 
       expect(spy).not.toHaveBeenCalled();
       productCards.productDetails.emit(firstProduct);
       expect(spy).toHaveBeenCalledOnceWith(firstProduct);
-    })
+    });
   });
 
   describe('Product Table', () => {
@@ -187,12 +208,7 @@ describe('Products', () => {
     });
 
     it('should pass correct props to product table', () => {
-      const {
-        products,
-        pageIndex,
-        search,
-        totalNumber
-      } = initialState.product;
+      const { products, pageIndex, search, totalNumber } = initialState.product;
       expect(productTable.loading).toEqual(false);
       expect(productTable.products).toEqual(products);
       expect(productTable.pageIndex).toEqual(pageIndex);
