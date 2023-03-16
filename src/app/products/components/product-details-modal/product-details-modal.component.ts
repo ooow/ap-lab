@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Product } from 'src/app/shared/models/product';
+import { ProductDialogInfo } from 'src/app/shared/models/product-dialog-info';
 
 @Component({
   selector: 'tk-product-details-modal',
@@ -9,7 +9,7 @@ import { Product } from 'src/app/shared/models/product';
 })
 export class ProductDetailsModalComponent {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { product: Product },
+    @Inject(MAT_DIALOG_DATA) public data: ProductDialogInfo,
     public dialogRef: MatDialogRef<ProductDetailsModalComponent>
   ) {}
 }

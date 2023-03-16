@@ -19,6 +19,8 @@
       [products]="products$ | async"
       [search]="search$ | async"
       [totalNumber]="totalNumber$ | async"
+      (pageChange)="onPageChange($event)"
+      (productDetails)="showProductDetails($event)"
     ></tk-product-table>
   </div>
 </ng-container>

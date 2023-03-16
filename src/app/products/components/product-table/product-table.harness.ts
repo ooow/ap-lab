@@ -15,6 +15,9 @@ export class ProductTableHarness extends ComponentHarness {
   getAllDeleteProductBtns = this.locatorForAll(
     MatButtonHarness.with({ selector: '[aria-label="Delete Product"]' })
   );
+  getAllDetailsLinks = this.locatorForAll(
+    MatButtonHarness.with({ selector: '[aria-label="Product details"]' })
+  );
 
   async isLoading(): Promise<boolean> {
     const spinner = await this.getLoadingSpinner();
@@ -54,5 +57,12 @@ export class ProductTableHarness extends ComponentHarness {
       return buttons;
     }
     return null;
+  }
+
+  async productDetailsLinks(
+    id?: number
+  ): Promise<MatButtonHarness | MatButtonHarness[] | null> {
+    const links = await this.getAllDetailsLinks();
+    return links[id] ?? links ?? null;
   }
 }

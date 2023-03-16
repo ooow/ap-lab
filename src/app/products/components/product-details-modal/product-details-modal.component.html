@@ -11,7 +11,11 @@
   <p>{{ data.product.description }}</p>
 </div>
 <div *ngIf="data.product.id" mat-dialog-actions class="dialog-actions">
-  <button mat-raised-button color="primary" [mat-dialog-close]="data.product">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="data.deleteProduct.next(true)"
+  >
     Delete Product
   </button>
 </div>
