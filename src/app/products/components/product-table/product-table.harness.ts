@@ -63,12 +63,6 @@ export class ProductTableHarness extends ComponentHarness {
     id?: number
   ): Promise<MatButtonHarness | MatButtonHarness[] | null> {
     const links = await this.getAllDetailsLinks();
-    if ((id === 0 || id) && links[id]) {
-      return links[id];
-    }
-    if (!id && links.length) {
-      return links;
-    }
-    return null;
+    return links[id] ?? links ?? null;
   }
 }
