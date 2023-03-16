@@ -23,7 +23,17 @@
 
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
-      <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
+      <td *matCellDef="let row" mat-cell>
+        <a 
+          mat-button 
+          (click)="productDetails.emit(row)"
+          matTooltip="Details"
+          matTooltipPosition="above"
+          aria-label="Product details"
+        >
+          {{ row.name }}
+        </a>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="description">

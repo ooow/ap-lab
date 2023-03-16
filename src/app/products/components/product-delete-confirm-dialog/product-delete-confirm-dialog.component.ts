@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProductDeleteConfirmation } from 'src/app/shared/models/product-delete-confirmation';
+import { ProductDialogInfo } from 'src/app/shared/models/product-dialog-info';
 
 @Component({
   selector: 'tk-product-delete-confirm-dialog',
@@ -10,6 +10,6 @@ import { ProductDeleteConfirmation } from 'src/app/shared/models/product-delete-
 export class ProductDeleteConfirmDialogComponent {
   constructor(
     readonly dialogRef: MatDialogRef<ProductDeleteConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) readonly data: ProductDeleteConfirmation
+    @Inject(MAT_DIALOG_DATA) readonly data: ProductDialogInfo
   ) {}
 }

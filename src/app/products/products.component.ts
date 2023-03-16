@@ -95,29 +95,40 @@ export class ProductsComponent implements OnDestroy, OnInit {
     this.store.dispatch(searchProductAction({ search: '' }));
   }
 
+  // showProductDetails will be passed for productDetailsDialogConfig data
+  getDialogConfig(
+    product: Product,
+    showProductDetails?: boolean
+  ): MatDialogConfig<any> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      product,
+      ...(showProductDetails
+        ? { deleteProduct: new Subject() }
+        : { initiateClose: new Subject() })
+    };
+    return dialogConfig;
+  }
+
   showProductDetails(product: Product): void {
+    const productDetailsDialogConfig = this.getDialogConfig(product, true);
     const showProductDetailsRef = this.dialog.open(
       ProductDetailsModalComponent,
-      {
-        width: '600px',
-        data: { product }
-      }
+      productDetailsDialogConfig
     );
 
-    showProductDetailsRef
-      .afterClosed()
+    productDetailsDialogConfig.data.deleteProduct
       .pipe(takeUntil(this.destroy$), take(1))
-      .subscribe(() => this.showConfirmDeleteDialog(product));
+      .subscribe(() => {
+        showProductDetailsRef.close();
+        this.onDeleteProduct(product);
+      });
   }
 
   showConfirmDeleteDialog(product: Product): void {
-    const confirmDeleteDialogConfig = new MatDialogConfig();
-    confirmDeleteDialogConfig.disableClose = false;
-    confirmDeleteDialogConfig.autoFocus = true;
-    confirmDeleteDialogConfig.data = {
-      initiateClose: new Subject(),
-      product
-    };
+    const confirmDeleteDialogConfig = this.getDialogConfig(product);
     const confirmDeleteDialogRef = this.dialog.open(
       ProductDeleteConfirmDialogComponent,
       confirmDeleteDialogConfig
