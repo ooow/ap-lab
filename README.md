@@ -1,4 +1,7 @@
-# AngularTimeKiller
+# APlayground Lab 🤩
+This project has no goal or a purpose, it is design to practice real project technologies and focus on code style and review process.
+
+___
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.8.
 
