@@ -79,6 +79,7 @@ describe('AppModule => ProductCards', () => {
         beforeEach(async () => {
             harness = await loader.getHarness(ProductCardsHarness);
         })
+
         it('should be hidden by default', async () => {
             expect (await harness.isLoading()).toBeFalse();
         });
@@ -100,36 +101,35 @@ describe('AppModule => ProductCards', () => {
         const totalNumber = 20;
         const pageIndex = 0;
         let paginator: MatPaginatorHarness;
-    
+
         beforeEach(async () => {
           paginator = await loader.getHarness(MatPaginatorHarness);
         });
-    
+
         it('should be rendered appropriately', async () => {
           let rangeLabel: string;
-    
+
           component.pageIndex = pageIndex;
           component.totalNumber = totalNumber;
           fixture.detectChanges();
           await fixture.whenStable();
-    
+
           rangeLabel = await paginator.getRangeLabel();
-    
+
           expect(await paginator.getPageSize()).toBe(10);
           expect(rangeLabel).toContain((pageIndex + 1).toString());
           expect(rangeLabel).toContain((10).toString());
           expect(rangeLabel).toContain(totalNumber.toString());
         });
-    
+
         it('should propagate page change event', async () => {
           spyOn(component.pageChange, 'emit');
-    
+
           component.pageIndex = pageIndex;
           component.totalNumber = totalNumber;
           fixture.detectChanges();
           await fixture.whenStable();
           await paginator.goToNextPage();
-    
           expect(component.pageChange.emit).toHaveBeenCalledWith(1);
         });
       });
@@ -170,11 +170,11 @@ describe('AppModule => ProductCards', () => {
 
             const firstProduct = products[0];
             const secondProduct = products[1];
-            
+
             spyOn(component.productDetails, "emit");
 
             expect(component.productDetails.emit).not.toHaveBeenCalled();
-            
+
             firstCard.triggerEventHandler("click", { product: firstProduct });
             expect(component.productDetails.emit).toHaveBeenCalledOnceWith(firstProduct);
             expect(component.productDetails.emit).not.toHaveBeenCalledWith(secondProduct);

@@ -5,14 +5,13 @@ import { catchError, map, switchMap } from "rxjs/operators";
 
 import { ProductsView } from "src/app/shared/models/products-view";
 import { PersistenceService } from "src/app/shared/services/persistence.service";
-import { 
+import {
     changeViewAction,
     setViewFromStorageAction,
     setViewFromComponentAction
 } from "src/app/shared/store/products-view/products-view.actions";
 
 @Injectable()
-
 export class ProductsViewEffect {
     changeView$ = createEffect(() => this.actions$.pipe(
         ofType(changeViewAction),

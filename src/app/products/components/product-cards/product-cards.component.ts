@@ -12,9 +12,8 @@ export class ProductCardsComponent {
   @Input() totalNumber: number;
   @Input() pageIndex: number;
   @Input() loading: boolean;
-  @Input() products: Array<Product>;
+  @Input() products: Product[];
   @Output() pageChange = new EventEmitter<number>();
   @Output() productDetails = new EventEmitter<Product>();
 
-  constructor() { }
 }
