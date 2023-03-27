@@ -1,0 +1,38 @@
+.toolbar {
+  display: flex;
+  height: 78px;
+  justify-content: space-around;
+
+  .create-product-btn {
+    margin-right: 15px;
+
+    .mat-icon {
+      transform: scale(1.5);
+    }
+  }
+
+  .mdc-button.navbar-item-selected {
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 10px;
+  }
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+
+  tk-search {
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 686px) {
+  mat-toolbar {
+    height: 128px;
+  }
+
+  .toolbar {
+    flex-direction: column-reverse;
+    gap: unset;
+  }
+}

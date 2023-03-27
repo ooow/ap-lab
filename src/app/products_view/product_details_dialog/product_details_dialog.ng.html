@@ -1,0 +1,16 @@
+<div mat-dialog-title class="product-title">
+  <h1 class="product-name">{{ data.product.name }}</h1>
+  <button mat-icon-button (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <img class="product-image" [alt]="data.product.name" [src]="data.product.picture" />
+  <p class="product-description">{{ data.product.description }}</p>
+</div>
+<div *ngIf="data.product.id" mat-dialog-actions class="dialog-actions">
+  <button mat-raised-button color="primary" (click)="data.deleteProduct.next(true)">
+    Delete Product
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

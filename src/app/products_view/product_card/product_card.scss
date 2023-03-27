@@ -1,0 +1,32 @@
+.product-card {
+  cursor: pointer;
+  width: 200px;
+  overflow: hidden;
+
+  .image {
+    align-items: center;
+    display: flex;
+    height: 160px;
+    justify-content: center;
+    margin: 0 -15px 15px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .mat-mdc-card-title {
+    height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 168px;
+  }
+
+  .mat-mdc-card-content p {
+    height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

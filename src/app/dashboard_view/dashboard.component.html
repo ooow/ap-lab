@@ -1,0 +1,28 @@
+<ng-container *ngIf="!(isLoading$ | async); else loading">
+  <h1>Product Info Dashboard</h1>
+  <mat-divider></mat-divider>
+  <ng-container *ngIf="product$ | async; else productNotSelected">
+    <tk-chart
+      [chartConfigs]="pieChartConfigs"
+      [chartData]="product$ | async | pieChartProductData"
+      [chartType]="ChartType.PIE_CHART"
+    ></tk-chart>
+    <mat-divider></mat-divider>
+    <tk-chart
+      [chartConfigs]="barChartConfigs"
+      [chartData]="product$ | async | barChartProductData"
+      [chartType]="ChartType.BAR_CHART"
+    ></tk-chart>
+  </ng-container>
+
+  <ng-template #productNotSelected>
+    <h3>
+      Select the product in the Products Menu to see the availability and price
+      charts by location
+    </h3>
+  </ng-template>
+</ng-container>
+
+<ng-template #loading>
+  <tk-loader></tk-loader>
+</ng-template>

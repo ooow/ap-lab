@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Create new product</h1>
+<div mat-dialog-content>
+  <form class="create-product-form" [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="form.get('name').errors">
+        {{ getErrorMessage("name") }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Picture Url</mat-label>
+      <input matInput formControlName="picture" />
+      <mat-error *ngIf="form.get('picture').errors">
+        {{ getErrorMessage("picture") }}
+      </mat-error>
+    </mat-form-field>
+    <div class="image-preview" *ngIf="formValues?.picture">
+      <mat-divider></mat-divider>
+      <img
+        [src]="formValues.picture"
+        class="product-image"
+        alt="Provided product image"
+      />
+      <mat-divider></mat-divider>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+      <mat-error *ngIf="form.get('description').errors">
+        {{ getErrorMessage("description") }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button
+    mat-button
+    [disabled]="isButtonDisabled()"
+    [mat-dialog-close]="formValues"
+  >
+    Create
+  </button>
+</div>

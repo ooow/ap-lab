@@ -1,0 +1,23 @@
+.product-title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0 0;
+}
+
+.product-name {
+  margin: 0 16px;
+}
+
+.dialog-actions {
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.product-image {
+  max-width: 500px;
+}
+
+.product-description {
+  max-width: 500px;
+}

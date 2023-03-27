@@ -1,0 +1,42 @@
+<mat-toolbar class="toolbar" color="primary">
+  <nav class="navbar">
+    <a
+      mat-stroked-button
+      routerLink="/products"
+      routerLinkActive="navbar-item-selected"
+    >
+      Products
+    </a>
+    <a
+      mat-button
+      routerLink="/dashboard"
+      routerLinkActive="navbar-item-selected"
+    >
+      Dashboard
+    </a>
+  </nav>
+  <div class="actions">
+    <button
+      *ngIf="displayCreateButton"
+      mat-icon-button
+      aria-label="create product"
+      class="create-product-btn"
+      color="accent"
+      matTooltip="Create Product"
+      (click)="createProductDialog()"
+    >
+      <mat-icon>add_circle</mat-icon>
+    </button>
+    <tk-search
+      [label]="'Products'"
+      [options]="searchOptions$ | async"
+      [search]="search$ | async"
+      [searchType]="searchType"
+      (valueChange)="onSearchChange($event)"
+    ></tk-search>
+    <tk-lang-selector
+      [lang]="lang$ | async"
+      (langChanged)="onLangChange($event)"
+    ></tk-lang-selector>
+  </div>
+</mat-toolbar>
