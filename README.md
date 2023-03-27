@@ -89,7 +89,7 @@ simple and improves readability.
     * Description of the component.
     */
    @Component({
-     selector: 'mrt-custom-component', // Add `mrt` prefix for custom selectors.
+     selector: 'tk-custom-component', // Add `tk` prefix for custom selectors.
      styleUrls: ['./custom_component.css'],
      templateUrl: './custom_component.ng.html',
    })
