@@ -94,13 +94,6 @@ simple and improves readability.
      templateUrl: './custom_component.ng.html',
    })
    export class CustomComponent implements OnInit {
-     constructor(
-        @Inject(INJECTABLE) injectable: Injectable,
-        customService: CustomService,
-        readonly customService: CustomService,
-        private readonly customService: CustomService,
-     ) {}
- 
      @Input() input: string;
      @Output() output = new EventEmitter<string>();
  
@@ -109,6 +102,13 @@ simple and improves readability.
      field: Field;
      readonly field: ReadonlyField;
      private readonly field: PrivateReadonlyField;
+
+     constructor(
+        @Inject(INJECTABLE) injectable: Injectable,
+        customService: CustomService,
+        readonly customService: CustomService,
+        private readonly customService: CustomService,
+     ) {}
  
      ngOnInit() {}
  
