@@ -14,7 +14,7 @@ export class PersistenceService {
       localStorage.setItem(key, JSON.stringify(data));
       return of(data);
     } catch (error) {
-      return throwError({message: 'Request failed', error});
+      return throwError(()=>({message: 'Request failed', error}));
     }
   }
 
@@ -22,7 +22,7 @@ export class PersistenceService {
     try {
       return of(JSON.parse(localStorage.getItem(key) as string));
     } catch (error) {
-      return throwError({message: 'Request failed', error});
+      return throwError(()=>({message: 'Request failed', error}));
     }
   }
 
@@ -45,7 +45,7 @@ export class PersistenceService {
         message: 'Data cannot be added to the existing data type',
       };
     } catch (error) {
-      return throwError({message: 'Request failed', error});
+      return throwError(()=>({message: 'Request failed', error}));
     }
   }
 
@@ -72,7 +72,7 @@ export class PersistenceService {
       }
       throw {message: 'Something went wrong'};
     } catch (error) {
-      return throwError({message: 'Request failed', error});
+      return throwError(()=>({message: 'Request failed', error}));
     }
   }
 }
