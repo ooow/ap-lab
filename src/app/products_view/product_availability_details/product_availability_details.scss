@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.label {
+    color: rgba(0,0,0,0.6);
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+@media screen and (min-width: 600px) {
+    .container {
+        flex-direction: row;
+        // gap: 40px;
+        justify-content: space-around;
+    }
+}

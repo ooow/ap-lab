@@ -1,24 +1,24 @@
-import {HarnessLoader} from '@angular/cdk/testing';
-import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {Component, Pipe, PipeTransform} from '@angular/core';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {ReactiveFormsModule} from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatAutocompleteHarness} from '@angular/material/autocomplete/testing';
-import {MatButtonHarness} from '@angular/material/button/testing';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatIconHarness} from '@angular/material/icon/testing';
-import {MatInputModule} from '@angular/material/input';
-import {MatInputHarness} from '@angular/material/input/testing';
-import {By} from '@angular/platform-browser';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {SearchComponent} from 'src/app/shared/component/header/search/search.component';
-import {SearchHarness} from 'src/app/shared/component/header/search/search.harness';
-import {SearchTypes} from 'src/app/shared/component/header/search/search.types';
-import {MatSelectModule} from '@angular/material/select';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { Component, Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteHarness } from '@angular/material/autocomplete/testing';
+import { MatButtonHarness } from '@angular/material/button/testing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatIconHarness } from '@angular/material/icon/testing';
+import { MatInputModule } from '@angular/material/input';
+import { MatInputHarness } from '@angular/material/input/testing';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchComponent } from 'src/app/shared/component/header/search/search.component';
+import { SearchHarness } from 'src/app/shared/component/header/search/search.harness';
+import { MatSelectModule } from '@angular/material/select';
+import { SearchTypes } from './search.component';
 
-@Pipe({name: 'searchOptions'})
+@Pipe({ name: 'searchOptions' })
 class MockPipe implements PipeTransform {
   transform(value: any): any {
     return value;
@@ -27,7 +27,8 @@ class MockPipe implements PipeTransform {
 
 @Component({
   selector: 'tk-test',
-  template: '<tk-search [options]="options" [search]="search" [searchType]="searchType"></tk-search>',
+  template:
+    '<tk-search [options]="options" [search]="search" [searchType]="searchType"></tk-search>',
 })
 class TestComponent {
   options: string[];
@@ -43,7 +44,7 @@ describe('AppModule => SearchComponent', () => {
   const options = ['option1', 'option2'];
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports        : [
+      imports: [
         ReactiveFormsModule,
         MatAutocompleteModule,
         MatFormFieldModule,
@@ -51,7 +52,8 @@ describe('AppModule => SearchComponent', () => {
         MatInputModule,
         NoopAnimationsModule,
         MatSelectModule,
-      ], declarations: [SearchComponent, MockPipe, TestComponent],
+      ],
+      declarations: [SearchComponent, MockPipe, TestComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);
@@ -70,12 +72,11 @@ describe('AppModule => SearchComponent', () => {
     expect(await search.labelText()).toBe('Products');
   });
 
-  it('should render input field with reset btn when searchType is Input',
-    async () => {
-      expect(await harness.getSelector()).toBeFalsy();
-      expect(await harness.getInput()).toBeTruthy();
-      expect(await harness.getClearBtn()).toBeTruthy();
-    });
+  it('should render input field with reset btn when searchType is Input', async () => {
+    expect(await harness.getSelector()).toBeFalsy();
+    expect(await harness.getInput()).toBeTruthy();
+    expect(await harness.getClearBtn()).toBeTruthy();
+  });
 
   it('should render selector when searchType is Selector', async () => {
     component.searchType = SearchTypes.SELECTOR;
@@ -97,19 +98,18 @@ describe('AppModule => SearchComponent', () => {
     expect(search.valueChange.emit).toHaveBeenCalledWith('text');
   });
 
-  it('should propagate search selector field value on change event',
-    async () => {
-      // prettier-ignore
-      const search = fixture.debugElement.query(
+  it('should propagate search selector field value on change event', async () => {
+    // prettier-ignore
+    const search = fixture.debugElement.query(
         By.css('tk-search')).componentInstance;
-      component.searchType = SearchTypes.SELECTOR;
-      component.options = options;
-      spyOn(search.valueChange, 'emit');
+    component.searchType = SearchTypes.SELECTOR;
+    component.options = options;
+    spyOn(search.valueChange, 'emit');
 
-      await harness.setSelectorValue(options[1]);
+    await harness.setSelectorValue(options[1]);
 
-      expect(search.valueChange.emit).toHaveBeenCalledWith(options[1]);
-    });
+    expect(search.valueChange.emit).toHaveBeenCalledWith(options[1]);
+  });
 
   it('should set search input value from props by default', async () => {
     const testSearch = 'test-search';
@@ -135,32 +135,30 @@ describe('AppModule => SearchComponent', () => {
   });
 
   // tslint:disable-next-line:max-line-length
-  it('should open autocomplete drop down when search input focused',
-    async () => {
-      component.options = options;
-      fixture.detectChanges();
-      await fixture.whenStable();
+  it('should open autocomplete drop down when search input focused', async () => {
+    component.options = options;
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      const autocomplete = await loader.getHarness(MatAutocompleteHarness);
-      const input = await loader.getHarness(MatInputHarness);
-      await input.focus();
+    const autocomplete = await loader.getHarness(MatAutocompleteHarness);
+    const input = await loader.getHarness(MatInputHarness);
+    await input.focus();
 
-      expect(await autocomplete.isOpen()).toBeTrue();
-    });
+    expect(await autocomplete.isOpen()).toBeTrue();
+  });
 
   // tslint:disable-next-line:max-line-length
-  it('should show autocomplete drop down with list of provided options',
-    async () => {
-      component.options = options;
-      fixture.detectChanges();
-      await fixture.whenStable();
+  it('should show autocomplete drop down with list of provided options', async () => {
+    component.options = options;
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      const inputOptionsList = await harness.getInputOptions();
+    const inputOptionsList = await harness.getInputOptions();
 
-      expect(inputOptionsList.length).toBe(options.length);
-      expect(await inputOptionsList[0].getText()).toBe(options[0]);
-      expect(await inputOptionsList[1].getText()).toBe(options[1]);
-    });
+    expect(inputOptionsList.length).toBe(options.length);
+    expect(await inputOptionsList[0].getText()).toBe(options[0]);
+    expect(await inputOptionsList[1].getText()).toBe(options[1]);
+  });
 
   it('should show selector options list of provided options', async () => {
     component.options = options;
@@ -175,21 +173,19 @@ describe('AppModule => SearchComponent', () => {
     expect(await selectorOptionsList[1].getText()).toBe(options[1]);
   });
 
-  it(
-    'should preselect first autocomplete option when autocomplete drop down opens',
-    async () => {
-      component.options = options;
-      fixture.detectChanges();
-      await fixture.whenStable();
+  it('should preselect first autocomplete option when autocomplete drop down opens', async () => {
+    component.options = options;
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      const autocomplete = await loader.getHarness(MatAutocompleteHarness);
-      const input = await loader.getHarness(MatInputHarness);
-      await input.focus();
+    const autocomplete = await loader.getHarness(MatAutocompleteHarness);
+    const input = await loader.getHarness(MatInputHarness);
+    await input.focus();
 
-      const [firstOption] = await autocomplete.getOptions();
+    const [firstOption] = await autocomplete.getOptions();
 
-      expect(await firstOption.isActive()).toBeTrue();
-    });
+    expect(await firstOption.isActive()).toBeTrue();
+  });
 
   it('should clear search input on clear btn click', async () => {
     const inputText = 'text';
