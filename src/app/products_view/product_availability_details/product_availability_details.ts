@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProductQuantityInfo } from '../../shared/model/product-quantity-info';
+import { ProductQuantityInfo } from '../../shared/model/product_quantity_info';
 
 @Component({
   selector: 'tk-product-availability-details',
