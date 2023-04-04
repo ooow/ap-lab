@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, NO_ERRORS_SCHEMA, Component } from '@angular/core';
+import { NO_ERRORS_SCHEMA, Component } from '@angular/core';
 
 import { ProductAvailabilityDetails } from './product_availability_details';
 import { MatSelectModule } from '@angular/material/select';
@@ -13,25 +13,33 @@ import { MatSelectHarness } from '@angular/material/select/testing';
 import { Language } from '../../shared/component/header/lang-selector/lang-selector.component';
 import { getProducts } from '../mock/products';
 
+@Component({
+  selector: 'tk-test',
+  template:
+    '<tk-product-availability-details [productQuantityInfo]="productQuantityInfo"></tk-product-availability-details>',
+})
+class TestComponent {
+  productQuantityInfo = getProducts(Language.en).length
+    ? getProducts(Language.en)[0].counts
+    : [];
+}
+
 fdescribe('ProductAvailabilityDetails', () => {
-  let fixture: ComponentFixture<ProductAvailabilityDetails>;
-  let component: ProductAvailabilityDetails;
+  let fixture: ComponentFixture<TestComponent>;
+  let component: TestComponent;
   let loader: HarnessLoader;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MatSelectModule, NoopAnimationsModule],
-      declarations: [ProductAvailabilityDetails],
+      declarations: [TestComponent, ProductAvailabilityDetails],
       providers: [],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProductAvailabilityDetails);
+    fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
-    component.productQuantityInfo = getProducts(Language.en).length
-      ? getProducts(Language.en)[0].counts
-      : [];
     fixture.detectChanges();
     await fixture.whenStable();
   });
@@ -46,30 +54,35 @@ fdescribe('ProductAvailabilityDetails', () => {
     );
   });
 
-  it('default country should be selected', async () => {
-    expect(component.selectedCountry?.location).toBe(
-      component.productQuantityInfo[0]?.location
-    );
-  });
-
-  it('country should be updated with provided value', async () => {
-    const newCountryInfo = component.productQuantityInfo[1];
-    component.selectedCountry = newCountryInfo;
+  it('country should be updated with default value', async () => {
+    const dafaultCountryInfo = component.productQuantityInfo[0];
+    fixture.detectChanges();
+    await fixture.whenStable();
     const selectHarness = await loader.getHarness(MatSelectHarness);
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(await selectHarness.getValueText()).toBe(newCountryInfo?.location);
+    expect(await selectHarness.getValueText()).toBe(
+      dafaultCountryInfo?.location
+    );
   });
 
-  xit('price should be updated with provided value', async () => {
-    const newCountryInfo = component.productQuantityInfo[1];
-    component.selectedCountry = newCountryInfo;
+  it('price should be updated with default value', async () => {
+    const dafaultCountryInfo = component.productQuantityInfo[0];
     fixture.detectChanges();
     await fixture.whenStable();
     const harness = await loader.getHarness(ProductAvailabilityDetailsHarness);
-    expect(await harness.getPriceValue()).toBe(newCountryInfo?.price);
-    // expect(await compHarness.getQuantityAvailableValue()).toBe(
-    //   newCountryInfo?.quantityAvailable
-    // );
+    expect(await harness.getPriceValue()).toBe(
+      dafaultCountryInfo?.price?.toString()
+    );
+  });
+
+  it('country should be updated with default value', async () => {
+    const dafaultCountryInfo = component.productQuantityInfo[0];
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const harness = await loader.getHarness(ProductAvailabilityDetailsHarness);
+    expect(await harness.getQuantityAvailableValue()).toBe(
+      dafaultCountryInfo?.quantityAvailable?.toString()
+    );
   });
 });

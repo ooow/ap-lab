@@ -9,13 +9,13 @@
   </mat-form-field>
 
   <div *ngIf="selectedCountry" class="details">
-    <mat-label id="quantity-avl-label" class="label" i18n="Quantity Available@@quantity-available.label">Quantity
+    <mat-label class="label" i18n="Quantity Available@@quantity-available.label">Quantity
       Available</mat-label>
-    <div id="quantity-avl">{{selectedCountry?.quantityAvailable}}</div>
+    <div class="quantity-avl">{{selectedCountry?.quantityAvailable}}</div>
   </div>
 
   <div *ngIf="selectedCountry" class="details">
-    <mat-label id="price-label" class="label" i18n="Price (USD)@@price.label">Price (USD)</mat-label>
-    <div id="price">{{selectedCountry?.price}}</div>
+    <mat-label class="label" i18n="Price (USD)@@price.label">Price (USD)</mat-label>
+    <div class="price">{{selectedCountry?.price}}</div>
   </div>
 </div>
