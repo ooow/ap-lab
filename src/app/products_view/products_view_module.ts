@@ -27,6 +27,7 @@ import {ProductSearchPipe} from './pipe/product_search_pipe';
 import {ProductsView} from './products_view';
 import {ProductDeleteDialog} from './product_delete_dialog/product_delete_dialog';
 import {CreateProductDialog} from './create_product_dialog/create_product_dialog';
+import { ProductAvailabilityDetails } from './product_availability_details/product_availability_details';
 
 const routes = [{path: 'products', component: ProductsView}];
 
@@ -39,6 +40,7 @@ const routes = [{path: 'products', component: ProductsView}];
     ProductSearchPipe,
     ProductsView,
     ProductTableComponent,
+    ProductAvailabilityDetails,
   ], imports  : [
     A11yModule,
     ClipboardModule,
