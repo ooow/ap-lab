@@ -11,8 +11,6 @@ export class ProductAvailabilityDetails implements OnInit {
 
   selectedProductQuantityInfo: ProductQuantityInfo;
 
-  constructor() {}
-
   ngOnInit() {
     this.selectedProductQuantityInfo = this.productQuantityInfo[0];
   }
