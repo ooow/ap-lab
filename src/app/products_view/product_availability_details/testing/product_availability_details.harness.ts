@@ -8,7 +8,6 @@ export class ProductAvailabilityDetailsHarness extends ComponentHarness {
 
   async getQuantityAvailableValue(): Promise<string> {
     const element = await this.getQuantityAvailable();
-    console.log(element);
     return element?.getProperty('innerText');
   }
 

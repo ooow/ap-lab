@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
-import { ProductAvailabilityDetailsHarness } from './product_availability_details.harness';
+import { ProductAvailabilityDetailsHarness } from './testing/product_availability_details.harness';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import { Language } from '../../shared/component/header/lang-selector/lang-selector.component';
 import { getProducts } from '../mock/products';
@@ -24,7 +24,7 @@ class TestComponent {
     : [];
 }
 
-fdescribe('ProductAvailabilityDetails', () => {
+describe('ProductAvailabilityDetails', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let loader: HarnessLoader;
@@ -44,7 +44,7 @@ fdescribe('ProductAvailabilityDetails', () => {
     await fixture.whenStable();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 

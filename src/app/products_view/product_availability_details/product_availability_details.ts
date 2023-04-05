@@ -9,15 +9,15 @@ import { ProductQuantityInfo } from '../../shared/model/product_quantity_info';
 export class ProductAvailabilityDetails implements OnInit {
   @Input() productQuantityInfo: ProductQuantityInfo[] = [];
 
-  selectedCountry: ProductQuantityInfo;
+  selectedProductQuantityInfo: ProductQuantityInfo;
 
   constructor() {}
 
   ngOnInit() {
-    this.selectedCountry = this.productQuantityInfo[0];
+    this.selectedProductQuantityInfo = this.productQuantityInfo[0];
   }
 
-  onCountryChange(countryName: ProductQuantityInfo) {
-    this.selectedCountry = countryName;
+  onCountryChange(productInfo: ProductQuantityInfo) {
+    this.selectedProductQuantityInfo = productInfo;
   }
 }

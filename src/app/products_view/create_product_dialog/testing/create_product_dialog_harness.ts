@@ -1,33 +1,27 @@
-import { ComponentHarness, TestElement } from '@angular/cdk/testing';
-import { MatButtonHarness } from '@angular/material/button/testing';
-import { MatFormFieldHarness } from '@angular/material/form-field/testing';
-import { MatInputHarness } from '@angular/material/input/testing';
-import { CreateProductForm } from '../create_product_dialog';
+import {ComponentHarness, TestElement} from '@angular/cdk/testing';
+import {MatButtonHarness} from '@angular/material/button/testing';
+import {MatFormFieldHarness} from '@angular/material/form-field/testing';
+import {MatInputHarness} from '@angular/material/input/testing';
+import {CreateProductForm} from 'src/app/shared/types/create_product_form';
 
 export class CreateProductDialogHarness extends ComponentHarness {
   static hostSelector = 'tk-create-product-modal';
 
   getTitle = this.locatorFor('[mat-dialog-title]');
-  getCancelBtn = this.locatorFor(MatButtonHarness.with({ text: 'Cancel' }));
-  getCreateBtn = this.locatorFor(MatButtonHarness.with({ text: 'Create' }));
+  getCancelBtn = this.locatorFor(MatButtonHarness.with({text: 'Cancel'}));
+  getCreateBtn = this.locatorFor(MatButtonHarness.with({text: 'Create'}));
   getNameFormField = this.locatorFor(
-    MatFormFieldHarness.with({ floatingLabelText: 'Name' })
-  );
+    MatFormFieldHarness.with({floatingLabelText: 'Name'}));
   getNameInput = this.locatorFor(
-    MatInputHarness.with({ selector: '[formcontrolname="name"]' })
-  );
+    MatInputHarness.with({selector: '[formcontrolname="name"]'}));
   getPictureUrlFormField = this.locatorFor(
-    MatFormFieldHarness.with({ floatingLabelText: 'Picture Url' })
-  );
+    MatFormFieldHarness.with({floatingLabelText: 'Picture Url'}));
   getPictureUrlInput = this.locatorFor(
-    MatInputHarness.with({ selector: '[formcontrolname="picture"]' })
-  );
+    MatInputHarness.with({selector: '[formcontrolname="picture"]'}));
   getDescriptionFormField = this.locatorFor(
-    MatFormFieldHarness.with({ floatingLabelText: 'Description' })
-  );
+    MatFormFieldHarness.with({floatingLabelText: 'Description'}));
   getDescriptionInput = this.locatorFor(
-    MatInputHarness.with({ selector: '[formcontrolname="description"]' })
-  );
+    MatInputHarness.with({selector: '[formcontrolname="description"]'}));
   getPicture = this.locatorFor('.product-image');
 
   async titleText(): Promise<string> {
