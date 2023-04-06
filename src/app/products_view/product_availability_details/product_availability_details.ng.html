@@ -1,7 +1,7 @@
 <div class="container">
-  <mat-form-field appearance="outline" *ngIf="productQuantityInfo.length > 0">
+  <mat-form-field *ngIf="productQuantityInfo.length > 0" appearance="outline">
     <mat-label id="country-label" i18n="Country@@country-selector.label">Country</mat-label>
-    <mat-select (selectionChange)="onCountryChange($event.value)" [value]="selectedProductQuantityInfo">
+    <mat-select [value]="selectedProductQuantityInfo" (selectionChange)="onCountryChange($event.value)">
       <mat-option *ngFor="let item of productQuantityInfo" [value]="item">
         <span>{{item?.location}}</span>
       </mat-option>

@@ -1,6 +1,4 @@
-/* tslint:disable:no-unused-variable */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA, Component } from '@angular/core';
 
 import { ProductAvailabilityDetails } from './product_availability_details';
