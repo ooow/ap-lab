@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+    <trans-unit id="country-selector.label" datatype="html">
+        <source>Country</source>
+        <target>Страна</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/products/components/product-availability-details/product-availability-details.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Country</note>
+      </trans-unit>
+      <trans-unit id="quantity-available.label" datatype="html">
+        <source>Quantity Available</source>
+        <target>Кол-во в наличии</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/products/components/product-availability-details/product-availability-details.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+        <note priority="1" from="description">Quantity Available</note>
+      </trans-unit>
+      <trans-unit id="price.label" datatype="html">
+        <source>Price (USD)</source>
+        <target>Цена (USD)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/products/components/product-availability-details/product-availability-details.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="description">Price (USD)</note>
+      </trans-unit>
+      <trans-unit id="lang-selector-option.en" datatype="html">
+        <source> English </source>
+        <target> Английский </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/modules/header/components/lang-selector-option/lang-selector-option.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+        <note priority="1" from="description">Language selector english option</note>
+      </trans-unit>
+      <trans-unit id="lang-selector-option.ru" datatype="html">
+        <source> Russian </source>
+        <target> Русский </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/modules/header/components/lang-selector-option/lang-selector-option.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+        <note priority="1" from="description">Language selector russian option</note>
+      </trans-unit>
+      <trans-unit id="lang-selector-option.default" datatype="html">
+        <source> Provided language is not supported yet </source>
+        <target> Предоставленный язык еще не поддерживается </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/modules/header/components/lang-selector-option/lang-selector-option.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+        <note priority="1" from="description">Language selector russian option</note>
+      </trans-unit>
+      <trans-unit id="lang-selector.label" datatype="html">
+        <source>Language</source>
+        <target>Язык</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/modules/header/components/lang-selector/lang-selector.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Language selector</note>
+      </trans-unit>
+      <trans-unit id="product-search.label" datatype="html">
+        <source>Products</source>
+        <target>Продукты</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/modules/header/components/search/search.component.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+        <note priority="1" from="description">Product search label</note>
+      </trans-unit>
+      <trans-unit id="product-search.input.aria-label" datatype="html">
+        <source>Products</source>
+        <target>Продукты</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/modules/header/components/search/search.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">Product search input aria-label</note>
+      </trans-unit>
+      <trans-unit id="product-search.clear-button.text" datatype="html">
+        <source> Clear </source>
+        <target> Очистить </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/modules/header/components/search/search.component.html</context>
+          <context context-type="linenumber">43,50</context>
+        </context-group>
+        <note priority="1" from="description">Clear button text</note>
+      </trans-unit>
+      <trans-unit id="product-search.clear-button.icon" datatype="html">
+        <source>Refresh icon</source>
+        <target>Изображения очистить</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/modules/header/components/search/search.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <note priority="1" from="description">Clear button icon aria-label</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
