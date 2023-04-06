@@ -12,7 +12,7 @@ export class ProductAvailabilityDetails implements OnInit {
   selectedProductQuantityInfo: ProductQuantityInfo;
 
   ngOnInit() {
-    this.selectedProductQuantityInfo = this.productQuantityInfo?this.productQuantityInfo[0]: null;
+    this.selectedProductQuantityInfo = this.productQuantityInfo ? this.productQuantityInfo[0] : null;
   }
 
   onCountryChange(productInfo: ProductQuantityInfo) {
