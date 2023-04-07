@@ -14,6 +14,12 @@ additional rules for the project development. Here you can find the project
 rules and feel free to use them as templates or rely on them in review
 processes.
 
+## Pull Request tempalte
+See the [tempalte](https://github.com/ooow/ap-lab/pull/34) and make sure your PR is formatted the same way.
+
+## General
+All files must have an empty line at the end of a file.
+
 ### TypeScript
 
 #### Common
