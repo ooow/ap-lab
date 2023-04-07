@@ -2,7 +2,7 @@ import {ComponentHarness, TestElement} from '@angular/cdk/testing';
 import {MatButtonHarness} from '@angular/material/button/testing';
 import {MatFormFieldHarness} from '@angular/material/form-field/testing';
 import {MatInputHarness} from '@angular/material/input/testing';
-import {CreateProductForm} from 'src/app/shared/types/create_product_form';
+import {CreateProductForm} from 'src/app/products_view/create_product_dialog/create_product_dialog';
 
 export class CreateProductDialogHarness extends ComponentHarness {
   static hostSelector = 'tk-create-product-modal';

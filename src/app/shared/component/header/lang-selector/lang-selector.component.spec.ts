@@ -9,7 +9,6 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 import {LangSelectorComponent, Language} from 'src/app/shared/component/header/lang-selector/lang-selector.component';
 import {LANGUAGES_TOKEN} from 'src/app/store/token/languages.token';
-import {LangSelectorOptionComponent} from 'src/app/shared/component/header/components/lang-selector-option/lang-selector-option.component';
 import {LangSelectorHarness} from 'src/app/shared/component/header/lang-selector/lang-selector.harness';
 
 @Component({
@@ -29,7 +28,7 @@ describe('AppModule => LangSelectorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports     : [MatSelectModule, NoopAnimationsModule], declarations: [
-        LangSelectorComponent, TestComponent, LangSelectorOptionComponent,
+        LangSelectorComponent, TestComponent,
       ], providers: [
         {
           provide: LANGUAGES_TOKEN, useValue: languages,

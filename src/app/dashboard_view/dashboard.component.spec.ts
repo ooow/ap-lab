@@ -119,6 +119,11 @@ describe('Dashboard', () => {
         By.directive(ChartComponent))[0].componentInstance;
     });
 
+    afterEach(()=>{
+      store.refreshState();
+      fixture.detectChanges();
+    })
+
     it('should render pie chart when product selected', async () => {
       expect(pieChartComponent).toBeTruthy();
       expect(pieChartComponent.chartType).toEqual('PieChart');
@@ -147,6 +152,11 @@ describe('Dashboard', () => {
       barChartComponent = fixture.debugElement.queryAll(
         By.directive(ChartComponent))[1].componentInstance;
     });
+
+    afterEach(()=>{
+      store.refreshState();
+      fixture.detectChanges();
+    })
 
     it('should render bar chart when product selected', () => {
       expect(barChartComponent).toBeTruthy();

@@ -15,7 +15,7 @@ import {By} from '@angular/platform-browser';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchComponent} from 'src/app/shared/component/header/search/search.component';
 import {SearchHarness} from 'src/app/shared/component/header/search/search.harness';
-import {SearchTypes} from 'src/app/shared/component/header/search/search.types';
+import {SearchTypes} from 'src/app/shared/component/header/search/search.component';
 import {MatSelectModule} from '@angular/material/select';
 
 @Pipe({name: 'searchOptions'})
