@@ -3,14 +3,14 @@
   <form class="create-product-form" [formGroup]="form">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
+      <input id="name" matInput formControlName="name" />
       <mat-error *ngIf="form.get('name').errors">
         {{ getErrorMessage("name") }}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Picture Url</mat-label>
-      <input matInput formControlName="picture" />
+      <input id="picture" matInput formControlName="picture" />
       <mat-error *ngIf="form.get('picture').errors">
         {{ getErrorMessage("picture") }}
       </mat-error>
@@ -26,7 +26,7 @@
     </div>
     <mat-form-field appearance="fill">
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description"></textarea>
+      <textarea id="description" matInput formControlName="description"></textarea>
       <mat-error *ngIf="form.get('description').errors">
         {{ getErrorMessage("description") }}
       </mat-error>
@@ -35,7 +35,7 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="closeDialog()">Cancel</button>
-  <button
+  <button id="createProduct"
     mat-button
     [disabled]="isButtonDisabled()"
     [mat-dialog-close]="formValues"
