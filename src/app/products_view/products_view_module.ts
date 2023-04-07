@@ -17,6 +17,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import {LoaderModule} from 'src/app/shared/component/loader/loader.module';
 import {ProductDetailsDialog} from './product_details_dialog/product_details_dialog';
@@ -26,6 +27,7 @@ import {ProductSearchPipe} from './pipe/product_search_pipe';
 import {ProductsView} from './products_view';
 import {ProductDeleteDialog} from './product_delete_dialog/product_delete_dialog';
 import {CreateProductDialog} from './create_product_dialog/create_product_dialog';
+import { ProductAvailabilityDetails } from './product_availability_details/product_availability_details';
 
 const routes = [{path: 'products', component: ProductsView}];
 
@@ -38,6 +40,7 @@ const routes = [{path: 'products', component: ProductsView}];
     ProductSearchPipe,
     ProductsView,
     ProductTableComponent,
+    ProductAvailabilityDetails,
   ], imports  : [
     A11yModule,
     ClipboardModule,
@@ -55,6 +58,7 @@ const routes = [{path: 'products', component: ProductsView}];
     MatSortModule,
     MatTableModule,
     MatTooltipModule,
+    MatSelectModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
   ], providers: [MatSnackBar],
