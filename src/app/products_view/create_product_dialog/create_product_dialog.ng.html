@@ -31,11 +31,74 @@
         {{ getErrorMessage("description") }}
       </mat-error>
     </mat-form-field>
+
+    <div formArrayName="counts">
+      <div *ngFor="let count of this.form.get('counts')?.controls; let i = index"  [formGroupName]='i'> 
+        <div class="counts-wrapper">
+          <mat-form-field appearance="fill">
+            <mat-label>Location</mat-label>
+            <input matInput type="text" formControlName="location"/>
+            <!-- <mat-label id="country-label" i18n="Country@@country-selector.label">Country</mat-label> -->
+            <!-- <mat-select [value]="selectedProductQuantityInfo" formControlName="location" (selectionChange)="onCountryChange($event.value)">
+              <mat-option *ngFor="let item of countsArray" [value]="item">
+                <span>{{item?.location}}</span>
+              </mat-option>
+            </mat-select> -->
+          </mat-form-field>
+     
+          <mat-form-field appearance="fill">
+            <mat-label>Available Quantity</mat-label>
+            <!--  [value]="selectedProductQuantityInfo?.quantityAvailable" -->
+            <input
+              matInput
+              type="text"
+             
+              formControlName="quantityAvailable"
+            />
+            <mat-error *ngIf="countsFormArray.at(i).get('quantityAvailable').invalid">          
+              <!-- {{ getErrorMessage("quantityAvailable", i)}} -->           
+              {{countsFormArray.at(i).get('quantityAvailable').errors?.invalidNumber}}           
+            </mat-error>  
+          </mat-form-field>          
+                 
+         
+          <mat-form-field appearance="fill">
+            <mat-label>Price</mat-label>
+            <!-- [value]="selectedProductQuantityInfo?.price" -->
+            <input matInput 
+            
+            type="text" formControlName="price"/>
+            <mat-error *ngIf="countsFormArray.at(i).get('price').invalid">          
+              <!-- {{ getErrorMessage("quantityAvailable", i)}} -->           
+              {{countsFormArray.at(i).get('price').errors?.invalidNumber}}           
+            </mat-error>
+          </mat-form-field>
+          
+        </div>
+        {{formValues | json}}
+
+        <div class="remove-counts-icon">
+          <button type="button" (click)="removeNewCountRec(i)" mat-icon-button>
+            <mat-icon>remove_circle_outline</mat-icon>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+    <button
+      class="add-more-btn"
+      mat-stroked-button
+      type="button"
+      (click)="addNewCountRec()"
+    >
+      Add new Location
+    </button>
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button type="button" mat-button (click)="closeDialog()">Cancel</button>
   <button
+  type="button"
     mat-button
     [disabled]="isButtonDisabled()"
     [mat-dialog-close]="formValues"
