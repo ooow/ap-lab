@@ -67,6 +67,26 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="counts">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Counts</th>
+      <td *matCellDef="let row" mat-cell>
+        <div class="counts-container">       
+            <table style="width:100%">
+              <tr>
+                <th>Location</th>
+                <th>Available No</th>
+                <th>Price</th>
+              </tr>
+              <tr *ngFor="let c of row.counts">
+                <td> {{c.location}}</td>
+                <td>{{c.quantityAvailable}}</td>
+                <td> {{c.price}}</td>
+              </tr>              
+            </table>          
+        </div>
+      </td>
+    </ng-container>
+
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
     <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
 

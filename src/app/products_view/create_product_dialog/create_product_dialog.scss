@@ -25,3 +25,24 @@
   margin: 10px 0;
   width: 100%;
 }
+
+.counts-wrapper {
+  border: 1px solid lightgray;
+  border-radius: 2px;
+}
+
+.remove-counts-icon {
+  position: relative;
+  bottom: 323px;
+  left: 423px;
+}
+
+.counts-wrapper {
+  mat-form-field{
+    width: 28vw;
+    padding: 8px;
+    position: relative;
+    left: 5px;
+    bottom: -12px;
+  }
+}

@@ -8,10 +8,10 @@ table {
   width: 100%;
 }
 
-td:not(:first-child),
-th:not(:first-child) {
-  width: 33%;
-}
+// td:not(:first-child),
+// th:not(:first-child) {
+//   width: 24%;
+// }
 
 td.mat-mdc-cell {
   padding: 10px 0;
@@ -74,4 +74,17 @@ td.mat-mdc-cell {
     height: 20px;
     width: 20px;
   }
+}
+
+th.mat-column-name{
+  width: 15%;
+}
+th.mat-column-picture{
+  width: 30%;
+}
+th.mat-column-description{
+  width: 30%;
+}
+th.mat-column-counts{
+  width: 20%;
 }
