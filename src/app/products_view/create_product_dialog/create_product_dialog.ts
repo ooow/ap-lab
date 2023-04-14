@@ -1,39 +1,69 @@
-import {Component, HostListener, OnDestroy, SecurityContext} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material/dialog';
-import {DomSanitizer} from '@angular/platform-browser';
-import {Subject} from 'rxjs';
-import {filter, map, takeUntil} from 'rxjs/operators';
-import {imageUrlValidator} from 'src/app/products_view/create_product_dialog/image_url_validator/image_url_validator';
+import { Component, HostListener, OnDestroy, SecurityContext } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
+import { imageUrlValidator } from 'src/app/products_view/create_product_dialog/image_url_validator/image_url_validator';
+import { ProductQuantityInfo } from 'src/app/shared/model/product_quantity_info';
+import { isNumberValidator } from './number_validator/isNumber.validator';
 
 const TEXT_REGEX_PATTERN = /^[\w\n\sЁёА-я.…,:;!?()"'\/&+-]*$/;
 
 export type CreateProductForm = {
-  name: string; picture: string; description: string;
+  name: string; picture: string; description: string, counts: ProductQuantityInfo[];
 };
 
 @Component({
-  selector   : 'tk-create-product-modal',
+  selector: 'tk-create-product-modal',
   templateUrl: './create_product_dialog.ng.html',
-  styleUrls  : ['./create_product_dialog.scss'],
+  styleUrls: ['./create_product_dialog.scss'],
 })
 export class CreateProductDialog implements OnDestroy {
+  selectedProductQuantityInfo: ProductQuantityInfo;
+  countsArray = [{
+    "location": "USA",
+    "quantityAvailable": 54,
+    "price": 1200
+  },
+  {
+    "location": "Canada",
+    "quantityAvailable": 112,
+    "price": 1100
+  },
+  {
+    "location": "France",
+    "quantityAvailable": 99,
+    "price": 900
+  },
+  {
+    "location": "United Kingdom",
+    "quantityAvailable": 12,
+    "price": 1500
+  },
+  {
+    "location": "Australia",
+    "quantityAvailable": 22,
+    "price": 800
+  }]
   @HostListener('window:beforeunload',
     ['$event']) onWindowClose(event: Event): boolean {
-    if (this.form.dirty) {
-      event.preventDefault();
-      return false;
+      if (this.form.dirty) {
+        event.preventDefault();
+        return false;
+      }
     }
-  }
 
   readonly form: FormGroup = this.fb.group({
-    name      : [
+    name: [
       '', [
         Validators.required,
         Validators.maxLength(30),
         Validators.pattern(TEXT_REGEX_PATTERN),
       ],
-    ], picture: ['', [Validators.required], [imageUrlValidator]], description: [
+    ],
+    picture: ['', [Validators.required], [imageUrlValidator]],
+    description: [
       '', [
         Validators.required,
         Validators.minLength(10),
@@ -41,7 +71,14 @@ export class CreateProductDialog implements OnDestroy {
         Validators.pattern(TEXT_REGEX_PATTERN),
       ],
     ],
-  }, {updateOn: 'blur'});
+    counts: this.fb.array([
+      this.fb.group({
+        location: [''],
+        quantityAvailable: ['', isNumberValidator()],
+        price: ['', isNumberValidator()]
+      })
+    ])
+  }, { updateOn: 'blur' });
 
   formValues: CreateProductForm;
   private destroy$ = new Subject<void>();
@@ -52,6 +89,28 @@ export class CreateProductDialog implements OnDestroy {
     this.bindDialogEvents();
   }
 
+  get countsFormArray() {
+    return this.form.get('counts') as FormArray;
+  }
+
+  newCountsGrp(): FormGroup {
+    return this.fb.group({
+      location: [''],
+      quantityAvailable: ['', isNumberValidator()],
+      price: ['', isNumberValidator()]
+    })
+  }
+
+  addNewCountRec(): void {
+    const counts = this.form.get('counts') as FormArray;
+    counts.push(this.newCountsGrp())
+  }
+
+  removeNewCountRec(i: number): void {
+    const counts = this.form.get('counts') as FormArray;
+    counts.removeAt(i)
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
   }
@@ -60,7 +119,7 @@ export class CreateProductDialog implements OnDestroy {
     this.dialogRef
       .keydownEvents()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(({key}) => key === 'Escape' && this.closeDialog());
+      .subscribe(({ key }) => key === 'Escape' && this.closeDialog());
 
     this.dialogRef
       .backdropClick()
@@ -77,7 +136,8 @@ export class CreateProductDialog implements OnDestroy {
     }
   }
 
-  getErrorMessage(inputName: string): string {
+  getErrorMessage(inputName: string, index?: any): string {
+
     if (this.form.hasError('required', inputName)) {
       return 'You must enter a value';
     }
@@ -112,9 +172,7 @@ export class CreateProductDialog implements OnDestroy {
   }
 
   isButtonDisabled(): boolean {
-    return (this.form.invalid || !this.formValues ||
-            Object.values(this.formValues).filter(Boolean).length !==
-            Object.values(this.form.value).length);
+    return this.form.invalid
   }
 
   sanitizeText(value: string): string {
@@ -125,8 +183,9 @@ export class CreateProductDialog implements OnDestroy {
   private cleanFormValues(): void {
     this.form.valueChanges
       .pipe(map((control) => ({
-        name       : this.sanitizeText(control.name),
+        name: this.sanitizeText(control.name),
         description: this.sanitizeText(control.description),
+        counts: control.counts
       })), takeUntil(this.destroy$))
       .subscribe((sanitizedValues) => {
         this.formValues = {
@@ -137,13 +196,17 @@ export class CreateProductDialog implements OnDestroy {
     this.form.statusChanges
       .pipe(filter((status) => status !== 'PENDING'), map(() => ({
         picture: !this.form.get('picture').errors ?
-                 this.sanitizer.sanitize(SecurityContext.URL,
-                   this.form.value.picture) : '',
+          this.sanitizer.sanitize(SecurityContext.URL,
+            this.form.value.picture) : '',
       })), takeUntil(this.destroy$))
       .subscribe((checkedPicUrl) => {
         this.formValues = {
           ...this.formValues, ...checkedPicUrl,
         };
       });
+  }
+
+  onCountryChange(productInfo: ProductQuantityInfo) {
+    this.selectedProductQuantityInfo = productInfo;
   }
 }
